@@ -1,7 +1,23 @@
 (function($) {
 $(function() {
 
-	/* скрипты для работы примеров */
+	/* скрипты для демонстрации примеров */
+
+	(function($) {
+		$.fn.toggleDisabled = function() {
+			return this.each(function() {
+				this.disabled = !this.disabled;
+			});
+		};
+	})(jQuery);
+
+	(function($) {
+		$.fn.toggleChecked = function() {
+			return this.each(function() {
+				this.checked = !this.checked;
+			});
+		};
+	})(jQuery);
 
 	$('button.add').click(function(e) {
 		var inputs = '';
@@ -48,32 +64,22 @@ $(function() {
 	})
 
 	$('button.dis').click(function(e) {
-		(function($) {
-			$.fn.toggleDisabled = function() {
-				return this.each(function() {
-					this.disabled = !this.disabled;
-				});
-			};
-		})(jQuery);
 		$(this).parents('div.section').find('input').toggleDisabled().trigger('refresh');
 		e.preventDefault();
 	})
 
 	$('button.check').click(function() {
-		(function($) {
-			$.fn.toggleChecked = function() {
-				return this.each(function() {
-					this.checked = !this.checked;
-				});
-			};
-		})(jQuery);
 		$(this).parents('div.section').find('input').toggleChecked().trigger('refresh');
 		return false;
 	})
 
-	$('button.sel').click(function(e) {
-		$(this).parents('div.section').find('option').removeAttr('selected').end().find('option:nth-child(5)').attr('selected', true);
-		$('select').trigger('refresh');
+	$('button.dis2').click(function(e) {
+		$(this).parents('div.section').find('select').toggleDisabled().trigger('refresh');
+		e.preventDefault();
+	})
+
+	$('button.dis3').click(function(e) {
+		$(this).parents('div.section').find('option').toggleDisabled().trigger('refresh');
 		e.preventDefault();
 	})
 

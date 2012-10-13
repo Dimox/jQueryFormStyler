@@ -118,6 +118,12 @@
 .selectbox.focused .select {
 	border: 1px solid #5794BF;
 }
+.selectbox.disabled .select {
+	border: 1px solid #CCC;
+	box-shadow: none;
+	background: #F5F5F5;
+	color: #888;
+}
 .selectbox .select .text {
 	display: block;
 	width: 100%;
@@ -149,6 +155,10 @@
 .selectbox:hover .arrow {
 	opacity: 1;
 	filter: alpha(opacity=100);
+}
+.selectbox.disabled .arrow {
+	opacity: 0.3;
+	filter: alpha(opacity=30);
 }
 .selectbox .dropdown {
 	top: 33px;
