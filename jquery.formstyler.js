@@ -1,5 +1,5 @@
 /*
- * jQuery Form Styler v1.1.1
+ * jQuery Form Styler v1.1.2
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012 Dimox (http://dimox.name/)
@@ -13,14 +13,16 @@
 	$.fn.styler = function(opt) {
 
 		var opt = $.extend({
-			browseText: 'Выбрать'
+			browseText: 'Выбрать',
+			zIndex: '1000'
 		}, opt);
 
 		return this.each(function() {
 			var el = $(this);
 
+			// checkbox
 			if (el.is(':checkbox')) {
-				el.css({position: 'absolute', left: '-9999px'}).each(function() {
+				el.css({position: 'absolute', left: -9999}).each(function() {
 					if (el.next('span.checkbox').length < 1) {
 						var span = $('<span class="checkbox" style="display:inline-block"><span></span></span>');
 						el.after(span);
@@ -69,7 +71,8 @@
 						})
 					}
 				});
-			// end :checkbox
+
+			// radio
 			} else if (el.is(':radio')) {
 				el.css({position: 'absolute', zIndex: '-5'}).each(function() {
 					if (el.next('span.radio').length < 1) {
@@ -113,9 +116,10 @@
 						})
 					}
 				});
-			// end :radio
+
+			// file
 			} else if (el.is(':file')) {
-				el.css({position: 'absolute', left: '-9999px'}).each(function() {
+				el.css({position: 'absolute', left: -9999}).each(function() {
 					if (el.next('span.file').length < 1) {
 						var file = $('<span class="file" style="display:inline-block"></span>');
 						var name = $('<input class="name" type="text" readonly="readonly" style="float:left">').appendTo(file);
@@ -125,18 +129,19 @@
 						el.change(function() { name.val(el.val().replace(/.+[\\\/]/, '')); });
 					}
 				});
-			// end :file
+
+			// select
 			} else if (el.is('select')) {
 				el.each(function() {
 					if (el.next('span.selectbox').length < 1) {
 						function doSelect() {
 							var selectbox =
-								$('<span class="selectbox" style="display:inline-block;position:relative">'+
-										'<div class="select" style="float:left;position:relative;z-index:10000"><div class="text"></div>'+
+								$('<span class="selectbox" style="display:inline-block;position:relative;z-index:' + opt.zIndex + '">'+
+										'<div class="select" style="float:left"><div class="text"></div>'+
 											'<b class="trigger"><i class="arrow"></i></b>'+
 										'</div>'+
 									'</span>');
-							el.after(selectbox).css({position: 'absolute', top: -9999});
+							el.after(selectbox).css({position: 'absolute', left: -9999});
 							var divSelect = selectbox.find('div.select');
 							var divText = selectbox.find('div.text');
 							var option = el.find('option');
@@ -160,7 +165,7 @@
 									ddlist += '<li' + selected + '>'+ option.eq(i).text() +'</li>';
 								}
 								var dropdown =
-									$('<div class="dropdown" style="position:absolute;z-index:9999;overflow:auto;overflow-x:hidden">'+
+									$('<div class="dropdown" style="position:absolute;overflow:auto;overflow-x:hidden">'+
 											'<ul style="list-style:none">' + ddlist + '</ul>'+
 										'</div>').hide();
 								selectbox.append(dropdown);
@@ -186,8 +191,8 @@
 											dropdown.height(Math.floor((bottomOffset - 20) / liHeight) * liHeight);
 										}
 									}
-									$('span.selectbox').css({zIndex: 1}).removeClass('focused');
-									selectbox.css({zIndex: 2});
+									$('span.selectbox').css({zIndex: (opt.zIndex-1)}).removeClass('focused');
+									selectbox.css({zIndex: opt.zIndex});
 									if (dropdown.is(':hidden')) {
 										$('div.dropdown:visible').hide();
 										dropdown.show();
