@@ -13,7 +13,8 @@
 	$.fn.styler = function(opt) {
 
 		var opt = $.extend({
-			browseText: 'Выбрать'
+			browseText: 'Выбрать',
+			selectIndex: '120'
 		}, opt);
 
 		return this.each(function() {
@@ -132,7 +133,7 @@
 						function doSelect() {
 							var selectbox =
 								$('<span class="selectbox" style="display:inline-block;position:relative">'+
-										'<div class="select" style="float:left;position:relative;z-index:10000"><div class="text"></div>'+
+										'<div class="select" style="float:left;position:relative;z-index:'+opt.selectIndex+'"><div class="text"></div>'+
 											'<b class="trigger"><i class="arrow"></i></b>'+
 										'</div>'+
 									'</span>');
@@ -160,7 +161,7 @@
 									ddlist += '<li' + selected + '>'+ option.eq(i).text() +'</li>';
 								}
 								var dropdown =
-									$('<div class="dropdown" style="position:absolute;z-index:9999;overflow:auto;overflow-x:hidden">'+
+									$('<div class="dropdown" style="position:absolute;z-index:'+(opt.selectIndex-1)+';overflow:auto;overflow-x:hidden">'+
 											'<ul style="list-style:none">' + ddlist + '</ul>'+
 										'</div>').hide();
 								selectbox.append(dropdown);
