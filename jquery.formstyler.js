@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.1
+ * jQuery Form Styler v1.1.1
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2012.10.13
+ * Date: 2012.10.15
  *
  */
 
@@ -71,7 +71,7 @@
 				});
 			// end :checkbox
 			} else if (el.is(':radio')) {
-				el.css({position: 'absolute', left: '-9999px'}).each(function() {
+				el.css({position: 'absolute', zIndex: '-5'}).each(function() {
 					if (el.next('span.radio').length < 1) {
 						var span = $('<span class="radio" style="display:inline-block"><span></span></span>');
 						el.after(span);
@@ -80,8 +80,9 @@
 						// клик на псевдорадиокнопке
 						span.click(function() {
 							if (!span.is('.disabled')) {
-								$('input[name="' + el.attr('name') + '"]').next().removeClass('checked');
+								$('input[name="' + el.attr('name') + '"]').removeAttr('checked').next().removeClass('checked');
 								el.attr('checked', true).next().addClass('checked');
+								el.change();
 								return false;
 							}
 						});
@@ -92,7 +93,8 @@
 						});
 						// переключение стрелками
 						el.change(function() {
-							span.click();
+							$('input[name="' + el.attr('name') + '"]').next().removeClass('checked');
+							el.next().addClass('checked');
 						})
 						.focus(function() {
 							if (!span.is('.disabled')) span.addClass('focused');
