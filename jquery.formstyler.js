@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.1.2
+ * jQuery Form Styler v1.1.3
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2012.10.15
+ * Date: 2012.11.20
  *
  */
 
@@ -160,7 +160,7 @@
 								for (i = 0; i < option.length; i++) {
 									var selected = '';
 									var disabled = ' class="disabled"';
-									if (option.eq(i).is(':selected')) selected = ' class="selected sel"';
+									if (typeof option.eq(i).attr('selected') !== 'undefined' && option.eq(i).attr('selected') !== false) selected = ' class="selected sel"';
 									if (option.eq(i).is(':disabled')) selected = disabled;
 									ddlist += '<li' + selected + '>'+ option.eq(i).text() +'</li>';
 								}
