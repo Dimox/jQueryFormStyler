@@ -19,7 +19,7 @@ $(function() {
 		};
 	})(jQuery);
 
-	$('button.add').click(function(e) {
+	$('button.add1').click(function(e) {
 		var inputs = '';
 		for (i = 1; i <= 5; i++) {
 			inputs += '<label><input type="checkbox" name="checkbox" /> checkbox ' + i + '</label><br />';
@@ -63,14 +63,20 @@ $(function() {
 		e.preventDefault();
 	})
 
-	$('button.dis').click(function(e) {
-		$(this).parents('div.section').find('input').toggleDisabled().trigger('refresh');
+	$('button.add6').click(function(e) {
+		$(this).parents('div.section').append('<br /><br /><select multiple><option>-- Выберите --</option><option>Пункт 1</option><option>Пункт 2</option><option>Пункт 3</option><option>Пункт 4</option><option>Пункт 5</option></select>');
+		$('select').styler();
 		e.preventDefault();
 	})
 
 	$('button.check').click(function() {
 		$(this).parents('div.section').find('input').toggleChecked().trigger('refresh');
 		return false;
+	})
+
+	$('button.dis').click(function(e) {
+		$(this).parents('div.section').find('input').toggleDisabled().trigger('refresh');
+		e.preventDefault();
 	})
 
 	$('button.dis2').click(function(e) {

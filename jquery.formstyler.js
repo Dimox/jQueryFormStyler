@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.1.3
+ * jQuery Form Styler v1.2
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2012.11.20
+ * Date: 2012.11.26
  *
  */
 
@@ -125,18 +125,27 @@
 						var name = $('<input class="name" type="text" readonly="readonly" style="float:left">').appendTo(file);
 						var browse = $('<div class="browse" style="float:left">' + opt.browseText + '</div>').appendTo(file);
 						el.after(file);
-						file.on('click', function() {	el.click(); });
-						el.change(function() { name.val(el.val().replace(/.+[\\\/]/, '')); });
+						if (el.is(':disabled')) file.addClass('disabled');
+						if (el.not(':disabled')) {
+							file.on('click', function() {	el.click(); });
+							el.change(function() { name.val(el.val().replace(/.+[\\\/]/, '')); });
+						}
+						// обновление при динамическом изменении
+						el.on('refresh', function() {
+							if (el.is(':disabled')) file.addClass('disabled');
+								else file.removeClass('disabled');
+						})
 					}
 				});
 
 			// select
 			} else if (el.is('select')) {
 				el.each(function() {
-					if (el.next('span.selectbox').length < 1) {
+					if (el.next('span.jqselect').length < 1) {
+						// одиночный селект
 						function doSelect() {
 							var selectbox =
-								$('<span class="selectbox" style="display:inline-block;position:relative;z-index:' + opt.zIndex + '">'+
+								$('<span class="selectbox jqselect" style="display:inline-block;position:relative;z-index:' + opt.zIndex + '">'+
 										'<div class="select" style="float:left"><div class="text"></div>'+
 											'<b class="trigger"><i class="arrow"></i></b>'+
 										'</div>'+
@@ -239,12 +248,98 @@
 									}
 								});
 							}
-						}
-						doSelect();
+						} // end doSelect()
+						// мультиселект
+						function doMultipleSelect() {
+							var selectbox = $('<span class="selectMultiple jqselect" style="display:inline-block"></span>');
+							el.after(selectbox).css({position: 'absolute', left: -9999});
+							var option = el.find('option');
+							var list = '';
+							for (i = 0; i < option.length; i++) {
+								var cls = '';
+								var disabled = ' class="disabled"';
+								var selDis = ' class="selected disabled"';
+								if (typeof option.eq(i).attr('selected') !== 'undefined' && option.eq(i).attr('selected') !== false) cls = ' class="selected"';
+								if (option.eq(i).is(':disabled')) cls = disabled;
+								if (option.eq(i).is(':selected:disabled')) cls = selDis;
+								list += '<li' + cls + '>'+ option.eq(i).text() +'</li>';
+							}
+							selectbox.append('<ul>' + list + '</ul>');
+							var ul = selectbox.find('ul');
+							var li = selectbox.find('li').attr('unselectable', 'on').css({'-webkit-user-select':'none', '-moz-user-select':'none', '-ms-user-select':'none', '-o-user-select':'none', 'user-select':'none'});
+							var size = el.attr('size');
+							var ulHeight = ul.outerHeight();
+							var liHeight = li.outerHeight();
+							if (size !== undefined && size > 0) {
+								ul.css({'height': liHeight * size});
+							} else {
+								ul.css({'height': liHeight * 4});
+							}
+							if (ulHeight > selectbox.height()) {
+								ul.css('overflowY', 'scroll')
+									// запрещаем прокрутку страницы при прокрутке селекта
+									.bind('mousewheel DOMMouseScroll', function(e) {
+										var scrollTo = null;
+										if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
+										else if (e.type == 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
+										if (scrollTo) { e.preventDefault(); $(this).scrollTop(scrollTo + $(this).scrollTop()); }
+									});
+							}
+							if (el.is(':disabled')) {
+								selectbox.addClass('disabled');
+								option.each(function() {
+									if ($(this).is(':selected')) li.eq($(this).index()).addClass('selected');
+								});
+							} else {
+								/* при клике на пункт списка */
+								li.filter(':not(.disabled)').click(function(e) {
+									var clkd = $(this);
+									if(!e.ctrlKey) clkd.addClass('selected');
+									if(!e.shiftKey) clkd.addClass('first');
+									if(!e.ctrlKey && !e.shiftKey) clkd.siblings().removeClass('selected first');
+									// выделение пунктов при зажатом Ctrl
+									if(e.ctrlKey) {
+										if (clkd.is('.selected')) clkd.removeClass('selected first');
+											else clkd.addClass('selected first');
+										clkd.siblings().removeClass('first');
+									}
+									// выделение пунктов при зажатом Shift
+									if(e.shiftKey) {
+										var prev = next = false;
+										clkd.siblings().removeClass('selected').siblings('.first').addClass('selected');
+										clkd.prevAll().each(function() {
+											if ($(this).is('.first')) prev = true;
+										});
+										clkd.nextAll().each(function() {
+											if ($(this).is('.first')) next = true;
+										});
+										if (prev) {
+											clkd.prevAll().each(function() {
+												if ($(this).is('.selected')) return false;
+													else $(this).not('.disabled').addClass('selected');
+											});
+										}
+										if (next) {
+											clkd.nextAll().each(function() {
+												if ($(this).is('.selected')) return false;
+													else $(this).not('.disabled').addClass('selected');
+											});
+										}
+										if (li.filter('.selected').length == 1) clkd.addClass('first');
+									}
+									option.removeAttr('selected');
+									li.filter('.selected').each(function() {
+										option.eq($(this).index()).attr('selected', true);
+									});
+									el.change();
+								});
+							}
+						} // end doMultipleSelect()
+						if (el.is('[multiple]')) doMultipleSelect(); else doSelect();
 						// обновление при динамическом изменении
 						el.on('refresh', function() {
 							el.next().remove();
-							doSelect();
+							if (el.is('[multiple]')) doMultipleSelect(); else doSelect();
 						})
 					}
 				});

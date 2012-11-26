@@ -6,7 +6,7 @@
 	<link href="demo.css" rel="stylesheet" />
 
 	<link href="../jquery.formstyler.css" rel="stylesheet" />
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 	<script src="../jquery.formstyler.min.js"></script>
 	<script>
 		(function($) {
@@ -31,7 +31,7 @@
 
 	<div class="section lh">
 		<div class="buttons">
-			<button type="submit" class="add">Добавить чекбоксы</button>
+			<button type="submit" class="add1">Добавить чекбоксы</button>
 			<button type="submit" class="dis">Переключить активность</button>
 			<button type="submit" class="check">Переключить галочки</button>
 		</div>
@@ -56,9 +56,10 @@
 
 	<h2>Поле для выбора файла</h2>
 
-	<div class="section lh">
+	<div class="section">
 		<div class="buttons">
 			<button type="submit" class="add5">Добавить поле</button>
+			<button type="submit" class="dis">Переключить активность</button>
 		</div>
 		<input type="file" name="" />
 	</div><!-- .section -->
@@ -268,6 +269,53 @@
 				<option>Пункт 98</option>
 				<option>Пункт 99</option>
 				<option>Пункт 100</option>
+			</select>
+		</div><!-- .sec -->
+
+	</div><!-- .section -->
+
+	<div class="section">
+		<div class="buttons">
+			<button type="submit" class="add6">Добавить селект</button>
+			<button type="submit" class="add4">Добавить пункты в список</button>
+			<button type="submit" class="dis2">Переключить активность селекта</button>
+			<button type="submit" class="dis3">Переключить активность пунктов</button>
+		</div>
+		<p><strong>Мультиселект</strong>, один из пунктов неактивный, <br />параметр <code>size</code> не указан.</p>
+		<p style="float: right; width: 210px; margin: 0 13px 0 0;"><small>В данном случае в Internet Explorer текст самого длинного пункта переносится, поэтому лучше задать ширину для <code>.selectMultiple</code>.</small></p>
+		<select multiple="multiple">
+			<option>-- Выберите --</option>
+			<option>Пункт 1</option>
+			<option>Пункт 2</option>
+			<option disabled="disabled">Пункт 3</option>
+			<option>Пункт 4</option>
+			<option>Пункт 5</option>
+		</select>
+	</div><!-- .section -->
+
+	<div class="section">
+
+		<div class="sec">
+			<p>Мультиселект, параметр <code>size</code> равен <code>6</code>.</p>
+			<select multiple="multiple" size="6">
+				<option>-- Выберите --</option>
+				<option>Пункт 1</option>
+				<option>Пункт 2</option>
+				<option>Пункт 3</option>
+				<option>Пункт 4</option>
+				<option>Пункт 5</option>
+			</select>
+		</div><!-- .sec -->
+
+		<div class="sec width">
+			<p>Мультиселект <strong>с заданной шириной</strong> и длинным пунктом.</p>
+			<select multiple="multiple">
+				<option>- Выберите 1 или несколько пунктов -</option>
+				<option>Пункт 1</option>
+				<option>Пункт 2</option>
+				<option>Пункт 3</option>
+				<option>Пункт 4</option>
+				<option>Пункт 5</option>
 			</select>
 		</div><!-- .sec -->
 

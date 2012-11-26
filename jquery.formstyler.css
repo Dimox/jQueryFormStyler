@@ -88,6 +88,13 @@
 	background: #F5F5F5;
 	box-shadow: inset 1px 1px 3px #DDD;
 }
+.file.disabled,
+.file.disabled .browse {
+	border-color: #CCC;
+	background: #F5F5F5;
+	box-shadow: none;
+	color: #888;
+}
 
 
 .selectbox {
@@ -119,9 +126,9 @@
 	border: 1px solid #5794BF;
 }
 .selectbox.disabled .select {
-	border: 1px solid #CCC;
-	box-shadow: none;
+	border-color: #CCC;
 	background: #F5F5F5;
+	box-shadow: none;
 	color: #888;
 }
 .selectbox .select .text {
@@ -188,4 +195,44 @@
 }
 .selectbox li.disabled:hover {
 	background: none;
+}
+
+
+.selectMultiple {
+	padding: 1px;
+	border: 1px solid #CCC;
+	border-bottom-color: #B3B3B3;
+	border-radius: 4px;
+	box-shadow: inset 1px 1px #F1F1F1, 0 1px 2px rgba(0,0,0,0.1);
+	color: #333;
+	font: 14px/18px Arial, Tahoma, sans-serif;
+	cursor: default;
+}
+.selectMultiple.disabled {
+	border-color: #CCC;
+	background: #F5F5F5;
+	box-shadow: none;
+	color: #888;
+}
+.selectMultiple li {
+	padding: 3px 9px 4px;
+	list-style: none;
+}
+.selectMultiple li:first-child {
+	border-radius: 3px 3px 0 0;
+}
+.selectMultiple li:last-child {
+	border-radius: 0 0 3px 3px;
+}
+.selectMultiple li.selected {
+	background: #08C;
+	color: #FFF;
+}
+.selectMultiple li.disabled {
+	color: #AAA;
+}
+.selectMultiple.disabled li.selected,
+.selectMultiple li.selected.disabled {
+	background: #CCC;
+	color: #FFF;
 }

@@ -31,14 +31,19 @@ a {
 	color: #0094D6;
 }
 code {
-	padding: 0 1px;
+	padding: 0 3px 1px;
 	background: #FCF1D6;
+	border-radius: 4px;
+	box-shadow: inset 1px 0 5px #F9D786;
 }
 label {
 	cursor: pointer;
 }
 p {
 	margin: 0 0 15px;
+}
+small {
+	font-size: 12px;
 }
 .section {
 	height: 1%;
@@ -64,6 +69,9 @@ p {
 }
 .maxheight .selectbox .dropdown {
 	max-height: 203px;
+}
+.width .selectMultiple {
+	width: 286px;
 }
 .sec {
 	float: right;
