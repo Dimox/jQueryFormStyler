@@ -12,7 +12,7 @@
 (function($) {
 	$.fn.styler = function(opt) {
 
-		var opt = $.extend({
+		opt = $.extend({
 			browseText: 'Выбрать',
 			zIndex: '1000'
 		}, opt);
@@ -349,4 +349,4 @@
 		});
 
 	}
-})(jQuery)
+})(jQuery);
