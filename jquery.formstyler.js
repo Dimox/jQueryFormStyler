@@ -32,10 +32,10 @@
 						span.click(function() {
 							if (!span.is('.disabled')) {
 								if (el.is(':checked')) {
-									el.removeAttr('checked');
+									el.prop('checked', false);
 									span.removeClass('checked');
 								} else {
-									el.attr('checked', true);
+									el.prop('checked', true);
 									span.addClass('checked');
 								}
 								el.change();
@@ -83,8 +83,8 @@
 						// клик на псевдорадиокнопке
 						span.click(function() {
 							if (!span.is('.disabled')) {
-								$('input[name="' + el.attr('name') + '"]').removeAttr('checked').next().removeClass('checked');
-								el.attr('checked', true).next().addClass('checked');
+								$('input[name="' + el.attr('name') + '"]').prop('checked', false).next().removeClass('checked');
+								el.prop('checked', true).next().addClass('checked');
 								el.change();
 								return false;
 							}
@@ -166,10 +166,10 @@
 								selectbox.addClass('disabled');
 							} else {
 								var ddlist = '';
-								for (i = 0; i < option.length; i++) {
+								for (var i = 0, l = option.length; i < l; i++) {
 									var selected = '';
 									var disabled = ' class="disabled"';
-									if (typeof option.eq(i).attr('selected') !== 'undefined' && option.eq(i).attr('selected') !== false) selected = ' class="selected sel"';
+									if (typeof option.eq(i).prop('selected') === true) selected = ' class="selected sel"';
 									if (option.eq(i).is(':disabled')) selected = disabled;
 									ddlist += '<li' + selected + '>'+ option.eq(i).text() +'</li>';
 								}
@@ -180,19 +180,20 @@
 								selectbox.append(dropdown);
 								var li = dropdown.find('li');
 								var selectHeight = selectbox.outerHeight();
-								if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
-								if (dropdown.css('top') == 'auto') dropdown.css({top: selectHeight});
+								if (dropdown.css('left') === 'auto') dropdown.css({left: 0});
+								if (dropdown.css('top') === 'auto') dropdown.css({top: selectHeight});
 								var liHeight = li.outerHeight();
 								var position = dropdown.css('top');
 								/* при клике на псевдоселекте */
 								divSelect.click(function() {
 									/* умное позиционирование */
+                                    var win = $(window);
 									var topOffset = selectbox.offset().top;
-									var bottomOffset = $(window).height() - selectHeight - (topOffset - $(window).scrollTop());
+									var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
 									if (bottomOffset < 0 || bottomOffset < liHeight * 6)	{
 										dropdown.height('auto').css({top: 'auto', bottom: position});
-										if (dropdown.outerHeight() > topOffset - $(window).scrollTop() - 20 ) {
-											dropdown.height(Math.floor((topOffset - $(window).scrollTop() - 20) / liHeight) * liHeight);
+										if (dropdown.outerHeight() > topOffset - win.scrollTop() - 20 ) {
+											dropdown.height(Math.floor((topOffset - win.scrollTop() - 20) / liHeight) * liHeight);
 										}
 									} else if (bottomOffset > liHeight * 6) {
 										dropdown.height('auto').css({bottom: 'auto', top: position});
@@ -200,7 +201,7 @@
 											dropdown.height(Math.floor((bottomOffset - 20) / liHeight) * liHeight);
 										}
 									}
-									$('span.selectbox').css({zIndex: (opt.zIndex-1)}).removeClass('focused');
+									$('span.selectbox').css({zIndex: (opt.zIndex - 1)}).removeClass('focused');
 									selectbox.css({zIndex: opt.zIndex});
 									if (dropdown.is(':hidden')) {
 										$('div.dropdown:visible').hide();
@@ -217,10 +218,12 @@
 								var selectedText = li.filter('.selected').text();
 								/* при клике на пункт списка */
 								li.filter(':not(.disabled)').click(function() {
-									var liText = $(this).text();
+                                    var that = $(this);
+									var liText = that.text();
 									if (selectedText != liText) {
-										$(this).addClass('selected sel').siblings().removeClass('selected sel');
-										option.removeAttr('selected').eq($(this).index()).attr('selected', true);
+                                        that.addClass('selected sel').siblings().removeClass('selected sel');
+                                        option.prop('selected', false);
+                                        option.eq(that.index()).prop('selected', true);
 										selectedText = liText;
 										divText.text(liText);
 										el.change();
@@ -255,11 +258,11 @@
 							el.after(selectbox).css({position: 'absolute', left: -9999});
 							var option = el.find('option');
 							var list = '';
-							for (i = 0; i < option.length; i++) {
+							for (var i = 0, l = option.length; i < l; i++) {
 								var cls = '';
 								var disabled = ' class="disabled"';
 								var selDis = ' class="selected disabled"';
-								if (typeof option.eq(i).attr('selected') !== 'undefined' && option.eq(i).attr('selected') !== false) cls = ' class="selected"';
+								if (typeof option.eq(i).prop('selected') === true) cls = ' class="selected"';
 								if (option.eq(i).is(':disabled')) cls = disabled;
 								if (option.eq(i).is(':selected:disabled')) cls = selDis;
 								list += '<li' + cls + '>'+ option.eq(i).text() +'</li>';
@@ -280,8 +283,8 @@
 									// запрещаем прокрутку страницы при прокрутке селекта
 									.bind('mousewheel DOMMouseScroll', function(e) {
 										var scrollTo = null;
-										if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
-										else if (e.type == 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
+										if (e.type === 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
+										else if (e.type === 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
 										if (scrollTo) { e.preventDefault(); $(this).scrollTop(scrollTo + $(this).scrollTop()); }
 									});
 							}
@@ -327,9 +330,9 @@
 										}
 										if (li.filter('.selected').length == 1) clkd.addClass('first');
 									}
-									option.removeAttr('selected');
+									option.prop('selected', false);
 									li.filter('.selected').each(function() {
-										option.eq($(this).index()).attr('selected', true);
+										option.eq($(this).index()).prop('selected', true);
 									});
 									el.change();
 								});
