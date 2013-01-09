@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.2
+ * jQuery Form Styler v1.2.1
  * http://dimox.name/jquery-form-styler/
  *
- * Copyright 2012 Dimox (http://dimox.name/)
+ * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2012.11.26
+ * Date: 2013.01.09
  *
  */
 
@@ -19,12 +19,15 @@
 
 		return this.each(function() {
 			var el = $(this);
+			var id = cl = '';
+			if (el.attr('id') !== undefined && el.attr('id') != '') id = ' id="' + el.attr('id') + '"';
+			if (el.attr('class') !== undefined && el.attr('class') != '') cl = ' ' + el.attr('class');
 
 			// checkbox
 			if (el.is(':checkbox')) {
 				el.css({position: 'absolute', left: -9999}).each(function() {
 					if (el.next('span.checkbox').length < 1) {
-						var span = $('<span class="checkbox" style="display:inline-block"><span></span></span>');
+						var span = $('<span' + id + ' class="checkbox' + cl + '" style="display:inline-block"><span></span></span>');
 						el.after(span);
 						if (el.is(':checked')) span.addClass('checked');
 						if (el.is(':disabled')) span.addClass('disabled');
@@ -76,7 +79,7 @@
 			} else if (el.is(':radio')) {
 				el.css({position: 'absolute', zIndex: '-5'}).each(function() {
 					if (el.next('span.radio').length < 1) {
-						var span = $('<span class="radio" style="display:inline-block"><span></span></span>');
+						var span = $('<span' + id + ' class="radio' + cl + '" style="display:inline-block"><span></span></span>');
 						el.after(span);
 						if (el.is(':checked')) span.addClass('checked');
 						if (el.is(':disabled')) span.addClass('disabled');
@@ -121,7 +124,7 @@
 			} else if (el.is(':file')) {
 				el.css({position: 'absolute', left: -9999}).each(function() {
 					if (el.next('span.file').length < 1) {
-						var file = $('<span class="file" style="display:inline-block"></span>');
+						var file = $('<span' + id + ' class="file' + cl + '" style="display:inline-block"></span>');
 						var name = $('<input class="name" type="text" readonly="readonly" style="float:left">').appendTo(file);
 						var browse = $('<div class="browse" style="float:left">' + opt.browseText + '</div>').appendTo(file);
 						el.after(file);
@@ -142,10 +145,21 @@
 			} else if (el.is('select')) {
 				el.each(function() {
 					if (el.next('span.jqselect').length < 1) {
+
+						// запрещаем прокрутку страницы при прокрутке селекта
+						function preventScrolling(selector) {
+							selector.bind('mousewheel DOMMouseScroll', function(e) {
+								var scrollTo = null;
+								if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
+								else if (e.type == 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
+								if (scrollTo) { e.preventDefault(); $(this).scrollTop(scrollTo + $(this).scrollTop()); }
+							});
+						}
+
 						// одиночный селект
 						function doSelect() {
 							var selectbox =
-								$('<span class="selectbox jqselect" style="display:inline-block;position:relative;z-index:' + opt.zIndex + '">'+
+								$('<span' + id + ' class="selectbox jqselect' + cl + '" style="display:inline-block;position:relative;z-index:' + opt.zIndex + '">'+
 										'<div class="select" style="float:left"><div class="text"></div>'+
 											'<b class="trigger"><i class="arrow"></i></b>'+
 										'</div>'+
@@ -208,6 +222,9 @@
 									} else {
 										dropdown.hide();
 									}
+									// прокручиваем до выбранного пункта при открытии списка
+									dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight()/2 + li.filter('.selected').outerHeight()/2);
+									preventScrolling(dropdown);
 									return false;
 								});
 								/* при наведении курсора на пункт списка */
@@ -249,9 +266,10 @@
 								});
 							}
 						} // end doSelect()
+
 						// мультиселект
 						function doMultipleSelect() {
-							var selectbox = $('<span class="selectMultiple jqselect" style="display:inline-block"></span>');
+							var selectbox = $('<span' + id + ' class="selectMultiple jqselect' + cl + '" style="display:inline-block"></span>');
 							el.after(selectbox).css({position: 'absolute', left: -9999});
 							var option = el.find('option');
 							var list = '';
@@ -276,14 +294,8 @@
 								ul.css({'height': liHeight * 4});
 							}
 							if (ulHeight > selectbox.height()) {
-								ul.css('overflowY', 'scroll')
-									// запрещаем прокрутку страницы при прокрутке селекта
-									.bind('mousewheel DOMMouseScroll', function(e) {
-										var scrollTo = null;
-										if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
-										else if (e.type == 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
-										if (scrollTo) { e.preventDefault(); $(this).scrollTop(scrollTo + $(this).scrollTop()); }
-									});
+								ul.css('overflowY', 'scroll');
+								preventScrolling(ul);
 							}
 							if (el.is(':disabled')) {
 								selectbox.addClass('disabled');
@@ -335,6 +347,7 @@
 								});
 							}
 						} // end doMultipleSelect()
+
 						if (el.is('[multiple]')) doMultipleSelect(); else doSelect();
 						// обновление при динамическом изменении
 						el.on('refresh', function() {
