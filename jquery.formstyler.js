@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.2.1
+ * jQuery Form Styler v1.2.2
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.01.09
+ * Date: 2013.01.14
  *
  */
 
@@ -237,7 +237,7 @@
 									var liText = $(this).text();
 									if (selectedText != liText) {
 										$(this).addClass('selected sel').siblings().removeClass('selected sel');
-										option.removeAttr('selected').eq($(this).index()).attr('selected', true);
+										option.eq($(this).index()).attr('selected', true).siblings().removeAttr('selected');
 										selectedText = liText;
 										divText.text(liText);
 										el.change();
