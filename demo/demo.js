@@ -1,23 +1,26 @@
 (function($) {
 $(function() {
 
-	/* скрипты для демонстрации примеров */
+	$('ul.menu').delegate('li:not(.current)', 'click', function() {
+		$(this).addClass('current').siblings().removeClass('current')
+			.parents('div.wrapper').find('div.box').removeClass('visible').eq($(this).index()).addClass('visible');
+		 window.location.hash = $(this).data('hash');
+		 $('input').blur();
+	})
+	hash = window.location.hash.replace(/#(.+)/, '$1');
+	$('ul.menu li[data-hash='+hash+']').click();
 
-	(function($) {
-		$.fn.toggleDisabled = function() {
-			return this.each(function() {
-				this.disabled = !this.disabled;
-			});
-		};
-	})(jQuery);
+	$.fn.toggleDisabled = function() {
+		return this.each(function() {
+			this.disabled = !this.disabled;
+		});
+	};
 
-	(function($) {
-		$.fn.toggleChecked = function() {
-			return this.each(function() {
-				this.checked = !this.checked;
-			});
-		};
-	})(jQuery);
+	$.fn.toggleChecked = function() {
+		return this.each(function() {
+			this.checked = !this.checked;
+		});
+	};
 
 	$('button.add1').click(function(e) {
 		var inputs = '';

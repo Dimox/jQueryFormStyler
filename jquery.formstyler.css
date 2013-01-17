@@ -201,6 +201,17 @@
 .jq-selectbox li.disabled:hover {
 	background: none;
 }
+.jq-selectbox li.optgroup {
+	font-weight: bold;
+}
+.jq-selectbox li.optgroup:hover {
+	background: none;
+	color: #231F20;
+	cursor: default;
+}
+.jq-selectbox li.option {
+	padding-left: 25px;
+}
 
 
 .jq-select-multiple {
@@ -240,4 +251,10 @@
 .jq-select-multiple li.selected.disabled {
 	background: #CCC;
 	color: #FFF;
+}
+.jq-select-multiple li.optgroup {
+	font-weight: bold;
+}
+.jq-select-multiple li.option {
+	padding-left: 25px;
 }

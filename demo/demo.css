@@ -5,37 +5,36 @@
 body {
 	background: #EEE url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAA2CAMAAABwQH4RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADlQTFRF6enp7+/v5eXl4+Pj6urq4eHh6+vr8vLy6Ojo5+fn9vb25OTk5ubm9fX19PT07e3t8fHx7u7u8PDwv4mVEQAABQFJREFUeNq0WNl26ygQxHIyYmmQ4P8/dnoHJbLu3IcB46MgVC5V0wsJpUCRUQBb2UoqGyTrEWKKKeH4+idg//r6CjHEKGNZl6wVa6HknCv3mDNfZ76qPGJtteJoFdrepJVqLeFfO49SGy6kAQhVeQTI5zj5k/KJbcdP4CtqoY4+Bo3U+tGxHb3UoY3mjoNGqX28Bo1Ed08aCI2wBH0i9C7Y0aFjFeDRoTEuNoc+Uzu0vREa12GHegr2qaxpEGvBXlkr6QFNSePD/CSzNugi0LSuDsUW1gwe867YV9b8BLMW8JKnICtr6XRXsKfWyvpBa2yvgwSxV75qzevknU6FVj2Q9YPWo5AZr1rfsCZBPmgt4D+1pmfYjCz2g9bC2gRJUEAGpIA94uYPvu1LDN5jCug+dF98iK5n83VgDhfec9vjjieXqHRl7qGug24059iFxI18brlb2cnIZVZT9BeZqvtcL2pkMpncW7UGnmP9eWvSAL8bvqcpSM2hC/nH8OemJVTrK7TPmZGPeRdZL6boDD54jkgTtO7N4DDgu2abc8r6WFmXlfUQ1svPuUNdWPdb1qzIe2X9Q+vxEs+TOXeocKP1ov/1nW5YM+nhrPtfaH0wm0ethwriZlTaaeX1SxBwQRbWaXEKyhaRBmadDbhxBrLvjb8BcA2PRIkJZ3C9ulGMUR0mgmYZamF1iib+UzzLlJl51MUuziOZChckXd84y+zSaXu99PUWk2m09ESB62Rn9mO+PAU56WkxY9ZIuuxc3eFyxXsY97okCoqLTfb80b9/QBN2nNBb3hfWbpSLyThYzhykrI8b1udYWAPmFgGPH1hLuISZg5R1P96/WZ8/oak765eyNvfQTO2CKOvjssPvtJ5mjA9aE2vNDsKa+wet+9RaBXnSuo/N05uwpv4Hrf/PwkzLqIwllVVXxZ0ieRFmeWRvwA5BjhFnDnLHi1rmoQuCJuBRkxqs16KxsLdkb1eL1WU0JwVEDZadc9Dtc+akZd4p0IxeQfN9r2+LWC2dE1ozVAMrqGp06GibPict8wZCW26voGWBsFZorSnwrhVPDawMXFmbjQlawjBBqyK5WLhYWZsguVjJJ6wJfGWtyHuOVjEp9Cm8tLxbtXa5UJCDg9eD1sr6RusxPrM2rfHnynjSOo5FaxVkMeO91od4EWmtb3dlzeCr1povKC9E8w7OG5xBkuaTyNnE8oxnHm40h49C5Cw1c1awTIEnk0xpgjp49ihetk33KO4ypVktNwuz4CeiAK5m0tg18pyDQ8uGFnbfuVals/6cj3DXaKyUddRzKA4TLXgt0N+aT44WLabi3W7736LYvGrh1M2SwzZZa+F4ZX0Ya3cKdZnObmSmndAW/q+C/Gb95uDJrN0pwBLPLesowOf+J63JUYy1CWJhbGpNrF/OWmk7dP+otXRhzXvYwtMT6/+ktSAba3pkU8960ppZW57YYDm1LG09uaBDpOXUEueRJ9B9PgsB2OkovPXkUZdtP6+uziNt/nNgfcJquZmhFjOCxvqjmXKvdjGoukfSBHvm0i1Cgp6C1qgZvufDh8e2qeE18klQ9QBUtApXMlQ/txk1L6z1pLMYZfMAuhjKSm5KD0KxgR5V1qi5OPpb9bhh3S+sPY9MGNAD1kfW9vCi643WwfOI6iouM35pXS5ac9n8F1p3Zy2noM+sVRC4EQR+QIvWZkaw0+yi9b8CDABp5AwOCsQQfgAAAABJRU5ErkJggg==) 50% 2px;
 	font: 15px/18px Arial, Tahoma, sans-serif;
-}
-.wrapper {
-	width: 700px;
-	margin: 0 auto;
-	padding: 0 0 200px;
+	overflow-y: scroll;
+	color: #333;
 }
 h1 {
-	height: 86px;
-	padding: 24px 0 0;
+	height: 110px;
+	line-height: 104px;
 	background: #FFF;
-	margin: 0 0 24px;
-	color: #333;
+	margin: 0 0 20px;
+	color: #444;
 	text-align: center;
-	text-shadow: 1px 1px 1px #FFF, 2px 2px 2px #DDD;
-	font-size: 23px;
-	line-height: 1.2;
+	font-size: 30px;
 }
 h2 {
-	margin: -3px 0 10px;
-	text-shadow: 1px 1px 1px #FFF, 2px 2px 2px #CCC;
-	font-size: 21px;
+	margin: 0 0 10px;
+	font-size: 23px;
 	line-height: 1;
+	color: #444;
 }
 a {
-	color: #0094D6;
+	color: #08D;
+}
+a:hover {
+	color: #0AD;
 }
 code {
 	padding: 0 3px 1px;
-	background: #FCF1D6;
-	border-radius: 4px;
-	box-shadow: inset 1px 0 5px #F9D786;
+	border-radius: 3px;
+	color: #EA0000;
+	border: 1px solid #E1E1E1;
+	background: #F6F6F6;
 }
 label {
 	cursor: pointer;
@@ -46,14 +45,80 @@ p {
 small {
 	font-size: 12px;
 }
+.wrapper {
+	width: 1000px;
+	margin: 0 auto;
+	padding: 0 0 200px;
+	position: relative;
+}
+.wrapper:after {
+	content: '';
+	clear: both;
+	display: table;
+}
+.menu {
+	float: left;
+	width: 286px;
+}
+.menu li {
+	border-top: 1px solid #CCC;
+	list-style: none;
+	height: 36px;
+	line-height: 36px;
+	padding: 0 12px;
+	cursor: pointer;
+	color: #0094D6;
+}
+.menu li:first-child {
+	border-radius: 4px 4px 0 0;
+	border-top: none;
+}
+.menu li:last-child {
+	border-radius: 0 0 4px 4px;
+	border-bottom: none;
+}
+.menu li:hover,
+.menu li.current {
+	color: #333;
+	text-shadow: 1px 1px #FFF;
+}
+.menu li:hover {
+	background: #E7E7E7;
+}
+.menu li.current {
+	background: #E7E7E7 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAeCAIAAABi9+OQAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABdJREFUeNpi+v//PxM2zMDAQEtxgAADAF2uTe9L4getAAAAAElFTkSuQmCC) repeat-x;
+	box-shadow: inset 1px -1px #F1F1F1, inset -1px 0 #F1F1F1;
+}
+.content {
+	float: right;
+	width: 700px;
+}
+.box {
+	position: absolute;
+	top: -2000px;
+	left: 0;
+	height: 100px;
+	overflow: hidden;
+}
+.box.visible {
+	position: static;
+	width: auto;
+	height: auto;
+	overflow: visible;
+}
+.menu,
 .section {
 	height: 1%;
-	margin: 0 0 25px;
+	margin: 0 0 12px;
 	padding: 20px 25px 22px;
 	border: 1px solid #CCC;
 	border-radius: 5px;
 	background: #FFF;
 	box-shadow: 1px 1px 0 #FFF, inset 1px 1px 3px #DDD;
+}
+.menu {
+	padding: 0;
+	margin: 33px 0;
 }
 .section:after {
 	display: table;
@@ -117,4 +182,10 @@ button:active {
 }
 .jq-file {
 	margin: 3px 0 0;
+}
+.color1 {
+	background: #FFE8AA;
+}
+.color2 {
+	background: #D2FFAA;
 }

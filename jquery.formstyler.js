@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.2.5
+ * jQuery Form Styler v1.3
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.01.15
+ * Date: 2013.01.17
  *
  */
 
@@ -166,6 +166,31 @@
 							});
 						}
 
+						var option = el.find('option');
+						var list = '';
+						// формируем список селекта
+						function makeList() {
+							for (i = 0; i < option.length; i++) {
+								var li = liClass = optgroupClass = optionClass = '';
+								var disabled = 'disabled';
+								var selDis = 'selected sel disabled';
+								if (typeof option.eq(i).attr('selected') !== 'undefined' && option.eq(i).attr('selected') !== false) liClass = 'selected sel';
+								if (option.eq(i).is(':disabled')) liClass = disabled;
+								if (option.eq(i).is(':selected:disabled')) liClass = selDis;
+								if (option.eq(i).attr('class') !== undefined) optionClass = ' ' + option.eq(i).attr('class');
+								li = '<li class="' + liClass + optionClass + '">'+ option.eq(i).text() +'</li>';
+								// если есть optgroup
+								if (option.eq(i).parent().is('optgroup')) {
+									if (option.eq(i).parent().attr('class') !== undefined) optgroupClass = ' ' + option.eq(i).parent().attr('class');
+									li = '<li class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).text() +'</li>';
+									if (option.eq(i).is(':first-child')) {
+										li = '<li class="optgroup' + optgroupClass + '">' + option.eq(i).parent().attr('label') + '</li>' + li;
+									}
+								}
+								list += li;
+							}
+						} // end makeList()
+
 						// одиночный селект
 						function doSelect() {
 							var selectbox =
@@ -177,7 +202,6 @@
 							el.after(selectbox).css({position: 'absolute', left: -9999});
 							var divSelect = selectbox.find('div.select');
 							var divText = selectbox.find('div.text');
-							var option = el.find('option');
 							var optionSelected = option.filter(':selected');
 
 							// берем опцию по умолчанию
@@ -187,24 +211,13 @@
 								divText.text(option.filter(':first').text());
 							}
 
-							// проверяем активность селекта
+							// если селект неактивный
 							if (el.is(':disabled')) {
 								selectbox.addClass('disabled');
+
+							// если селект активный
 							} else {
-								var list = '';
-								for (i = 0; i < option.length; i++) {
-									var liClass = optionClass = '';
-									if (option.eq(i).attr('class') !== undefined) {
-										liClass = ' class="' + option.eq(i).attr('class') + '"';
-										optionClass = ' ' + option.eq(i).attr('class');
-									}
-									var disabled = ' class="disabled' + optionClass + '"';
-									var selDis = ' class="selected sel disabled' + optionClass + '"';
-									if (typeof option.eq(i).attr('selected') !== 'undefined' && option.eq(i).attr('selected') !== false) liClass = ' class="selected sel' + optionClass + '"';
-									if (option.eq(i).is(':disabled')) liClass = disabled;
-									if (option.eq(i).is(':selected:disabled')) liClass = selDis;
-									list += '<li' + liClass + '>'+ option.eq(i).text() +'</li>';
-								}
+								makeList();
 								var dropdown =
 									$('<div class="dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
 											'<ul style="list-style: none">' + list + '</ul>'+
@@ -279,11 +292,14 @@
 								var selectedText = li.filter('.selected').text();
 
 								// при клике на пункт списка
-								li.filter(':not(.disabled)').click(function() {
-									var liText = $(this).text();
+								li.filter(':not(.disabled):not(.optgroup)').click(function() {
+									var t = $(this);
+									var liText = t.text();
 									if (selectedText != liText) {
-										$(this).addClass('selected sel').siblings().removeClass('selected sel');
-										option.eq($(this).index()).attr('selected', true).siblings().removeAttr('selected');
+										var index = t.index();
+										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
+										t.addClass('selected sel').siblings().removeClass('selected sel');
+										option.eq(index).attr('selected', true).parents().find('option').not(':selected').removeAttr('selected');
 										selectedText = liText;
 										divText.text(liText);
 										el.change();
@@ -319,21 +335,7 @@
 						function doMultipleSelect() {
 							var selectbox = $('<span' + id + ' class="jq-select-multiple jqselect' + cl + '" style="display: inline-block"></span>');
 							el.after(selectbox).css({position: 'absolute', left: -9999});
-							var option = el.find('option');
-							var list = '';
-							for (i = 0; i < option.length; i++) {
-								var liClass = optionClass = '';
-								if (option.eq(i).attr('class') !== undefined) {
-									liClass = ' class="' + option.eq(i).attr('class') + '"';
-									optionClass = ' ' + option.eq(i).attr('class');
-								}
-								var disabled = ' class="disabled' + optionClass + '"';
-								var selDis = ' class="selected disabled' + optionClass + '"';
-								if (typeof option.eq(i).attr('selected') !== 'undefined' && option.eq(i).attr('selected') !== false) liClass = ' class="selected' + optionClass + '"';
-								if (option.eq(i).is(':disabled')) liClass = disabled;
-								if (option.eq(i).is(':selected:disabled')) liClass = selDis;
-								list += '<li' + liClass + '>'+ option.eq(i).text() +'</li>';
-							}
+							makeList();
 							selectbox.append('<ul>' + list + '</ul>');
 							var ul = selectbox.find('ul');
 							var li = selectbox.find('li').attr('unselectable', 'on').css({'-webkit-user-select': 'none', '-moz-user-select': 'none', '-ms-user-select': 'none', '-o-user-select': 'none', 'user-select': 'none'});
@@ -357,7 +359,7 @@
 							} else {
 
 								// при клике на пункт списка
-								li.filter(':not(.disabled)').click(function(e) {
+								li.filter(':not(.disabled):not(.optgroup)').click(function(e) {
 									var clkd = $(this);
 									if(!e.ctrlKey) clkd.addClass('selected');
 									if(!e.shiftKey) clkd.addClass('first');
@@ -383,13 +385,13 @@
 										if (prev) {
 											clkd.prevAll().each(function() {
 												if ($(this).is('.selected')) return false;
-													else $(this).not('.disabled').addClass('selected');
+													else $(this).not('.disabled, .optgroup').addClass('selected');
 											});
 										}
 										if (next) {
 											clkd.nextAll().each(function() {
 												if ($(this).is('.selected')) return false;
-													else $(this).not('.disabled').addClass('selected');
+													else $(this).not('.disabled, .optgroup').addClass('selected');
 											});
 										}
 										if (li.filter('.selected').length == 1) clkd.addClass('first');
@@ -397,7 +399,10 @@
 
 									option.removeAttr('selected');
 									li.filter('.selected').each(function() {
-										option.eq($(this).index()).attr('selected', true);
+										var t = $(this);
+										var index = t.index();
+										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
+										option.eq(index).attr('selected', true);
 									});
 									el.change();
 								});
