@@ -22,7 +22,7 @@
 
             // checkbox
             if (el.is(':checkbox')) {
-                el.css({position: 'absolute', left: -9999}).each(function () {
+                el.css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function () {
                     if (el.next('span.checkbox').length < 1) {
                         var span = $('<span class="checkbox" style="display:inline-block"><span></span></span>');
                         el.after(span);
@@ -52,23 +52,23 @@
                             if (el.is(':checked')) span.addClass('checked');
                             else span.removeClass('checked');
                         })
-                            // чтобы переключался чекбокс, который находится в теге label
-                            .keydown(function (e) {
-                                if (el.parent('label').length && (e.which == 13 || e.which == 32)) span.click();
-                            })
-                            .focus(function () {
-                                if (!span.is('.disabled')) span.addClass('focused');
-                            })
-                            .blur(function () {
-                                span.removeClass('focused');
-                            });
+                        // чтобы переключался чекбокс, который находится в теге label
+                        .keydown(function (e) {
+                            if (el.parent('label').length && (e.which == 13 || e.which == 32)) span.click();
+                        })
+                        .focus(function () {
+                            if (!span.is('.disabled')) span.addClass('focused');
+                        })
+                        .blur(function () {
+                            span.removeClass('focused');
+                        });
                         // обновление при динамическом изменении
                         el.on('refresh', function () {
                             if (el.is(':checked')) span.addClass('checked');
                             else span.removeClass('checked');
                             if (el.is(':disabled')) span.addClass('disabled');
                             else span.removeClass('disabled');
-                        })
+                        });
                     }
                 });
 
@@ -99,12 +99,12 @@
                             $('input[name="' + el.attr('name') + '"]').next().removeClass('checked');
                             el.next().addClass('checked');
                         })
-                            .focus(function () {
-                                if (!span.is('.disabled')) span.addClass('focused');
-                            })
-                            .blur(function () {
-                                span.removeClass('focused');
-                            });
+                        .focus(function () {
+                            if (!span.is('.disabled')) span.addClass('focused');
+                        })
+                        .blur(function () {
+                            span.removeClass('focused');
+                        });
                         // обновление при динамическом изменении
                         el.on('refresh', function () {
                             if (el.is(':checked')) {
@@ -113,13 +113,13 @@
                             }
                             if (el.is(':disabled')) span.addClass('disabled');
                             else span.removeClass('disabled');
-                        })
+                        });
                     }
                 });
 
                 // file
             } else if (el.is(':file')) {
-                el.css({position: 'absolute', left: -9999}).each(function () {
+                el.css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function () {
                     if (el.next('span.file').length < 1) {
                         var file = $('<span class="file" style="display:inline-block"></span>');
                         var name = $('<input class="name" type="text" readonly="readonly" style="float:left">').appendTo(file);
@@ -138,7 +138,7 @@
                         el.on('refresh', function () {
                             if (el.is(':disabled')) file.addClass('disabled');
                             else file.removeClass('disabled');
-                        })
+                        });
                     }
                 });
 
@@ -154,7 +154,7 @@
                                         '<b class="trigger"><i class="arrow"></i></b>' +
                                     '</div>' +
                                 '</span>');
-                            el.after(selectbox).css({position: 'absolute', left: -9999});
+                            el.after(selectbox).css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'});
                             var divSelect = selectbox.find('div.select');
                             var divText = selectbox.find('div.text');
                             var option = el.find('option');
@@ -242,11 +242,11 @@
                                     $('span.selectbox').removeClass('focused');
                                     selectbox.addClass('focused');
                                 })
-                                    /* меняем селект с клавиатуры */
-                                    .keyup(function () {
-                                        divText.text(option.filter(':selected').text());
-                                        li.removeClass('selected sel').eq(option.filter(':selected').index()).addClass('selected sel');
-                                    });
+                                /* меняем селект с клавиатуры */
+                                .keyup(function () {
+                                    divText.text(option.filter(':selected').text());
+                                    li.removeClass('selected sel').eq(option.filter(':selected').index()).addClass('selected sel');
+                                });
                                 /* прячем выпадающий список при клике за пределами селекта */
                                 $(document).on('click', function (e) {
                                     if (!$(e.target).parents().hasClass('selectbox')) {
@@ -259,7 +259,7 @@
                         // мультиселект
                         function doMultipleSelect() {
                             var selectbox = $('<span class="selectMultiple jqselect" style="display:inline-block"></span>');
-                            el.after(selectbox).css({position: 'absolute', left: -9999});
+                            el.after(selectbox).css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'});
                             var option = el.find('option');
                             var list = '';
                             for (var i = 0, l = option.length; i < l; i++) {
@@ -353,7 +353,7 @@
                         el.on('refresh', function () {
                             el.next().remove();
                             if (el.is('[multiple]')) doMultipleSelect(); else doSelect();
-                        })
+                        });
                     }
                 });
                 // end select
