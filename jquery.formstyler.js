@@ -203,6 +203,7 @@
 							var divSelect = selectbox.find('div.select');
 							var divText = selectbox.find('div.text');
 							var optionSelected = option.filter(':selected');
+                            list = '';
 
 							// берем опцию по умолчанию
 							if (optionSelected.length) {
@@ -337,6 +338,7 @@
 						function doMultipleSelect() {
 							var selectbox = $('<span' + id + ' class="jq-select-multiple jqselect' + cl + '" style="display: inline-block"></span>');
 							el.after(selectbox).css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'});
+                            list = '';
 							makeList();
 							selectbox.append('<ul>' + list + '</ul>');
 							var ul = selectbox.find('ul');
