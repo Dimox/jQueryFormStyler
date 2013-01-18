@@ -20,13 +20,13 @@
 
 		return this.each(function() {
 			var el = $(this);
-			var id = cl = '';
+			var id = '', cl = '';
 			if (el.attr('id') !== undefined && el.attr('id') != '') id = ' id="' + el.attr('id') + '"';
 			if (el.attr('class') !== undefined && el.attr('class') != '') cl = ' ' + el.attr('class');
 
 			// checkbox
 			if (el.is(':checkbox')) {
-				el.css({position: 'absolute', left: -9999}).each(function() {
+				el.css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
 					if (el.next('span.jq-checkbox').length < 1) {
 						var checkbox = $('<span' + id + ' class="jq-checkbox' + cl + '" style="display: inline-block"><span></span></span>');
 						el.after(checkbox);
@@ -36,10 +36,10 @@
 						checkbox.click(function() {
 							if (!checkbox.is('.disabled')) {
 								if (el.is(':checked')) {
-									el.removeAttr('checked');
+									el.prop('checked', false);
 									checkbox.removeClass('checked');
 								} else {
-									el.attr('checked', true);
+									el.prop('checked', true);
 									checkbox.addClass('checked');
 								}
 								el.change();
@@ -72,7 +72,7 @@
 								else checkbox.removeClass('checked');
 							if (el.is(':disabled')) checkbox.addClass('disabled');
 								else checkbox.removeClass('disabled');
-						})
+						});
 					}
 				});
 
@@ -87,8 +87,8 @@
 						// клик на псевдорадиокнопке
 						radio.click(function() {
 							if (!radio.is('.disabled')) {
-								$('input[name="' + el.attr('name') + '"]').removeAttr('checked').next().removeClass('checked');
-								el.attr('checked', true).next().addClass('checked');
+								$('input[name="' + el.attr('name') + '"]').prop('checked', false).next().removeClass('checked');
+								el.prop('checked', true).next().addClass('checked');
 								el.change();
 								return false;
 							}
@@ -117,13 +117,13 @@
 							}
 							if (el.is(':disabled')) radio.addClass('disabled');
 								else radio.removeClass('disabled');
-						})
+						});
 					}
 				});
 
 			// file
 			} else if (el.is(':file')) {
-				el.css({position: 'absolute', top: '-50%', right: '-50%', fontSize: '200px', opacity: 0}).each(function() {
+				el.css({position: 'absolute', height: '100%', fontSize: '40px', left: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
 					if (el.parent('span.jq-file').length < 1) {
 						var file = $('<span' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></span>');
 						var name = $('<div class="name" style="float: left; white-space: nowrap"></div>').appendTo(file);
@@ -147,7 +147,7 @@
 						.on('refresh', function() {
 							if (el.is(':disabled')) file.addClass('disabled');
 								else file.removeClass('disabled');
-						})
+						});
 					}
 				});
 
@@ -160,8 +160,8 @@
 						function preventScrolling(selector) {
 							selector.bind('mousewheel DOMMouseScroll', function(e) {
 								var scrollTo = null;
-								if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
-								else if (e.type == 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
+								if (e.type === 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
+								else if (e.type === 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
 								if (scrollTo) { e.preventDefault(); $(this).scrollTop(scrollTo + $(this).scrollTop()); }
 							});
 						}
@@ -170,11 +170,11 @@
 						var list = '';
 						// формируем список селекта
 						function makeList() {
-							for (i = 0; i < option.length; i++) {
-								var li = liClass = optgroupClass = optionClass = '';
+							for (var i = 0, l = option.length; i < l; i++) {
+								var li = '', liClass = '', optgroupClass = '', optionClass = '';
 								var disabled = 'disabled';
 								var selDis = 'selected sel disabled';
-								if (typeof option.eq(i).attr('selected') !== 'undefined' && option.eq(i).attr('selected') !== false) liClass = 'selected sel';
+								if (typeof option.eq(i).prop('selected') === true) liClass = 'selected sel';
 								if (option.eq(i).is(':disabled')) liClass = disabled;
 								if (option.eq(i).is(':selected:disabled')) liClass = selDis;
 								if (option.eq(i).attr('class') !== undefined) optionClass = ' ' + option.eq(i).attr('class');
@@ -199,7 +199,7 @@
 											'<b class="trigger"><i class="arrow"></i></b>'+
 										'</div>'+
 									'</span>');
-							el.after(selectbox).css({position: 'absolute', left: -9999});
+							el.after(selectbox).css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'});
 							var divSelect = selectbox.find('div.select');
 							var divText = selectbox.find('div.text');
 							var optionSelected = option.filter(':selected');
@@ -225,8 +225,8 @@
 								selectbox.append(dropdown);
 								var li = dropdown.find('li');
 								var selectHeight = selectbox.outerHeight();
-								if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
-								if (dropdown.css('top') == 'auto') dropdown.css({top: selectHeight});
+								if (dropdown.css('left') === 'auto') dropdown.css({left: 0});
+								if (dropdown.css('top') === 'auto') dropdown.css({top: selectHeight});
 								var liHeight = li.outerHeight();
 								var position = dropdown.css('top');
 								dropdown.hide();
@@ -235,8 +235,10 @@
 								divSelect.click(function() {
 
 									// умное позиционирование
+                                    var win = $(window);
+
 									var topOffset = selectbox.offset().top;
-									var bottomOffset = $(window).height() - selectHeight - (topOffset - $(window).scrollTop());
+									var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
 									var visible = opt.selectVisibleOptions;
 									var	minHeight = liHeight * 6;
 									var	newHeight = liHeight * visible;
@@ -244,8 +246,8 @@
 									// раскрытие вверх
 									if (bottomOffset < 0 || bottomOffset < minHeight)	{
 										dropdown.height('auto').css({top: 'auto', bottom: position});
-										if (dropdown.outerHeight() > topOffset - $(window).scrollTop() - 20 ) {
-											dropdown.height(Math.floor((topOffset - $(window).scrollTop() - 20) / liHeight) * liHeight);
+										if (dropdown.outerHeight() > topOffset - win.scrollTop() - 20 ) {
+											dropdown.height(Math.floor((topOffset - win.scrollTop() - 20) / liHeight) * liHeight);
 											if (visible > 0 && visible < 6) {
 												if (dropdown.height() > minHeight) dropdown.height(minHeight);
 											} else if (visible > 6) {
@@ -299,7 +301,7 @@
 										var index = t.index();
 										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
 										t.addClass('selected sel').siblings().removeClass('selected sel');
-										option.eq(index).attr('selected', true).parents().find('option').not(':selected').removeAttr('selected');
+										option.eq(index).prop('selected', true).parents().find('option').not(':selected').prop('selected', false);
 										selectedText = liText;
 										divText.text(liText);
 										el.change();
@@ -334,7 +336,7 @@
 						// мультиселект
 						function doMultipleSelect() {
 							var selectbox = $('<span' + id + ' class="jq-select-multiple jqselect' + cl + '" style="display: inline-block"></span>');
-							el.after(selectbox).css({position: 'absolute', left: -9999});
+							el.after(selectbox).css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'});
 							makeList();
 							selectbox.append('<ul>' + list + '</ul>');
 							var ul = selectbox.find('ul');
@@ -374,7 +376,7 @@
 
 									// выделение пунктов при зажатом Shift
 									if(e.shiftKey) {
-										var prev = next = false;
+										var prev = false, next = false;
 										clkd.siblings().removeClass('selected').siblings('.first').addClass('selected');
 										clkd.prevAll().each(function() {
 											if ($(this).is('.first')) prev = true;
@@ -394,15 +396,15 @@
 													else $(this).not('.disabled, .optgroup').addClass('selected');
 											});
 										}
-										if (li.filter('.selected').length == 1) clkd.addClass('first');
+										if (li.filter('.selected').length === 1) clkd.addClass('first');
 									}
 
-									option.removeAttr('selected');
+									option.prop('selected', false);
 									li.filter('.selected').each(function() {
 										var t = $(this);
 										var index = t.index();
 										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
-										option.eq(index).attr('selected', true);
+										option.eq(index).prop('selected', true);
 									});
 									el.change();
 								});
@@ -415,7 +417,7 @@
 						el.on('refresh', function() {
 							el.next().remove();
 							if (el.is('[multiple]')) doMultipleSelect(); else doSelect();
-						})
+						});
 					}
 				});
 			// end select
