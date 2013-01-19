@@ -17,6 +17,20 @@ h1 {
 	text-align: center;
 	font-size: 30px;
 }
+h1 a {
+	text-decoration: none;
+	background: -webkit-linear-gradient(#08D 1px, #FFF 0) 0 31px;
+	background:    -moz-linear-gradient(#08D 1px, #FFF 0) 0 31px;
+	background:      -o-linear-gradient(#08D 1px, #FFF 0) 0 31px;
+	background:         linear-gradient(#08D 1px, #FFF 0) 0 31px;
+	text-shadow: -1px 0 #FFF, -2px 0 #FFF, -3px 0 #FFF, 1px 0 #FFF, 2px 0 #FFF, 3px 0 #FFF;
+}
+h1 a:hover {
+	background: -webkit-linear-gradient(#0AD 1px, #FFF 0) 0 31px;
+	background:    -moz-linear-gradient(#0AD 1px, #FFF 0) 0 31px;
+	background:      -o-linear-gradient(#0AD 1px, #FFF 0) 0 31px;
+	background:         linear-gradient(#0AD 1px, #FFF 0) 0 31px;
+}
 h2 {
 	margin: 0 0 10px;
 	font-size: 23px;
@@ -65,9 +79,9 @@ small {
 	list-style: none;
 	height: 36px;
 	line-height: 36px;
-	padding: 0 12px;
+	padding: 0 0 0 12px;
 	cursor: pointer;
-	color: #0094D6;
+	color: #08D;
 }
 .menu li:first-child {
 	border-radius: 4px 4px 0 0;

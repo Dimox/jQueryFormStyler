@@ -29,6 +29,8 @@
 		<li data-hash="file">Поле для выбора файла</li>
 		<li data-hash="select">Одиночные селекты</li>
 		<li data-hash="multiselect">Мультиселекты</li>
+		<li data-hash="text">Текстовое поле (только CSS)</li>
+		<li data-hash="textarea">Текстовое поле textarea (только CSS)</li>
 	</ul>
 
 	<div class="content">
@@ -289,6 +291,18 @@
 			</div><!-- .section -->
 
 			<div class="section">
+				<p>Проверяем, правильное ли значение передается при изменении. У оригинального селекта прописано: <code>onchange="alert(this.value)"</code>.</p>
+				<select onchange="alert(this.value)">
+					<option>-- Выберите --</option>
+					<option>Пункт 1</option>
+					<option>Пункт 2</option>
+					<option>Пункт 3</option>
+					<option>Пункт 4</option>
+					<option>Пункт 5</option>
+				</select>
+			</div><!-- .section -->
+
+			<div class="section">
 
 				<div class="sec">
 					<p>Селект <strong>с группировкой пунктов</strong> <br />(используется тег <code>optgroup</code>), один из них неактивный.</p>
@@ -415,6 +429,28 @@
 					</select>
 				</div><!-- .sec -->
 
+			</div><!-- .section -->
+
+		</div><!-- .box -->
+
+		<div class="box">
+
+			<h2>Текстовое поле (только CSS)</h2>
+
+			<div class="section">
+				<p>Стилизация данного поля <strong>не требует наличия плагина</strong>.</p>
+				<input type="text" value="" size="60" class="input-text" placeholder="Введите текст..." />
+			</div><!-- .section -->
+
+		</div><!-- .box -->
+
+		<div class="box">
+
+			<h2>Текстовое поле textarea (только CSS)</h2>
+
+			<div class="section">
+				<p>Стилизация данного поля <strong>не требует наличия плагина</strong>.</p>
+				<textarea cols="60" rows="6" class="textarea" placeholder="Введите текст..."></textarea>
 			</div><!-- .section -->
 
 		</div><!-- .box -->
