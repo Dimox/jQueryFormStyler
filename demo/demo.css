@@ -191,6 +191,9 @@ button:active {
 	background: #F5F5F5;
 	box-shadow: inset 1px 1px 3px #DDD;
 }
+button:after {
+	content: '';
+}
 .lh button {
 	margin: 10px 0 0;
 }
@@ -202,4 +205,23 @@ button:active {
 }
 .color2 {
 	background: #D2FFAA;
+}
+.css input,
+.css textarea,
+.css button {
+	margin: 0 0 20px;
+}
+.css input[type="text"],
+.css input[type="password"],
+.css textarea {
+	width: 375px;
+}
+.css input[type="number"] {
+	width: 50px;
+}
+.css code {
+	vertical-align: top;
+	position: relative;
+	top: 7px;
+	margin-left: 6px;
 }

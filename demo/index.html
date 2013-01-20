@@ -29,8 +29,7 @@
 		<li data-hash="file">Поле для выбора файла</li>
 		<li data-hash="select">Одиночные селекты</li>
 		<li data-hash="multiselect">Мультиселекты</li>
-		<li data-hash="text">Текстовое поле (только CSS)</li>
-		<li data-hash="textarea">Текстовое поле textarea (только CSS)</li>
+		<li data-hash="css">Прочие элементы форм (только CSS)</li>
 	</ul>
 
 	<div class="content">
@@ -435,22 +434,25 @@
 
 		<div class="box">
 
-			<h2>Текстовое поле (только CSS)</h2>
+			<h2>Прочие элементы форм (только CSS)</h2>
 
-			<div class="section">
-				<p>Стилизация данного поля <strong>не требует наличия плагина</strong>.</p>
-				<input type="text" value="" size="60" class="input-text" placeholder="Введите текст..." />
-			</div><!-- .section -->
+			<div class="section css">
+				<p>Стилизация данных элементов <strong>не требует наличия плагина</strong>.</p>
 
-		</div><!-- .box -->
+				<input type="text" size="60" placeholder="Однострочное текстовое поле..." /> <code>&lt;input type="text"></code>
 
-		<div class="box">
+				<input type="password" size="60" placeholder="Поле для ввода пароля..." /> <code>&lt;input type="password"></code>
 
-			<h2>Текстовое поле textarea (только CSS)</h2>
+				<textarea cols="60" rows="5" placeholder="Многострочное текстовое поле..."></textarea> <code>&lt;textarea>&lt;/textarea></code><br />
 
-			<div class="section">
-				<p>Стилизация данного поля <strong>не требует наличия плагина</strong>.</p>
-				<textarea cols="60" rows="6" class="textarea" placeholder="Введите текст..."></textarea>
+				<input type="number" value="0" size="6" /> <code>&lt;input type="number"></code><br />
+
+				<input type="button" value="Кнопка" /> <code>&lt;input type="button"></code><br />
+
+				<button type="submit">Кнопка</button> <code>&lt;button>&lt;/button></code><br />
+
+				<input type="reset" value="Сброс" /> <code>&lt;input type="reset"></code>
+
 			</div><!-- .section -->
 
 		</div><!-- .box -->
