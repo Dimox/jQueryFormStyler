@@ -29,6 +29,7 @@
 		<li data-hash="file">Поле для выбора файла</li>
 		<li data-hash="select">Одиночные селекты</li>
 		<li data-hash="multiselect">Мультиселекты</li>
+		<li data-hash="css">Прочие элементы форм (только CSS)</li>
 	</ul>
 
 	<div class="content">
@@ -289,6 +290,18 @@
 			</div><!-- .section -->
 
 			<div class="section">
+				<p>Проверяем, правильное ли значение передается при изменении. У оригинального селекта прописано: <code>onchange="alert(this.value)"</code>.</p>
+				<select onchange="alert(this.value)">
+					<option>-- Выберите --</option>
+					<option>Пункт 1</option>
+					<option>Пункт 2</option>
+					<option>Пункт 3</option>
+					<option>Пункт 4</option>
+					<option>Пункт 5</option>
+				</select>
+			</div><!-- .section -->
+
+			<div class="section">
 
 				<div class="sec">
 					<p>Селект <strong>с группировкой пунктов</strong> <br />(используется тег <code>optgroup</code>), один из них неактивный.</p>
@@ -414,6 +427,31 @@
 						</optgroup>
 					</select>
 				</div><!-- .sec -->
+
+			</div><!-- .section -->
+
+		</div><!-- .box -->
+
+		<div class="box">
+
+			<h2>Прочие элементы форм (только CSS)</h2>
+
+			<div class="section css">
+				<p>Стилизация данных элементов <strong>не требует наличия плагина</strong>.</p>
+
+				<input type="text" size="60" placeholder="Однострочное текстовое поле..." /> <code>&lt;input type="text"></code>
+
+				<input type="password" size="60" placeholder="Поле для ввода пароля..." /> <code>&lt;input type="password"></code>
+
+				<textarea cols="60" rows="5" placeholder="Многострочное текстовое поле..."></textarea> <code>&lt;textarea>&lt;/textarea></code><br />
+
+				<input type="number" value="0" size="6" /> <code>&lt;input type="number"></code><br />
+
+				<input type="button" value="Кнопка" /> <code>&lt;input type="button"></code><br />
+
+				<button type="submit">Кнопка</button> <code>&lt;button>&lt;/button></code><br />
+
+				<input type="reset" value="Сброс" /> <code>&lt;input type="reset"></code>
 
 			</div><!-- .section -->
 

@@ -17,6 +17,20 @@ h1 {
 	text-align: center;
 	font-size: 30px;
 }
+h1 a {
+	text-decoration: none;
+	background: -webkit-linear-gradient(#08D 1px, #FFF 0) 0 31px;
+	background:    -moz-linear-gradient(#08D 1px, #FFF 0) 0 31px;
+	background:      -o-linear-gradient(#08D 1px, #FFF 0) 0 31px;
+	background:         linear-gradient(#08D 1px, #FFF 0) 0 31px;
+	text-shadow: -1px 0 #FFF, -2px 0 #FFF, -3px 0 #FFF, 1px 0 #FFF, 2px 0 #FFF, 3px 0 #FFF;
+}
+h1 a:hover {
+	background: -webkit-linear-gradient(#0AD 1px, #FFF 0) 0 31px;
+	background:    -moz-linear-gradient(#0AD 1px, #FFF 0) 0 31px;
+	background:      -o-linear-gradient(#0AD 1px, #FFF 0) 0 31px;
+	background:         linear-gradient(#0AD 1px, #FFF 0) 0 31px;
+}
 h2 {
 	margin: 0 0 10px;
 	font-size: 23px;
@@ -65,9 +79,9 @@ small {
 	list-style: none;
 	height: 36px;
 	line-height: 36px;
-	padding: 0 12px;
+	padding: 0 0 0 12px;
 	cursor: pointer;
-	color: #0094D6;
+	color: #08D;
 }
 .menu li:first-child {
 	border-radius: 4px 4px 0 0;
@@ -177,6 +191,9 @@ button:active {
 	background: #F5F5F5;
 	box-shadow: inset 1px 1px 3px #DDD;
 }
+button:after {
+	content: '';
+}
 .lh button {
 	margin: 10px 0 0;
 }
@@ -188,4 +205,23 @@ button:active {
 }
 .color2 {
 	background: #D2FFAA;
+}
+.css input,
+.css textarea,
+.css button {
+	margin: 0 0 20px;
+}
+.css input[type="text"],
+.css input[type="password"],
+.css textarea {
+	width: 375px;
+}
+.css input[type="number"] {
+	width: 50px;
+}
+.css code {
+	vertical-align: top;
+	position: relative;
+	top: 7px;
+	margin-left: 6px;
 }
