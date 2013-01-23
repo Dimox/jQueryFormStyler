@@ -44,7 +44,7 @@ $(function() {
 
 	$('button.add3').click(function(e) {
 		$(this).parents('div.section').append('<br /><br /><select><option>-- Выберите --</option><option>Пункт 1</option><option>Пункт 2</option><option>Пункт 3</option><option>Пункт 4</option><option>Пункт 5</option></select>');
-		$('select').styler();
+		$(this).parents('div.section').find('select').styler();
 		e.preventDefault();
 	})
 
@@ -56,7 +56,7 @@ $(function() {
 		$(this).parents('div.section').find('select').each(function() {
 			$(this).append(options);
 		})
-		$('select').trigger('refresh');
+		$(this).parents('div.section').find('select').trigger('refresh');
 		e.preventDefault();
 	})
 
@@ -68,7 +68,7 @@ $(function() {
 
 	$('button.add6').click(function(e) {
 		$(this).parents('div.section').append('<br /><br /><select multiple><option>-- Выберите --</option><option>Пункт 1</option><option>Пункт 2</option><option>Пункт 3</option><option>Пункт 4</option><option>Пункт 5</option></select>');
-		$('select').styler();
+		$(this).parents('div.section').find('select').styler();
 		e.preventDefault();
 	})
 
