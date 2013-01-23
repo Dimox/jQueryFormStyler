@@ -12,7 +12,7 @@
 (function($) {
 	$.fn.styler = function(opt) {
 
-		var opt = $.extend({
+		opt = $.extend({
 			browseText: 'Выбрать',
 			singleSelectzIndex: '1000',
 			selectVisibleOptions: 0
@@ -20,13 +20,13 @@
 
 		return this.each(function() {
 			var el = $(this);
-			var id = cl = '';
+			var id = '', cl = '';
 			if (el.attr('id') !== undefined && el.attr('id') != '') id = ' id="' + el.attr('id') + '"';
 			if (el.attr('class') !== undefined && el.attr('class') != '') cl = ' ' + el.attr('class');
 
 			// checkbox
 			if (el.is(':checkbox')) {
-				el.css({position: 'absolute', left: -9999}).each(function() {
+				el.css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
 					if (el.next('span.jq-checkbox').length < 1) {
 						var checkbox = $('<span' + id + ' class="jq-checkbox' + cl + '" style="display: inline-block"><span></span></span>');
 						el.after(checkbox);
@@ -36,10 +36,10 @@
 						checkbox.click(function() {
 							if (!checkbox.is('.disabled')) {
 								if (el.is(':checked')) {
-									el.removeAttr('checked');
+									el.prop('checked', false);
 									checkbox.removeClass('checked');
 								} else {
-									el.prop('checked', true).attr('checked', 'checked');
+									el.prop('checked', true);
 									checkbox.addClass('checked');
 								}
 								el.change();
@@ -72,7 +72,7 @@
 								else checkbox.removeClass('checked');
 							if (el.is(':disabled')) checkbox.addClass('disabled');
 								else checkbox.removeClass('disabled');
-						})
+						});
 					}
 				});
 
@@ -87,8 +87,8 @@
 						// клик на псевдорадиокнопке
 						radio.click(function() {
 							if (!radio.is('.disabled')) {
-								$('input[name="' + el.attr('name') + '"]').removeAttr('checked').next().removeClass('checked');
-								el.prop('checked', true).attr('checked', 'checked').next().addClass('checked');
+								$('input[name="' + el.attr('name') + '"]').prop('checked', false).next().removeClass('checked');
+								el.prop('checked', true).next().addClass('checked');
 								el.change();
 								return false;
 							}
@@ -117,13 +117,13 @@
 							}
 							if (el.is(':disabled')) radio.addClass('disabled');
 								else radio.removeClass('disabled');
-						})
+						});
 					}
 				});
 
 			// file
 			} else if (el.is(':file')) {
-				el.css({position: 'absolute', top: '-50%', right: '-50%', fontSize: '200px', opacity: 0}).each(function() {
+				el.css({position: 'absolute', height: '100%', fontSize: '40px', left: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
 					if (el.parent('span.jq-file').length < 1) {
 						var file = $('<span' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></span>');
 						var name = $('<div class="name" style="float: left; white-space: nowrap"></div>').appendTo(file);
@@ -147,7 +147,7 @@
 						.on('refresh', function() {
 							if (el.is(':disabled')) file.addClass('disabled');
 								else file.removeClass('disabled');
-						})
+						});
 					}
 				});
 
@@ -428,4 +428,4 @@
 		});
 
 	}
-})(jQuery)
+})(jQuery);
