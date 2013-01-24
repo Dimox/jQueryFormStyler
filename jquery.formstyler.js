@@ -20,7 +20,7 @@
 
 		return this.each(function() {
 			var el = $(this);
-			var id = cl = '';
+			var id = '', cl = '';
 			if (el.attr('id') !== undefined && el.attr('id') != '') id = ' id="' + el.attr('id') + '"';
 			if (el.attr('class') !== undefined && el.attr('class') != '') cl = ' ' + el.attr('class');
 
@@ -36,10 +36,10 @@
 						checkbox.click(function() {
 							if (!checkbox.is('.disabled')) {
 								if (el.is(':checked')) {
-									el.removeAttr('checked');
+									el.prop('checked', false);
 									checkbox.removeClass('checked');
 								} else {
-									el.prop('checked', true).attr('checked', 'checked');
+									el.prop('checked', true);
 									checkbox.addClass('checked');
 								}
 								el.change();
@@ -72,7 +72,7 @@
 								else checkbox.removeClass('checked');
 							if (el.is(':disabled')) checkbox.addClass('disabled');
 								else checkbox.removeClass('disabled');
-						})
+						});
 					}
 				});
 
@@ -87,8 +87,8 @@
 						// клик на псевдорадиокнопке
 						radio.click(function() {
 							if (!radio.is('.disabled')) {
-								$('input[name="' + el.attr('name') + '"]').removeAttr('checked').next().removeClass('checked');
-								el.prop('checked', true).attr('checked', 'checked').next().addClass('checked');
+								$('input[name="' + el.attr('name') + '"]').prop('checked', false).next().removeClass('checked');
+								el.prop('checked', true).next().addClass('checked');
 								el.change();
 								return false;
 							}
@@ -117,7 +117,7 @@
 							}
 							if (el.is(':disabled')) radio.addClass('disabled');
 								else radio.removeClass('disabled');
-						})
+						});
 					}
 				});
 
@@ -176,7 +176,7 @@
 									var li = liClass = optgroupClass = optionClass = '';
 									var disabled = 'disabled';
 									var selDis = 'selected sel disabled';
-									if (typeof option.eq(i).attr('selected') !== 'undefined' && option.eq(i).attr('selected') !== false) liClass = 'selected sel';
+									if (option.eq(i).attr('selected') !== undefined) liClass = 'selected sel';
 									if (option.eq(i).is(':disabled')) liClass = disabled;
 									if (option.eq(i).is(':selected:disabled')) liClass = selDis;
 									if (option.eq(i).attr('class') !== undefined) optionClass = ' ' + option.eq(i).attr('class');
@@ -237,8 +237,9 @@
 									divSelect.click(function() {
 
 										// умное позиционирование
+										var win = $(window);
 										var topOffset = selectbox.offset().top;
-										var bottomOffset = $(window).height() - selectHeight - (topOffset - $(window).scrollTop());
+										var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
 										var visible = opt.selectVisibleOptions;
 										var	minHeight = liHeight * 6;
 										var	newHeight = liHeight * visible;
@@ -246,8 +247,8 @@
 										// раскрытие вверх
 										if (bottomOffset < 0 || bottomOffset < minHeight)	{
 											dropdown.height('auto').css({top: 'auto', bottom: position});
-											if (dropdown.outerHeight() > topOffset - $(window).scrollTop() - 20 ) {
-												dropdown.height(Math.floor((topOffset - $(window).scrollTop() - 20) / liHeight) * liHeight);
+											if (dropdown.outerHeight() > topOffset - win.scrollTop() - 20 ) {
+												dropdown.height(Math.floor((topOffset - win.scrollTop() - 20) / liHeight) * liHeight);
 												if (visible > 0 && visible < 6) {
 													if (dropdown.height() > minHeight) dropdown.height(minHeight);
 												} else if (visible > 6) {
@@ -301,7 +302,7 @@
 											var index = t.index();
 											if (t.is('.option')) index -= t.prevAll('.optgroup').length;
 											t.addClass('selected sel').siblings().removeClass('selected sel');
-											option.eq(index).prop('selected', true).attr('selected', 'selected').parents().find('option').not(':selected').removeAttr('selected');
+											option.prop('selected', false).eq(index).prop('selected', true);
 											selectedText = liText;
 											divText.text(liText);
 											el.change();
@@ -376,7 +377,7 @@
 
 										// выделение пунктов при зажатом Shift
 										if(e.shiftKey) {
-											var prev = next = false;
+											var prev = false, next = false;
 											clkd.siblings().removeClass('selected').siblings('.first').addClass('selected');
 											clkd.prevAll().each(function() {
 												if ($(this).is('.first')) prev = true;
@@ -399,12 +400,12 @@
 											if (li.filter('.selected').length == 1) clkd.addClass('first');
 										}
 
-										option.removeAttr('selected');
+										option.prop('selected', false);
 										li.filter('.selected').each(function() {
 											var t = $(this);
 											var index = t.index();
 											if (t.is('.option')) index -= t.prevAll('.optgroup').length;
-											option.eq(index).prop('selected', true).attr('selected', 'selected');
+											option.eq(index).prop('selected', true);
 										});
 										el.change();
 									});
@@ -420,7 +421,7 @@
 						el.on('refresh', function() {
 							el.next().remove();
 							selectbox();
-						})
+						});
 					}
 				});
 			}// end select
@@ -428,4 +429,4 @@
 		});
 
 	}
-})(jQuery)
+})(jQuery);
