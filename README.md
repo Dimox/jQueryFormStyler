@@ -1,4 +1,4 @@
-jQuery Form Styler <sup>[1.3.1](http://dimox.name/jquery-form-styler/#log)</sup>
+jQuery Form Styler <sup>[1.3.2](http://dimox.name/jquery-form-styler/#log)</sup>
 ==================
 
 jQuery-плагин для стилизации элементов html-форм:
