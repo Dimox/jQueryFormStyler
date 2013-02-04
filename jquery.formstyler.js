@@ -235,14 +235,9 @@
                                 if (/WebKit/.test(navigator.userAgent) === false) {
                                     el.after(selectbox).css({
                                         'z-index': '-1',
-                                        'opacity': '0'
-                                    });
-                                }
-                                // В IE остается оригинальный select, скрываем его
-                                if (/MSIE/.test(navigator.userAgent) === true) {
-                                    el.after(selectbox).css({
-                                        'height': 0,
-                                        'filter': 'alpha(opacity=0)'
+                                        'opacity': '0',
+                                        'filter': 'alpha(opacity=0)',
+                                        'height': 0 // fix for FF
                                     });
                                 }
 
