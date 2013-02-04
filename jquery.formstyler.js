@@ -239,6 +239,11 @@
                                         'filter': 'alpha(opacity=0)',
                                         'height': 0 // fix for FF
                                     });
+                                } else {
+                                    // перестраиваем float в WebKit (исправляет позиционирование)
+                                    el.after(selectbox).css({
+                                        'float': el.after(selectbox).css('float')
+                                    });
                                 }
 
 								var divSelect = selectbox.find('div.select');
