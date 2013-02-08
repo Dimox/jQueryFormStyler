@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.2
+ * jQuery Form Styler v1.3.3
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.01.27
+ * Date: 2013.02.08
  *
  */
 
@@ -16,7 +16,8 @@
 			idSuffix: '-styler',
 			browseText: 'Выбрать',
 			selectVisibleOptions: 0,
-			singleSelectzIndex: '100'
+			singleSelectzIndex: '100',
+			selectSmartPositioning: true
 		}, opt);
 
 		return this.each(function() {
@@ -86,7 +87,7 @@
 
 			// radio
 			} else if (el.is(':radio')) {
-				el.css({position: 'absolute', zIndex: '-5'}).each(function() {
+				el.css({position: 'absolute', left: -9999}).each(function() {
 					if (el.next('span.jq-radio').length < 1) {
 						var radio = $('<span' + id + ' class="jq-radio' + cl + '" style="display: inline-block"><span></span></span>');
 						el.after(radio);
@@ -122,6 +123,8 @@
 							if (el.is(':checked')) {
 								$('input[name="' + el.attr('name') + '"]').next().removeClass('checked');
 								radio.addClass('checked');
+							} else {
+								radio.removeClass('checked');
 							}
 							if (el.is(':disabled')) radio.addClass('disabled');
 								else radio.removeClass('disabled');
@@ -176,7 +179,7 @@
 								});
 							}
 
-							var option = el.find('option');
+							var option = $('option', el);
 							var list = '';
 							// формируем список селекта
 							function makeList() {
@@ -213,8 +216,8 @@
 											'</div>'+
 										'</span>');
 								el.after(selectbox).css({position: 'absolute', left: -9999});
-								var divSelect = selectbox.find('div.select');
-								var divText = selectbox.find('div.text');
+								var divSelect = $('div.select', selectbox);
+								var divText = $('div.text', selectbox);
 								var optionSelected = option.filter(':selected');
 
 								// берем опцию по умолчанию
@@ -236,7 +239,7 @@
 												'<ul style="list-style: none">' + list + '</ul>'+
 											'</div>');
 									selectbox.append(dropdown);
-									var li = dropdown.find('li');
+									var li = $('li', dropdown);
 									if (li.filter('.selected').length < 1) li.first().addClass('selected sel');
 									var selectHeight = selectbox.outerHeight();
 									if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
@@ -250,33 +253,35 @@
 										el.focus();
 
 										// умное позиционирование
-										var win = $(window);
-										var topOffset = selectbox.offset().top;
-										var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
-										var visible = opt.selectVisibleOptions;
-										var	minHeight = liHeight * 6;
-										var	newHeight = liHeight * visible;
-										if (visible > 0 && visible < 6) minHeight =  newHeight;
-										// раскрытие вверх
-										if (bottomOffset < 0 || bottomOffset < minHeight)	{
-											dropdown.height('auto').css({top: 'auto', bottom: position});
-											if (dropdown.outerHeight() > topOffset - win.scrollTop() - 20 ) {
-												dropdown.height(Math.floor((topOffset - win.scrollTop() - 20) / liHeight) * liHeight);
-												if (visible > 0 && visible < 6) {
-													if (dropdown.height() > minHeight) dropdown.height(minHeight);
-												} else if (visible > 6) {
-													if (dropdown.height() > newHeight) dropdown.height(newHeight);
+										if (opt.selectSmartPositioning) {
+											var win = $(window);
+											var topOffset = selectbox.offset().top;
+											var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
+											var visible = opt.selectVisibleOptions;
+											var	minHeight = liHeight * 6;
+											var	newHeight = liHeight * visible;
+											if (visible > 0 && visible < 6) minHeight =  newHeight;
+											// раскрытие вверх
+											if (bottomOffset < 0 || bottomOffset < minHeight)	{
+												dropdown.height('auto').css({top: 'auto', bottom: position});
+												if (dropdown.outerHeight() > topOffset - win.scrollTop() - 20 ) {
+													dropdown.height(Math.floor((topOffset - win.scrollTop() - 20) / liHeight) * liHeight);
+													if (visible > 0 && visible < 6) {
+														if (dropdown.height() > minHeight) dropdown.height(minHeight);
+													} else if (visible > 6) {
+														if (dropdown.height() > newHeight) dropdown.height(newHeight);
+													}
 												}
-											}
-										// раскрытие вниз
-										} else if (bottomOffset > minHeight) {
-											dropdown.height('auto').css({bottom: 'auto', top: position});
-											if (dropdown.outerHeight() > bottomOffset - 20 ) {
-												dropdown.height(Math.floor((bottomOffset - 20) / liHeight) * liHeight);
-												if (visible > 0 && visible < 6) {
-													if (dropdown.height() > minHeight) dropdown.height(minHeight);
-												} else if (visible > 6) {
-													if (dropdown.height() > newHeight) dropdown.height(newHeight);
+											// раскрытие вниз
+											} else if (bottomOffset > minHeight) {
+												dropdown.height('auto').css({bottom: 'auto', top: position});
+												if (dropdown.outerHeight() > bottomOffset - 20 ) {
+													dropdown.height(Math.floor((bottomOffset - 20) / liHeight) * liHeight);
+													if (visible > 0 && visible < 6) {
+														if (dropdown.height() > minHeight) dropdown.height(minHeight);
+													} else if (visible > 6) {
+														if (dropdown.height() > newHeight) dropdown.height(newHeight);
+													}
 												}
 											}
 										}
@@ -323,7 +328,7 @@
 										dropdown.hide();
 									});
 									dropdown.mouseout(function() {
-										dropdown.find('li.sel').addClass('selected');
+										$('li.sel', dropdown).addClass('selected');
 									});
 
 									// изменение селекта
@@ -372,8 +377,8 @@
 								el.after(selectbox).css({position: 'absolute', left: -9999});
 								makeList();
 								selectbox.append('<ul style="position: relative">' + list + '</ul>');
-								var ul = selectbox.find('ul');
-								var li = selectbox.find('li').attr('unselectable', 'on').css({'-webkit-user-select': 'none', '-moz-user-select': 'none', '-ms-user-select': 'none', '-o-user-select': 'none', 'user-select': 'none'});
+								var ul = $('ul', selectbox);
+								var li = $('li', selectbox).attr('unselectable', 'on').css({'-webkit-user-select': 'none', '-moz-user-select': 'none', '-ms-user-select': 'none', '-o-user-select': 'none', 'user-select': 'none'});
 								var size = el.attr('size');
 								var ulHeight = ul.outerHeight();
 								var liHeight = li.outerHeight();
