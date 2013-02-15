@@ -87,7 +87,7 @@
 
 			// radio
 			} else if (el.is(':radio')) {
-				el.css({position: 'absolute', left: -9999}).each(function() {
+				el.css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
 					if (el.next('span.jq-radio').length < 1) {
 						var radio = $('<span' + id + ' class="jq-radio' + cl + '" style="display: inline-block"><span></span></span>');
 						el.after(radio);
@@ -186,9 +186,9 @@
                                 var list = '';
 								for (i = 0; i < option.length; i++) {
 									var li = '',
-											liClass = '',
-											optionClass = '',
-											optgroupClass = '';
+                                    liClass = '',
+                                    optionClass = '',
+                                    optgroupClass = '';
 									var disabled = 'disabled';
 									var selDis = 'selected sel disabled';
 									if (option.eq(i).prop('selected')) liClass = 'selected sel';
@@ -213,10 +213,10 @@
 							function doSelect() {
 								var selectbox =
 									$('<span' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-											'<div class="select" style="float: left"><div class="text"></div>'+
-												'<b class="trigger"><i class="arrow"></i></b>'+
-											'</div>'+
-										'</span>');
+                                        '<div class="select" style="float: left"><div class="text"></div>'+
+                                            '<b class="trigger"><i class="arrow"></i></b>'+
+                                        '</div>'+
+                                    '</span>');
 								el.after(selectbox).css({
                                     '-webkit-appearance': 'none', // WebKit
                                     '-moz-appearance': 'none', // Mozilla
@@ -269,8 +269,8 @@
 									var list = makeList();
 									var dropdown =
 										$('<div class="dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
-												'<ul style="list-style: none">' + list + '</ul>'+
-											'</div>');
+                                            '<ul style="list-style: none">' + list + '</ul>'+
+                                        '</div>');
 									selectbox.append(dropdown);
 									var li = $('li', dropdown);
 									if (li.filter('.selected').length < 1) li.first().addClass('selected sel');
