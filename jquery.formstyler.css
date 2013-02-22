@@ -66,6 +66,8 @@
 }
 .jq-file input {
 	cursor: pointer;
+	height: auto;
+	line-height: 1em;
 }
 .jq-file .name {
 	width: 170px;
