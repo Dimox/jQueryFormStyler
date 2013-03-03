@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.3
+ * jQuery Form Styler v1.3.4
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.02.08
+ * Date: 2013.03.03
  *
  */
 
@@ -467,7 +467,7 @@
 											arrIndexes.push($(this).data('optionIndex'));
 										});
 										li.not('.optgroup').filter(function(i) {
-											return arrIndexes.indexOf(i) > -1;
+											return $.inArray(i, arrIndexes) > -1;
 										}).addClass('selected');
 									})
 									.focus(function() {
