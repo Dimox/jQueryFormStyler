@@ -217,7 +217,16 @@
                                             '<b class="trigger"><i class="arrow"></i></b>'+
                                         '</div>'+
                                     '</span>');
-								el.after(selectbox).css({
+								el.after(selectbox);
+
+                                // fix for jquery width
+                                if (window.getComputedStyle) {
+                                    var width = window.getComputedStyle(selectbox.get(0), '').width;
+                                } else {
+                                    var width = selectbox.get(0).currentStyle.width;
+                                }
+
+                                el.css({
                                     '-webkit-appearance': 'none', // WebKit
                                     '-moz-appearance': 'none', // Mozilla
                                     '-o-appearance': 'none', // Opera
@@ -230,13 +239,13 @@
                                     'box-shadow': 'none', // CSS3
                                     'position': 'absolute',
                                     'border': 'none',
-                                    'width': selectbox.outerWidth() + 'px',
+                                    'width': width,
                                     'color': 'transparent' // fix font
                                 });
                                 // не работает в WebKit
                                 // зато в WebKit работает -webkit-appearance и надобность в дальнейшем скрытии отпадает
                                 if (/WebKit/.test(navigator.userAgent) === false) {
-                                    el.after(selectbox).css({
+                                    el.css({
                                         'z-index': '-1',
                                         'opacity': '0',
                                         'filter': 'alpha(opacity=0)',
@@ -244,8 +253,8 @@
                                     });
                                 } else {
                                     // перестраиваем float в WebKit (исправляет позиционирование)
-                                    el.after(selectbox).css({
-                                        'float': el.after(selectbox).css('float')
+                                    el.css({
+                                        'float': el.css('float')
                                     });
                                 }
 
