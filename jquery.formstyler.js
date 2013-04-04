@@ -252,9 +252,9 @@
                                         'height': 0 // fix for FF
                                     });
                                 } else {
-                                    // перестраиваем float в WebKit (исправляет позиционирование)
-                                    el.css({
-                                        'float': el.css('float')
+                                    // перестраиваем display в WebKit (исправляет позиционирование)
+                                    selectbox.css({
+                                        'display': selectbox.css('display')
                                     });
                                 }
 
