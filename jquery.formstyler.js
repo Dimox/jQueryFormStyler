@@ -134,11 +134,11 @@
 
 			// file
 			} else if (el.is(':file')) {
-				el.css({position: 'absolute', height: '100%', fontSize: '40px', left: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
+				el.css({position: 'absolute', height: '100%', fontSize: '40px', left: 0, top: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
 					if (el.parent('span.jq-file').length < 1) {
-						var file = $('<span' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></span>');
-						var name = $('<div class="name" style="float: left; white-space: nowrap"></div>').appendTo(file);
-						var browse = $('<div class="browse" style="float: left">' + opt.browseText + '</div>').appendTo(file);
+						var file = $('<span' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden;"></span>');
+						var browse = $('<div class="browse" style="float: right">' + opt.browseText + '</div>').appendTo(file);
+						var name = $('<div class="name" style="white-space: nowrap"></div>').appendTo(file);
 						el.after(file);
 						file.append(el);
 						if (el.is(':disabled')) file.addClass('disabled');
