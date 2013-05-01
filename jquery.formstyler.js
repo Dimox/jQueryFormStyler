@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.4
+ * jQuery Form Styler v1.3.5
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.03.03
+ * Date: 2013.05.01
  *
  */
 
@@ -14,7 +14,7 @@
 
 		var opt = $.extend({
 			idSuffix: '-styler',
-			browseText: 'Выбрать',
+			browseText: 'Обзор...',
 			selectVisibleOptions: 0,
 			singleSelectzIndex: '100',
 			selectSmartPositioning: true
@@ -52,6 +52,8 @@
 									checkbox.addClass('checked');
 								}
 								el.change();
+								return false;
+							} else {
 								return false;
 							}
 						});
@@ -100,6 +102,8 @@
 								el.prop('checked', true).next().addClass('checked');
 								el.change();
 								return false;
+							} else {
+								return false;
 							}
 						});
 						// клик на label
@@ -137,8 +141,8 @@
 				el.css({position: 'absolute', top: '-50%', right: '-50%', fontSize: '200px', opacity: 0}).each(function() {
 					if (el.parent('span.jq-file').length < 1) {
 						var file = $('<span' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></span>');
-						var name = $('<div class="name" style="float: left; white-space: nowrap"></div>').appendTo(file);
-						var browse = $('<div class="browse" style="float: left">' + opt.browseText + '</div>').appendTo(file);
+						var name = $('<div class="jq-file__name" style="float: left; white-space: nowrap"></div>').appendTo(file);
+						var browse = $('<div class="jq-file__browse" style="float: left">' + opt.browseText + '</div>').appendTo(file);
 						el.after(file);
 						file.append(el);
 						if (el.is(':disabled')) file.addClass('disabled');
@@ -171,7 +175,7 @@
 
 							// запрещаем прокрутку страницы при прокрутке селекта
 							function preventScrolling(selector) {
-								selector.bind('mousewheel DOMMouseScroll', function(e) {
+								selector.unbind('mousewheel DOMMouseScroll').bind('mousewheel DOMMouseScroll', function(e) {
 									var scrollTo = null;
 									if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
 									else if (e.type == 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
@@ -183,7 +187,7 @@
 							var list = '';
 							// формируем список селекта
 							function makeList() {
-								for (i = 0; i < option.length; i++) {
+								for (i = 0, len = option.length; i < len; i++) {
 									var li = '',
 											liClass = '',
 											optionClass = '',
@@ -211,13 +215,13 @@
 							function doSelect() {
 								var selectbox =
 									$('<span' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-											'<div class="select" style="float: left"><div class="text"></div>'+
-												'<b class="trigger"><i class="arrow"></i></b>'+
+											'<div class="jq-selectbox__select" style="float: left"><div class="jq-selectbox__text"></div>'+
+												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>'+
 											'</div>'+
 										'</span>');
 								el.after(selectbox).css({position: 'absolute', left: -9999});
-								var divSelect = $('div.select', selectbox);
-								var divText = $('div.text', selectbox);
+								var divSelect = $('div.jq-selectbox__select', selectbox);
+								var divText = $('div.jq-selectbox__text', selectbox);
 								var optionSelected = option.filter(':selected');
 
 								// берем опцию по умолчанию
@@ -235,7 +239,7 @@
 								} else {
 									makeList();
 									var dropdown =
-										$('<div class="dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
+										$('<div class="jq-selectbox__dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
 												'<ul style="list-style: none">' + list + '</ul>'+
 											'</div>');
 									selectbox.append(dropdown);
