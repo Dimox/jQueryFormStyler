@@ -141,8 +141,8 @@
 				el.css({position: 'absolute', height: '100%', fontSize: '40px', left: 0, top: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
 					if (el.parent('span.jq-file').length < 1) {
 						var file = $('<span' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></span>');
-						var name = $('<div class="jq-file__name" style="float: left; white-space: nowrap"></div>').appendTo(file);
-						var browse = $('<div class="jq-file__browse" style="float: left">' + opt.browseText + '</div>').appendTo(file);
+						var browse = $('<div class="jq-file__browse" style="float: right">' + opt.browseText + '</div>').appendTo(file);
+						var name = $('<div class="jq-file__name" style="white-space: nowrap"></div>').appendTo(file);
 						el.after(file);
 						file.append(el);
 						if (el.is(':disabled')) file.addClass('disabled');
@@ -187,7 +187,7 @@
 
 							// формируем список селекта
 							function makeList() {
-                                var list = '';
+								var list = '';
 								for (var i = 0, len = option.length; i < len; i++) {
 									var li = '',
 											liClass = '',
@@ -217,50 +217,50 @@
 							function doSelect() {
 								var selectbox =
 									$('<span' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-                                        '<div class="jq-selectbox__select" style="float: left"><div class="jq-selectbox__text"></div>'+
-                                            '<b class="jq-selectbox__trigger"><i class="arrow"></i></b>'+
-                                        '</div>'+
-                                    '</span>');
+										'<div class="jq-selectbox__select" style="float: left"><div class="jq-selectbox__text"></div>'+
+											'<b class="jq-selectbox__trigger"><i class="arrow"></i></b>'+
+										'</div>'+
+									'</span>');
 								el.after(selectbox);
 
-                                // fix for jquery width
-                                if (window.getComputedStyle) {
-                                    var width = window.getComputedStyle(selectbox.get(0), '').width;
-                                } else {
-                                    var width = selectbox.get(0).currentStyle.width;
-                                }
+								// fix for jquery width
+								if (window.getComputedStyle) {
+									var width = window.getComputedStyle(selectbox.get(0), '').width;
+								} else {
+									var width = selectbox.get(0).currentStyle.width;
+								}
 
-                                el.css({
-                                    '-webkit-appearance': 'none', // WebKit
-                                    '-moz-appearance': 'none', // Mozilla
-                                    '-o-appearance': 'none', // Opera
-                                    '-ms-appearance': 'none', // Internet Explorer
-                                    'appearance': 'none', // CSS3
-                                    '-webkit-box-shadow': 'none', // WebKit
-                                    '-moz-box-shadow': 'none', // Mozilla
-                                    '-o-box-shadow': 'none', // Opera
-                                    '-ms-box-shadow': 'none', // Internet Explorer
-                                    'box-shadow': 'none', // CSS3
-                                    'position': 'absolute',
-                                    'border': 'none',
-                                    'width': width,
-                                    'color': 'transparent' // fix font
-                                });
-                                // не работает в WebKit
-                                // зато в WebKit работает -webkit-appearance и надобность в дальнейшем скрытии отпадает
-                                if (/WebKit/.test(navigator.userAgent) === false) {
-                                    el.css({
-                                        'z-index': '-1',
-                                        'opacity': '0',
-                                        'filter': 'alpha(opacity=0)',
-                                        'height': 0 // fix for FF
-                                    });
-                                } else {
-                                    // перестраиваем display в WebKit (исправляет позиционирование)
-                                    selectbox.css({
-                                        'display': selectbox.css('display')
-                                    });
-                                }
+								el.css({
+									'-webkit-appearance': 'none', // WebKit
+									'-moz-appearance': 'none', // Mozilla
+									'-o-appearance': 'none', // Opera
+									'-ms-appearance': 'none', // Internet Explorer
+									'appearance': 'none', // CSS3
+									'-webkit-box-shadow': 'none', // WebKit
+									'-moz-box-shadow': 'none', // Mozilla
+									'-o-box-shadow': 'none', // Opera
+									'-ms-box-shadow': 'none', // Internet Explorer
+									'box-shadow': 'none', // CSS3
+									'position': 'absolute',
+									'border': 'none',
+									'width': width,
+									'color': 'transparent' // fix font
+								});
+								// не работает в WebKit
+								// зато в WebKit работает -webkit-appearance и надобность в дальнейшем скрытии отпадает
+								if (/WebKit/.test(navigator.userAgent) === false) {
+									el.css({
+										'z-index': '-1',
+										'opacity': '0',
+										'filter': 'alpha(opacity=0)',
+										'height': 0 // fix for FF
+									});
+								} else {
+									// перестраиваем display в WebKit (исправляет позиционирование)
+									selectbox.css({
+										'display': selectbox.css('display')
+									});
+								}
 
 								var divSelect = selectbox.find('div.jq-selectbox__select');
 								var divText = selectbox.find('div.jq-selectbox__text');
@@ -282,8 +282,8 @@
 									var list = makeList();
 									var dropdown =
 										$('<div class="jq-selectbox__dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
-                                            '<ul style="list-style: none">' + list + '</ul>'+
-                                        '</div>');
+											'<ul style="list-style: none">' + list + '</ul>'+
+										'</div>');
 									selectbox.append(dropdown);
 									var li = $('li', dropdown);
 									if (li.filter('.selected').length < 1) li.first().addClass('selected sel');
@@ -421,7 +421,7 @@
 							function doMultipleSelect() {
 								var selectbox = $('<span' + id + ' class="jq-select-multiple jqselect' + cl + '" style="display: inline-block"></span>');
 								el.after(selectbox).css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'});
-                                var list = makeList();
+								var list = makeList();
 								selectbox.append('<ul style="position: relative">' + list + '</ul>');
 								var ul = $('ul', selectbox);
 								var li = $('li', selectbox).attr('unselectable', 'on').css({'-webkit-user-select': 'none', '-moz-user-select': 'none', '-ms-user-select': 'none', '-o-user-select': 'none', 'user-select': 'none'});
