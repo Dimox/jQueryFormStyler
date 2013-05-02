@@ -217,8 +217,8 @@
 							function doSelect() {
 								var selectbox =
 									$('<span' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-                                        '<div class="select" style="float: left"><div class="text"></div>'+
-                                            '<b class="trigger"><i class="arrow"></i></b>'+
+                                        '<div class="jq-selectbox__select" style="float: left"><div class="jq-selectbox__text"></div>'+
+                                            '<b class="jq-selectbox__trigger"><i class="arrow"></i></b>'+
                                         '</div>'+
                                     '</span>');
 								el.after(selectbox);
@@ -262,8 +262,8 @@
                                     });
                                 }
 
-								var divSelect = selectbox.find('div.select');
-								var divText = selectbox.find('div.text');
+								var divSelect = selectbox.find('div.jq-selectbox__select');
+								var divText = selectbox.find('div.jq-selectbox__text');
 								var optionSelected = option.filter(':selected');
 
 								// берем опцию по умолчанию
@@ -281,7 +281,7 @@
 								} else {
 									var list = makeList();
 									var dropdown =
-										$('<div class="dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
+										$('<div class="jq-selectbox__dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
                                             '<ul style="list-style: none">' + list + '</ul>'+
                                         '</div>');
 									selectbox.append(dropdown);
@@ -335,7 +335,7 @@
 										$('span.jqselect').css({zIndex: (opt.singleSelectzIndex-1)}).removeClass('focused');
 										selectbox.css({zIndex: opt.singleSelectzIndex});
 										if (dropdown.is(':hidden')) {
-											$('div.dropdown:visible').hide();
+											$('div.jq-selectbox__dropdown:visible').hide();
 											dropdown.show();
 											selectbox.addClass('opened');
 										} else {
