@@ -66,8 +66,10 @@
 }
 .jq-file input {
 	cursor: pointer;
+	height: auto;
+	line-height: 1em;
 }
-.jq-file .name {
+.jq-file__name {
 	width: 170px;
 	padding: 7px 10px 6px;
 	border: none;
@@ -75,7 +77,7 @@
 	color: #333;
 	font: 14px Arial, Tahoma, sans-serif;
 }
-.jq-file .browse {
+.jq-file__browse {
 	padding: 0 10px;
 	border-left: 1px solid #CCC;
 	border-radius: 0 4px 4px 0;
@@ -85,16 +87,16 @@
 	text-shadow: 1px 1px #FFF;
 	font: 14px/30px Arial, Tahoma, sans-serif;
 }
-.jq-file:hover .browse {
+.jq-file:hover .jq-file__browse {
 	background-color: #E6E6E6;
 	background-position: 0 -10px;
 }
-.jq-file:active .browse {
+.jq-file:active .jq-file__browse {
 	background: #F5F5F5;
 	box-shadow: inset 1px 1px 3px #DDD;
 }
 .jq-file.disabled,
-.jq-file.disabled .browse {
+.jq-file.disabled .jq-file__browse {
 	border-color: #CCC;
 	background: #F5F5F5;
 	box-shadow: none;
@@ -106,7 +108,7 @@
 	vertical-align: middle;
 	cursor: pointer;
 }
-.jq-selectbox .select {
+.jq-selectbox__select {
 	width: 185px;
 	height: 30px;
 	padding: 0 45px 0 10px;
@@ -119,31 +121,31 @@
 	text-shadow: 1px 1px #FFF;
 	font: 14px/30px Arial, Tahoma, sans-serif;
 }
-.jq-selectbox .select:hover {
+.jq-selectbox__select:hover {
 	background-color: #E6E6E6;
 	background-position: 0 -10px;
 }
-.jq-selectbox .select:active {
+.jq-selectbox__select:active {
 	background: #F5F5F5;
 	box-shadow: inset 1px 1px 3px #DDD;
 }
-.jq-selectbox.focused .select {
+.jq-selectbox.focused .jq-selectbox__select {
 	border: 1px solid #5794BF;
 }
-.jq-selectbox.disabled .select {
+.jq-selectbox.disabled .jq-selectbox__select {
 	border-color: #CCC;
 	background: #F5F5F5;
 	box-shadow: none;
 	color: #888;
 }
-.jq-selectbox .select .text {
+.jq-selectbox__text {
 	display: block;
 	width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
-.jq-selectbox .trigger {
+.jq-selectbox__trigger {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -151,7 +153,7 @@
 	height: 100%;
 	border-left: 1px solid #CCC;
 }
-.jq-selectbox .trigger .arrow {
+.jq-selectbox__trigger-arrow {
 	position: absolute;
 	top: 14px;
 	right: 12px;
@@ -164,15 +166,15 @@
 	opacity: 0.3;
 	filter: alpha(opacity=30);
 }
-.jq-selectbox:hover .arrow {
+.jq-selectbox:hover .jq-selectbox__trigger-arrow {
 	opacity: 1;
 	filter: alpha(opacity=100);
 }
-.jq-selectbox.disabled .arrow {
+.jq-selectbox.disabled .jq-selectbox__trigger-arrow {
 	opacity: 0.3;
 	filter: alpha(opacity=30);
 }
-.jq-selectbox .dropdown {
+.jq-selectbox__dropdown {
 	top: 33px;
 	width: 240px;
 	margin: 0;
