@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.5
+ * jQuery Form Styler v1.3.6
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.05.01
+ * Date: 2013.05.18
  *
  */
 
@@ -98,7 +98,7 @@
 						// клик на псевдорадиокнопке
 						radio.click(function() {
 							if (!radio.is('.disabled')) {
-								$('input[name="' + el.attr('name') + '"]').prop('checked', false).next().removeClass('checked');
+								radio.closest('form').find('input[name="' + el.attr('name') + '"]').prop('checked', false).next().removeClass('checked');
 								el.prop('checked', true).next().addClass('checked');
 								el.change();
 								return false;
@@ -215,13 +215,14 @@
 							function doSelect() {
 								var selectbox =
 									$('<span' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-											'<div class="jq-selectbox__select" style="float: left"><div class="jq-selectbox__text"></div>'+
+											'<div class="jq-selectbox__select">'+
+												'<div class="jq-selectbox__select-text"></div>'+
 												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>'+
 											'</div>'+
 										'</span>');
 								el.after(selectbox).css({position: 'absolute', left: -9999});
 								var divSelect = $('div.jq-selectbox__select', selectbox);
-								var divText = $('div.jq-selectbox__text', selectbox);
+								var divText = $('div.jq-selectbox__select-text', selectbox);
 								var optionSelected = option.filter(':selected');
 
 								// берем опцию по умолчанию
@@ -293,7 +294,7 @@
 										$('span.jqselect').css({zIndex: (opt.singleSelectzIndex-1)}).removeClass('focused');
 										selectbox.css({zIndex: opt.singleSelectzIndex});
 										if (dropdown.is(':hidden')) {
-											$('div.dropdown:visible').hide();
+											$('div.jq-selectbox__dropdown:visible').hide();
 											dropdown.show();
 											selectbox.addClass('opened');
 										} else {
