@@ -138,7 +138,7 @@
 	box-shadow: none;
 	color: #888;
 }
-.jq-selectbox__text {
+.jq-selectbox__select-text {
 	display: block;
 	width: 100%;
 	overflow: hidden;

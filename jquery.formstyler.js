@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.5
+ * jQuery Form Styler v1.3.6
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.05.01
+ * Date: 2013.05.18
  *
  */
 
@@ -98,7 +98,7 @@
 						// клик на псевдорадиокнопке
 						radio.click(function() {
 							if (!radio.is('.disabled')) {
-								$('input[name="' + el.attr('name') + '"]').prop('checked', false).next().removeClass('checked');
+								radio.closest('form').find('input[name="' + el.attr('name') + '"]').prop('checked', false).next().removeClass('checked');
 								el.prop('checked', true).next().addClass('checked');
 								el.change();
 								return false;
