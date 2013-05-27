@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.6
+ * jQuery Form Styler v1.3.7
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.05.18
+ * Date: 2013.05.27
  *
  */
 
@@ -24,9 +24,11 @@
 			var el = $(this);
 			var id = '',
 					cl = '',
+					title = '',
 					dataList = '';
 			if (el.attr('id') !== undefined && el.attr('id') != '') id = ' id="' + el.attr('id') + opt.idSuffix + '"';
 			if (el.attr('class') !== undefined && el.attr('class') != '') cl = ' ' + el.attr('class');
+			if (el.attr('title') !== undefined && el.attr('title') != '') title = ' title="' + el.attr('title') + '"';
 			var data = el.data();
 			for (var i in data) {
 				if (data[i] != '') dataList += ' data-' + i + '="' + data[i] + '"';
@@ -37,7 +39,7 @@
 			if (el.is(':checkbox')) {
 				el.css({position: 'absolute', left: -9999}).each(function() {
 					if (el.next('span.jq-checkbox').length < 1) {
-						var checkbox = $('<span' + id + ' class="jq-checkbox' + cl + '" style="display: inline-block"><span></span></span>');
+						var checkbox = $('<span' + id + ' class="jq-checkbox' + cl + '"' + title + ' style="display: inline-block"><span></span></span>');
 						el.after(checkbox);
 						if (el.is(':checked')) checkbox.addClass('checked');
 						if (el.is(':disabled')) checkbox.addClass('disabled');
@@ -91,7 +93,7 @@
 			} else if (el.is(':radio')) {
 				el.css({position: 'absolute', left: -9999}).each(function() {
 					if (el.next('span.jq-radio').length < 1) {
-						var radio = $('<span' + id + ' class="jq-radio' + cl + '" style="display: inline-block"><span></span></span>');
+						var radio = $('<span' + id + ' class="jq-radio' + cl + '"' + title + ' style="display: inline-block"><span></span></span>');
 						el.after(radio);
 						if (el.is(':checked')) radio.addClass('checked');
 						if (el.is(':disabled')) radio.addClass('disabled');
@@ -215,7 +217,7 @@
 							function doSelect() {
 								var selectbox =
 									$('<span' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-											'<div class="jq-selectbox__select">'+
+											'<div class="jq-selectbox__select"' + title + '>'+
 												'<div class="jq-selectbox__select-text"></div>'+
 												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>'+
 											'</div>'+
@@ -291,7 +293,7 @@
 											}
 										}
 
-										$('span.jqselect').css({zIndex: (opt.singleSelectzIndex-1)}).removeClass('focused');
+										$('span.jqselect').css({zIndex: (opt.singleSelectzIndex - 1)}).removeClass('focused');
 										selectbox.css({zIndex: opt.singleSelectzIndex});
 										if (dropdown.is(':hidden')) {
 											$('div.jq-selectbox__dropdown:visible').hide();
@@ -304,7 +306,7 @@
 
 										// прокручиваем до выбранного пункта при открытии списка
 										if (li.filter('.selected').length) {
-											dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight()/2 + liHeight/2);
+											dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight() / 2 + liHeight / 2);
 										}
 
 										preventScrolling(dropdown);
@@ -378,7 +380,7 @@
 
 							// мультиселект
 							function doMultipleSelect() {
-								var selectbox = $('<span' + id + ' class="jq-select-multiple jqselect' + cl + '" style="display: inline-block"></span>');
+								var selectbox = $('<span' + id + ' class="jq-select-multiple jqselect' + cl + '"' + title + ' style="display: inline-block"></span>');
 								el.after(selectbox).css({position: 'absolute', left: -9999});
 								makeList();
 								selectbox.append('<ul style="position: relative">' + list + '</ul>');
@@ -491,7 +493,7 @@
 											}
 											// вниз, вправо, PageDown
 											if (e.which == 40 || e.which == 39 || e.which == 34) {
-												ul.scrollTop(ul.scrollTop() + li.filter('.selected:last').position().top - ul.innerHeight() + liHeight*2);
+												ul.scrollTop(ul.scrollTop() + li.filter('.selected:last').position().top - ul.innerHeight() + liHeight * 2);
 											}
 										});
 									}
