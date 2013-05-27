@@ -219,7 +219,7 @@
 							function doSelect() {
 								var selectbox =
 									$('<span' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-                                        '<div class="jq-selectbox__select">'+
+                                        '<div class="jq-selectbox__select"' + title + '>'+
                                             '<div class="jq-selectbox__select-text"></div>'+
 											'<b class="jq-selectbox__trigger"><i class="arrow"></i></b>'+
 										'</div>'+
@@ -335,7 +335,7 @@
 											}
 										}
 
-										$('span.jqselect').css({zIndex: (opt.singleSelectzIndex-1)}).removeClass('focused');
+										$('span.jqselect').css({zIndex: (opt.singleSelectzIndex - 1)}).removeClass('focused');
 										selectbox.css({zIndex: opt.singleSelectzIndex});
 										if (dropdown.is(':hidden')) {
 											$('div.jq-selectbox__dropdown:visible').hide();
@@ -348,7 +348,7 @@
 
 										// прокручиваем до выбранного пункта при открытии списка
 										if (li.filter('.selected').length) {
-											dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight()/2 + liHeight/2);
+											dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight() / 2 + liHeight / 2);
 										}
 
 										preventScrolling(dropdown);
@@ -422,7 +422,7 @@
 
 							// мультиселект
 							function doMultipleSelect() {
-								var selectbox = $('<span' + id + ' class="jq-select-multiple jqselect' + cl + '" style="display: inline-block"></span>');
+								var selectbox = $('<span' + id + ' class="jq-select-multiple jqselect' + cl + '"' + title + ' style="display: inline-block"></span>');
 								el.after(selectbox).css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'});
 								var list = makeList();
 								selectbox.append('<ul style="position: relative">' + list + '</ul>');
