@@ -219,8 +219,8 @@
 							function doSelect() {
 								var selectbox =
 									$('<span' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-                                        '<div class="jq-selectbox__select"' + title + '>'+
-                                            '<div class="jq-selectbox__select-text"></div>'+
+										'<div class="jq-selectbox__select"' + title + '>'+
+											'<div class="jq-selectbox__select-text"></div>'+
 											'<b class="jq-selectbox__trigger"><i class="arrow"></i></b>'+
 										'</div>'+
 									'</span>');
