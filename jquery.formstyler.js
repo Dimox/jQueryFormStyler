@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.6
+ * jQuery Form Styler v1.3.7
  * http://dimox.name/jquery-form-styler/
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.05.18
+ * Date: 2013.05.27
  *
  */
 
@@ -24,9 +24,11 @@
 			var el = $(this);
 			var id = '',
 					cl = '',
+					title = '',
 					dataList = '';
 			if (el.attr('id') !== undefined && el.attr('id') != '') id = ' id="' + el.attr('id') + opt.idSuffix + '"';
 			if (el.attr('class') !== undefined && el.attr('class') != '') cl = ' ' + el.attr('class');
+			if (el.attr('title') !== undefined && el.attr('title') != '') title = ' title="' + el.attr('title') + '"';
 			var data = el.data();
 			for (var i in data) {
 				if (data[i] != '') dataList += ' data-' + i + '="' + data[i] + '"';
@@ -37,7 +39,7 @@
 			if (el.is(':checkbox')) {
 				el.css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
 					if (el.next('span.jq-checkbox').length < 1) {
-						var checkbox = $('<span' + id + ' class="jq-checkbox' + cl + '" style="display: inline-block"><span></span></span>');
+						var checkbox = $('<span' + id + ' class="jq-checkbox' + cl + '"' + title + ' style="display: inline-block"><span></span></span>');
 						el.after(checkbox);
 						if (el.is(':checked')) checkbox.addClass('checked');
 						if (el.is(':disabled')) checkbox.addClass('disabled');
@@ -91,7 +93,7 @@
 			} else if (el.is(':radio')) {
 				el.css({position: 'absolute', height: 0, opacity: 0, filter: 'alpha(opacity=0)'}).each(function() {
 					if (el.next('span.jq-radio').length < 1) {
-						var radio = $('<span' + id + ' class="jq-radio' + cl + '" style="display: inline-block"><span></span></span>');
+						var radio = $('<span' + id + ' class="jq-radio' + cl + '"' + title + ' style="display: inline-block"><span></span></span>');
 						el.after(radio);
 						if (el.is(':checked')) radio.addClass('checked');
 						if (el.is(':disabled')) radio.addClass('disabled');
@@ -533,7 +535,7 @@
 											}
 											// вниз, вправо, PageDown
 											if (e.which == 40 || e.which == 39 || e.which == 34) {
-												ul.scrollTop(ul.scrollTop() + li.filter('.selected:last').position().top - ul.innerHeight() + liHeight*2);
+												ul.scrollTop(ul.scrollTop() + li.filter('.selected:last').position().top - ul.innerHeight() + liHeight * 2);
 											}
 										});
 									}
