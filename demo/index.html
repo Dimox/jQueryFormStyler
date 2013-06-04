@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>Примеры для плагина jQuery Form Styler</title>
+	<link href="demo.css" rel="stylesheet" />
+	<link href="../jquery.formstyler.css" rel="stylesheet" />
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="../jquery.formstyler.js"></script>
+	<script>
+		(function($) {
+		$(function() {
+			$('input, select').styler();
+		})
+		})(jQuery)
+	</script>
+	<script src="demo.js"></script>
+</head>
+
+<body>
+
+<h1>Примеры для плагина <a href="http://dimox.name/jquery-form-styler/">jQuery Form Styler</a></h1>
+
+<div class="wrapper">
+
+	<ul class="menu">
+		<li class="current" data-hash="checkbox">Чекбоксы</li>
+		<li data-hash="radio">Радиокнопки</li>
+		<li data-hash="file">Поле для выбора файла</li>
+		<li data-hash="select">Одиночные селекты</li>
+		<li data-hash="multiselect">Мультиселекты</li>
+		<li data-hash="css">Прочие элементы форм (только CSS)</li>
+	</ul>
+
+	<div class="content">
+
+		<div class="box visible">
+			<h2>Чекбоксы</h2>
+
+			<div class="section lh">
+				<div class="buttons">
+					<button type="submit" class="add1">Добавить чекбоксы</button>
+					<button type="submit" class="dis">Переключить активность</button>
+					<button type="submit" class="check">Переключить галочки</button>
+				</div>
+				<input type="checkbox" /> без тега <code>label</code><br />
+				<span id="r"><input type="checkbox" id="checkbox" /></span> <label for="checkbox"> в тег <code>label</code> помещен только текст</label><br />
+				<label><input type="checkbox" /> и текст, и <code>input</code> помещены в тег <code>label</code></label><br />
+				<label><input type="checkbox" disabled checked /> неактивный чекбокс</label>
+			</div><!-- .section -->
+		</div><!-- .box -->
+
+		<div class="box">
+			<h2>Радиокнопки</h2>
+
+			<div class="section lh">
+				<div class="buttons">
+					<button type="submit" class="add2">Добавить радиокнопки</button>
+					<button type="submit" class="dis">Переключить активность</button>
+				</div>
+				<input type="radio" name="radio" /> без тега <code>label</code><br />
+				<input type="radio" name="radio" id="radio" /> <label for="radio"> в тег <code>label</code> помещен только текст</label><br />
+				<label><input type="radio" name="radio" /> и текст, и <code>input</code> помещены в тег <code>label</code></label><br />
+				<label><input type="radio" name="radio" disabled /> неактивная радиокнопка</label>
+			</div><!-- .section -->
+		</div><!-- .box -->
+
+		<div class="box">
+			<h2>Поле для выбора файла</h2>
+
+			<div class="section">
+				<div class="buttons">
+					<button type="submit" class="add5">Добавить поле</button>
+					<button type="submit" class="dis">Переключить активность</button>
+				</div>
+				<input type="file" name="" />
+			</div><!-- .section -->
+		</div><!-- .box -->
+
+		<div class="box">
+
+			<h2>Одиночные селекты</h2>
+
+			<div class="section">
+				<div class="buttons">
+					<button type="submit" class="add3">Добавить селект</button>
+					<button type="submit" class="add4">Добавить пункты в список</button>
+					<button type="submit" class="dis2">Переключить активность селекта</button>
+					<button type="submit" class="dis3">Переключить активность пунктов</button>
+				</div>
+				<p><strong>Простой селект</strong> с несколькими пунктами, <br />один из них неактивный.</p>
+				<select>
+					<option>-- Выберите --</option>
+					<option>Пункт 1</option>
+					<option>Пункт 2</option>
+					<option disabled>Пункт 3</option>
+					<option>Пункт 4</option>
+					<option>Пункт 5</option>
+				</select>
+			</div><!-- .section -->
+
+			<div class="section">
+				<p>Этот селект вставлен прямо <strong>посреди текста</strong>.</p>
+				какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст
+				<select>
+					<option>-- Выберите --</option>
+					<option>Пункт 1</option>
+					<option>Пункт 2</option>
+					<option>Пункт 3</option>
+					<option>Пункт 4</option>
+					<option>Пункт 5</option>
+				</select>
+				какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст
+			</div><!-- .section -->
+
+			<div class="section">
+
+				<div class="sec">
+					<p>Селект, имеющий пункт <strong>с длинным текстом</strong>.</p>
+					<select>
+						<option>-- Выберите --</option>
+						<option>Пункт 1</option>
+						<option>Пункт 2</option>
+						<option>Какой-то пункт с очень длинным текстом, не влезающим в одну строку</option>
+						<option>Пункт 4</option>
+						<option>Пункт 5</option>
+					</select>
+				</div><!-- .sec -->
+
+				<div class="sec nowidth">
+					<p>У этого селекта <strong>не указана ширина</strong>.</p>
+					<select>
+						<option>-- Выберите --</option>
+						<option>Пункт 1</option>
+						<option>Пункт 2</option>
+						<option>Какой-то пункт с очень длинным текстом, не влезающим в одну строку</option>
+						<option>Пункт 4</option>
+						<option>Пункт 5</option>
+					</select>
+				</div><!-- .sec -->
+
+			</div><!-- .section -->
+
+			<div class="section">
+
+				<div class="sec maxheight">
+					<p>Выпадающий список этого селекта <br /><strong>органичен по высоте</strong>.</p>
+					<select>
+						<option>-- Выберите --</option>
+						<option>Пункт 1</option>
+						<option>Пункт 2</option>
+						<option>Пункт 3</option>
+						<option>Пункт 4</option>
+						<option>Пункт 5</option>
+						<option>Пункт 6</option>
+						<option>Пункт 7</option>
+						<option>Пункт 8</option>
+						<option>Пункт 9</option>
+						<option>Пункт 10</option>
+						<option>Пункт 11</option>
+						<option>Пункт 12</option>
+						<option>Пункт 13</option>
+						<option>Пункт 14</option>
+						<option>Пункт 15</option>
+						<option>Пункт 16</option>
+						<option>Пункт 17</option>
+						<option>Пункт 18</option>
+						<option>Пункт 19</option>
+						<option>Пункт 20</option>
+						<option>Пункт 21</option>
+						<option>Пункт 22</option>
+						<option>Пункт 23</option>
+						<option>Пункт 24</option>
+						<option>Пункт 25</option>
+						<option>Пункт 26</option>
+						<option>Пункт 27</option>
+						<option>Пункт 28</option>
+						<option>Пункт 29</option>
+						<option>Пункт 30</option>
+					</select>
+				</div><!-- .sec -->
+
+				<div class="sec">
+					<p>Селект <strong>с длинным списком</strong>, не ограниченным максимальной высотой.</p>
+					<select>
+						<option>-- Выберите --</option>
+						<option>Пункт 1</option>
+						<option>Пункт 2</option>
+						<option>Пункт 3</option>
+						<option>Пункт 4</option>
+						<option>Пункт 5</option>
+						<option>Пункт 6</option>
+						<option>Пункт 7</option>
+						<option>Пункт 8</option>
+						<option>Пункт 9</option>
+						<option>Пункт 10</option>
+						<option>Пункт 11</option>
+						<option>Пункт 12</option>
+						<option>Пункт 13</option>
+						<option>Пункт 14</option>
+						<option>Пункт 15</option>
+						<option>Пункт 16</option>
+						<option>Пункт 17</option>
+						<option>Пункт 18</option>
+						<option>Пункт 19</option>
+						<option>Пункт 20</option>
+						<option>Пункт 21</option>
+						<option>Пункт 22</option>
+						<option>Пункт 23</option>
+						<option>Пункт 24</option>
+						<option>Пункт 25</option>
+						<option>Пункт 26</option>
+						<option>Пункт 27</option>
+						<option>Пункт 28</option>
+						<option>Пункт 29</option>
+						<option>Пункт 30</option>
+						<option>Пункт 31</option>
+						<option>Пункт 32</option>
+						<option>Пункт 33</option>
+						<option>Пункт 34</option>
+						<option>Пункт 35</option>
+						<option>Пункт 36</option>
+						<option>Пункт 37</option>
+						<option>Пункт 38</option>
+						<option>Пункт 39</option>
+						<option>Пункт 40</option>
+						<option>Пункт 41</option>
+						<option>Пункт 42</option>
+						<option>Пункт 43</option>
+						<option>Пункт 44</option>
+						<option>Пункт 45</option>
+						<option>Пункт 46</option>
+						<option>Пункт 47</option>
+						<option>Пункт 48</option>
+						<option>Пункт 49</option>
+						<option>Пункт 50</option>
+						<option>Пункт 51</option>
+						<option>Пункт 52</option>
+						<option>Пункт 53</option>
+						<option>Пункт 54</option>
+						<option>Пункт 55</option>
+						<option>Пункт 56</option>
+						<option>Пункт 57</option>
+						<option>Пункт 58</option>
+						<option>Пункт 59</option>
+						<option>Пункт 60</option>
+						<option>Пункт 61</option>
+						<option>Пункт 62</option>
+						<option>Пункт 63</option>
+						<option>Пункт 64</option>
+						<option>Пункт 65</option>
+						<option>Пункт 66</option>
+						<option>Пункт 67</option>
+						<option>Пункт 68</option>
+						<option>Пункт 69</option>
+						<option>Пункт 70</option>
+						<option>Пункт 71</option>
+						<option>Пункт 72</option>
+						<option>Пункт 73</option>
+						<option>Пункт 74</option>
+						<option>Пункт 75</option>
+						<option>Пункт 76</option>
+						<option>Пункт 77</option>
+						<option>Пункт 78</option>
+						<option>Пункт 79</option>
+						<option>Пункт 80</option>
+						<option>Пункт 81</option>
+						<option>Пункт 82</option>
+						<option>Пункт 83</option>
+						<option>Пункт 84</option>
+						<option>Пункт 85</option>
+						<option>Пункт 86</option>
+						<option>Пункт 87</option>
+						<option>Пункт 88</option>
+						<option>Пункт 89</option>
+						<option>Пункт 90</option>
+						<option>Пункт 91</option>
+						<option>Пункт 92</option>
+						<option>Пункт 93</option>
+						<option>Пункт 94</option>
+						<option>Пункт 95</option>
+						<option>Пункт 96</option>
+						<option>Пункт 97</option>
+						<option>Пункт 98</option>
+						<option>Пункт 99</option>
+						<option>Пункт 100</option>
+					</select>
+				</div><!-- .sec -->
+
+			</div><!-- .section -->
+
+			<div class="section">
+				<p>Проверяем, правильное ли значение передается при изменении. У оригинального селекта прописано: <code>onchange="alert(this.value)"</code>.</p>
+				<select onchange="alert(this.value)">
+					<option>-- Выберите --</option>
+					<option>Пункт 1</option>
+					<option>Пункт 2</option>
+					<option>Пункт 3</option>
+					<option>Пункт 4</option>
+					<option>Пункт 5</option>
+				</select>
+			</div><!-- .section -->
+
+			<div class="section">
+
+				<div class="sec">
+					<p>Селект <strong>с группировкой пунктов</strong> <br />(используется тег <code>optgroup</code>), один из них неактивный.</p>
+					<select>
+						<option>-- Выберите --</option>
+						<optgroup label="Группа 1">
+							<option>Пункт 1.1</option>
+							<option>Пункт 1.2</option>
+							<option>Пункт 1.3</option>
+						</optgroup>
+						<optgroup label="Группа 2">
+							<option>Пункт 2.1</option>
+							<option disabled>Пункт 2.2</option>
+							<option>Пункт 2.3</option>
+						</optgroup>
+					</select>
+				</div><!-- .sec -->
+
+				<div class="sec">
+					<p>Селект с выделением групп <strong>разными цветами</strong> (указаны классы <code>.color1</code> и <code>.color2</code> для <code>optgroup</code>).</p>
+					<select>
+						<option>-- Выберите --</option>
+						<optgroup label="Группа 1" class="color1">
+							<option>Пункт 1.1</option>
+							<option>Пункт 1.2</option>
+							<option>Пункт 1.3</option>
+						</optgroup>
+						<optgroup label="Группа 2" class="color2">
+							<option>Пункт 2.1</option>
+							<option>Пункт 2.2</option>
+							<option>Пункт 2.3</option>
+						</optgroup>
+					</select>
+				</div><!-- .sec -->
+
+			</div><!-- .section -->
+
+		</div><!-- .box -->
+
+		<div class="box">
+
+			<h2>Мультиселекты</h2>
+
+			<div class="section">
+				<div class="buttons">
+					<button type="submit" class="add6">Добавить селект</button>
+					<button type="submit" class="add4">Добавить пункты в список</button>
+					<button type="submit" class="dis2">Переключить активность селекта</button>
+					<button type="submit" class="dis3">Переключить активность пунктов</button>
+				</div>
+				<p><strong>Мультиселект</strong>, один из пунктов неактивный, <br />параметр <code>size</code> не указан.</p>
+				<p style="float: right; width: 220px; margin: 0 5px 0 0;"><small>В данном случае в Internet Explorer текст самого длинного пункта переносится, поэтому лучше задать ширину для <code>.jq-select-multiple</code>.</small></p>
+				<select multiple>
+					<option>-- Выберите --</option>
+					<option>Пункт 1</option>
+					<option>Пункт 2</option>
+					<option disabled>Пункт 3</option>
+					<option>Пункт 4</option>
+					<option>Пункт 5</option>
+				</select>
+			</div><!-- .section -->
+
+			<div class="section">
+
+				<div class="sec">
+					<p>Мультиселект, параметр <code>size</code> равен <code>6</code>.</p>
+					<select multiple size="6">
+						<option>-- Выберите --</option>
+						<option>Пункт 1</option>
+						<option>Пункт 2</option>
+						<option>Пункт 3</option>
+						<option>Пункт 4</option>
+						<option>Пункт 5</option>
+					</select>
+				</div><!-- .sec -->
+
+				<div class="sec width">
+					<p>Мультиселект <strong>с заданной шириной</strong> и длинным пунктом.</p>
+					<select multiple>
+						<option>- Выберите 1 или несколько пунктов -</option>
+						<option>Пункт 1</option>
+						<option>Пункт 2</option>
+						<option>Пункт 3</option>
+						<option>Пункт 4</option>
+						<option>Пункт 5</option>
+					</select>
+				</div><!-- .sec -->
+
+			</div><!-- .section -->
+
+			<div class="section">
+
+				<div class="sec">
+					<p>Мультиселект <strong>с группировкой пунктов</strong> (используется тег <code>optgroup</code>), один из них неактивный.</p>
+					<select multiple size="9">
+						<option>-- Выберите --</option>
+						<optgroup label="Группа 1">
+							<option>Пункт 1.1</option>
+							<option>Пункт 1.2</option>
+							<option>Пункт 1.3</option>
+						</optgroup>
+						<optgroup label="Группа 2">
+							<option>Пункт 2.1</option>
+							<option disabled>Пункт 2.2</option>
+							<option>Пункт 2.3</option>
+						</optgroup>
+					</select>
+				</div><!-- .sec -->
+
+				<div class="sec">
+					<p>Мультиселект с выделением групп <strong>разными цветами</strong> (указаны классы <code>.color1</code> и <code>.color2</code> для <code>optgroup</code>).</p>
+					<select multiple size="9">
+						<option>-- Выберите --</option>
+						<optgroup label="Группа 1" class="color1">
+							<option>Пункт 1.1</option>
+							<option>Пункт 1.2</option>
+							<option>Пункт 1.3</option>
+						</optgroup>
+						<optgroup label="Группа 2" class="color2">
+							<option>Пункт 2.1</option>
+							<option>Пункт 2.2</option>
+							<option>Пункт 2.3</option>
+						</optgroup>
+					</select>
+				</div><!-- .sec -->
+
+			</div><!-- .section -->
+
+		</div><!-- .box -->
+
+		<div class="box">
+
+			<h2>Прочие элементы форм (только CSS)</h2>
+
+			<div class="section css">
+				<p>Стилизация данных элементов <strong>не требует наличия плагина</strong>.</p>
+
+				<input class="styler" type="text" size="60" placeholder="Однострочное текстовое поле..." /> <code>&lt;input type="text"></code>
+
+				<input class="styler" type="password" size="60" placeholder="Поле для ввода пароля..." /> <code>&lt;input type="password"></code>
+
+				<textarea class="styler" cols="60" rows="5" placeholder="Многострочное текстовое поле..."></textarea> <code>&lt;textarea>&lt;/textarea></code><br />
+
+				<input class="styler" type="number" value="0" size="6" /> <code>&lt;input type="number"></code><br />
+
+				<input class="styler" type="button" value="Кнопка" /> <code>&lt;input type="button"></code><br />
+
+				<button class="styler" type="submit">Кнопка</button> <code>&lt;button>&lt;/button></code><br />
+
+				<input class="styler" type="reset" value="Сброс" /> <code>&lt;input type="reset"></code>
+
+			</div><!-- .section -->
+
+		</div><!-- .box -->
+
+	</div><!-- .content -->
+
+</div><!-- .wrapper -->
+
+</body>
+</html>
