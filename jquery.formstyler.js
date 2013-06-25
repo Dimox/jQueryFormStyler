@@ -545,12 +545,26 @@
 							if (el.is('[multiple]')) doMultipleSelect(); else doSelect();
 						} // end selectbox()
 
+						// обновление при динамическом изменении
 						selectbox();
 
-						// обновление при динамическом изменении
 						el.on('refresh', function() {
 							el.next().remove();
 							selectbox();
+						});
+						el.on('recalculate', function() {
+							var width;
+							if (window.getComputedStyle) {
+								width = window.getComputedStyle(el.next().get(0), '').width;
+							} else {
+								width = el.next().get(0).currentStyle.width;
+							}
+
+							el.css('width', width);
+						});
+
+						$(window).on('resize', function () {
+							el.trigger('recalculate');
 						});
 					}
 				});
