@@ -338,7 +338,7 @@
 										$('span.jqselect').css({zIndex: (opt.singleSelectzIndex - 1)}).removeClass('focused');
 										selectbox.css({zIndex: opt.singleSelectzIndex});
 										if (dropdown.is(':hidden')) {
-											$('div.jq-selectbox__dropdown:visible').hide();
+                                            $('div.jq-selectbox__dropdown:visible').hide().parents('.jqselect').removeClass('opened');
 											dropdown.show();
 											selectbox.addClass('opened');
 										} else {
