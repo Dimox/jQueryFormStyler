@@ -1,5 +1,6 @@
 .jq-checkbox {
 	position: relative;
+	top: -1px;
 	width: 13px;
 	height: 13px;
 	border: 1px solid #C3C3C3;
@@ -9,7 +10,7 @@
 	vertical-align: middle;
 	cursor: pointer;
 }
-.jq-checkbox.checked span {
+.jq-checkbox.checked div {
 	display: block;
 	width: 9px;
 	height: 9px;
@@ -37,7 +38,7 @@
 	vertical-align: middle;
 	cursor: pointer;
 }
-.jq-radio.checked span {
+.jq-radio.checked div {
 	display: block;
 	width: 6px;
 	height: 6px;
@@ -110,7 +111,6 @@
 	cursor: pointer;
 }
 .jq-selectbox__select {
-	width: 185px;
 	height: 30px;
 	padding: 0 45px 0 10px;
 	border: 1px solid #CCC;
@@ -198,11 +198,11 @@
 	color: #231F20;
 }
 .jq-selectbox li.selected {
-	background: #A3ABB1;
+	background-color: #A3ABB1;
 	color: #FFF;
 }
 .jq-selectbox li:hover {
-	background: #08C;
+	background-color: #08C;
 	color: #FFF;
 }
 .jq-selectbox li.disabled {
