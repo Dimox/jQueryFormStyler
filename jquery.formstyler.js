@@ -346,6 +346,7 @@
 									$(this).siblings().removeClass('selected');
 								});
 								var selectedText = li.filter('.selected').text();
+								var selText = li.filter('.selected').text();
 
 								// при клике на пункт списка
 								li.filter(':not(.disabled):not(.optgroup)').click(function() {
@@ -360,7 +361,7 @@
 										divText.text(liText);
 
 										// добавляем класс, показывающий изменение селекта
-										if (liText != option.first().text()) {
+										if (liText != selText) {
 											selectbox.addClass('changed');
 										} else {
 											selectbox.removeClass('changed');
