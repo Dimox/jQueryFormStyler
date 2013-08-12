@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.7
- * http://dimox.name/jquery-form-styler/
+ * jQuery Form Styler v1.3.8
+ * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.05.27
+ * Date: 2013.08.12
  *
  */
 
@@ -38,8 +38,8 @@
 			// checkbox
 			if (el.is(':checkbox')) {
 				el.css({position: 'absolute', left: -9999}).each(function() {
-					if (el.next('span.jq-checkbox').length < 1) {
-						var checkbox = $('<span' + id + ' class="jq-checkbox' + cl + '"' + title + ' style="display: inline-block"><span></span></span>');
+					if (el.next('div.jq-checkbox').length < 1) {
+						var checkbox = $('<div' + id + ' class="jq-checkbox' + cl + '"' + title + ' style="display: inline-block"><div></div></div>');
 						el.after(checkbox);
 						if (el.is(':checked')) checkbox.addClass('checked');
 						if (el.is(':disabled')) checkbox.addClass('disabled');
@@ -92,8 +92,8 @@
 			// radio
 			} else if (el.is(':radio')) {
 				el.css({position: 'absolute', left: -9999}).each(function() {
-					if (el.next('span.jq-radio').length < 1) {
-						var radio = $('<span' + id + ' class="jq-radio' + cl + '"' + title + ' style="display: inline-block"><span></span></span>');
+					if (el.next('div.jq-radio').length < 1) {
+						var radio = $('<div' + id + ' class="jq-radio' + cl + '"' + title + ' style="display: inline-block"><div></div></div>');
 						el.after(radio);
 						if (el.is(':checked')) radio.addClass('checked');
 						if (el.is(':disabled')) radio.addClass('disabled');
@@ -141,8 +141,8 @@
 			// file
 			} else if (el.is(':file')) {
 				el.css({position: 'absolute', top: '-50%', right: '-50%', fontSize: '200px', opacity: 0}).each(function() {
-					if (el.parent('span.jq-file').length < 1) {
-						var file = $('<span' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></span>');
+					if (el.parent('div.jq-file').length < 1) {
+						var file = $('<div' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></div>');
 						var name = $('<div class="jq-file__name" style="float: left; white-space: nowrap"></div>').appendTo(file);
 						var browse = $('<div class="jq-file__browse" style="float: left">' + opt.browseText + '</div>').appendTo(file);
 						el.after(file);
@@ -171,7 +171,7 @@
 			// select
 			} else if (el.is('select')) {
 				el.each(function() {
-					if (el.next('span.jqselect').length < 1) {
+					if (el.next('div.jqselect').length < 1) {
 
 						function selectbox() {
 
@@ -192,6 +192,7 @@
 								for (i = 0, len = option.length; i < len; i++) {
 									var li = '',
 											liClass = '',
+											dataClass = '',
 											optionClass = '',
 											optgroupClass = '';
 									var disabled = 'disabled';
@@ -199,12 +200,15 @@
 									if (option.eq(i).prop('selected')) liClass = 'selected sel';
 									if (option.eq(i).is(':disabled')) liClass = disabled;
 									if (option.eq(i).is(':selected:disabled')) liClass = selDis;
-									if (option.eq(i).attr('class') !== undefined) optionClass = ' ' + option.eq(i).attr('class');
-									li = '<li class="' + liClass + optionClass + '">'+ option.eq(i).text() +'</li>';
+									if (option.eq(i).attr('class') !== undefined) {
+										optionClass = ' ' + option.eq(i).attr('class');
+										dataClass = ' data-class="' + option.eq(i).attr('class') + '"';
+									}
+									li = '<li' + dataClass + ' class="' + liClass + optionClass + '">'+ option.eq(i).text() +'</li>';
 									// если есть optgroup
 									if (option.eq(i).parent().is('optgroup')) {
 										if (option.eq(i).parent().attr('class') !== undefined) optgroupClass = ' ' + option.eq(i).parent().attr('class');
-										li = '<li class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).text() +'</li>';
+										li = '<li' + dataClass + ' class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).text() +'</li>';
 										if (option.eq(i).is(':first-child')) {
 											li = '<li class="optgroup' + optgroupClass + '">' + option.eq(i).parent().attr('label') + '</li>' + li;
 										}
@@ -216,12 +220,12 @@
 							// одиночный селект
 							function doSelect() {
 								var selectbox =
-									$('<span' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
+									$('<div' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
 											'<div class="jq-selectbox__select"' + title + '>'+
 												'<div class="jq-selectbox__select-text"></div>'+
 												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>'+
 											'</div>'+
-										'</span>');
+										'</div>');
 								el.after(selectbox).css({position: 'absolute', left: -9999});
 								var divSelect = $('div.jq-selectbox__select', selectbox);
 								var divText = $('div.jq-selectbox__select-text', selectbox);
@@ -234,153 +238,191 @@
 									divText.text(option.first().text());
 								}
 
+								makeList();
+								var dropdown =
+									$('<div class="jq-selectbox__dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
+											'<ul style="list-style: none">' + list + '</ul>'+
+										'</div>');
+								selectbox.append(dropdown);
+								var li = $('li', dropdown);
+
+								// определяем самый широкий пункт селекта
+								var liWidth = 0;
+								li.each(function() {
+									$(this).css({'display': 'inline-block', 'white-space': 'nowrap'});
+									if ($(this).width() > liWidth) liWidth = $(this).width();
+									$(this).css({'display': 'block', 'white-space': 'normal'});
+								});
+								// определяем, указана ли ширина селекта
+								var elClone = el.clone().css('width', 'auto').insertAfter(el);
+								var elCloneWidth = elClone.width();
+								elClone.remove();
+								// если ширина селекта не указана
+								if (elCloneWidth == el.width()) {
+									divSelect.width(liWidth);
+								// если ширина селекта указана
+								} else {
+									selectbox.width(el.outerWidth());
+								}
+								// если ширина селекта указана, но есть пункт, ширина которого больше
+								if (liWidth > dropdown.width()) {
+									dropdown.width(liWidth + dropdown.width() - li.width());
+								}
+
+								if (li.filter('.selected').length < 1) li.first().addClass('selected sel');
+								var selectHeight = selectbox.outerHeight();
+								if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
+								if (dropdown.css('top') == 'auto') dropdown.css({top: selectHeight});
+								var liHeight = li.outerHeight();
+								var position = dropdown.css('top');
+								dropdown.hide();
+
 								// если селект неактивный
 								if (el.is(':disabled')) {
 									selectbox.addClass('disabled');
+									return false;
+								}
 
-								// если селект активный
-								} else {
-									makeList();
-									var dropdown =
-										$('<div class="jq-selectbox__dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
-												'<ul style="list-style: none">' + list + '</ul>'+
-											'</div>');
-									selectbox.append(dropdown);
-									var li = $('li', dropdown);
-									if (li.filter('.selected').length < 1) li.first().addClass('selected sel');
-									var selectHeight = selectbox.outerHeight();
-									if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
-									if (dropdown.css('top') == 'auto') dropdown.css({top: selectHeight});
-									var liHeight = li.outerHeight();
-									var position = dropdown.css('top');
-									dropdown.hide();
+								// при клике на псевдоселекте
+								divSelect.click(function() {
+									el.focus();
 
-									// при клике на псевдоселекте
-									divSelect.click(function() {
-										el.focus();
-
-										// умное позиционирование
-										if (opt.selectSmartPositioning) {
-											var win = $(window);
-											var topOffset = selectbox.offset().top;
-											var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
-											var visible = opt.selectVisibleOptions;
-											var	minHeight = liHeight * 6;
-											var	newHeight = liHeight * visible;
-											if (visible > 0 && visible < 6) minHeight =  newHeight;
-											// раскрытие вверх
-											if (bottomOffset < 0 || bottomOffset < minHeight)	{
-												dropdown.height('auto').css({top: 'auto', bottom: position});
-												if (dropdown.outerHeight() > topOffset - win.scrollTop() - 20 ) {
-													dropdown.height(Math.floor((topOffset - win.scrollTop() - 20) / liHeight) * liHeight);
-													if (visible > 0 && visible < 6) {
-														if (dropdown.height() > minHeight) dropdown.height(minHeight);
-													} else if (visible > 6) {
-														if (dropdown.height() > newHeight) dropdown.height(newHeight);
-													}
+									// умное позиционирование
+									if (opt.selectSmartPositioning) {
+										var win = $(window);
+										var topOffset = selectbox.offset().top;
+										var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
+										var visible = opt.selectVisibleOptions;
+										var	minHeight = liHeight * 6;
+										var	newHeight = liHeight * visible;
+										if (visible > 0 && visible < 6) minHeight =  newHeight;
+										// раскрытие вверх
+										if (bottomOffset < 0 || bottomOffset < minHeight)	{
+											dropdown.height('auto').css({top: 'auto', bottom: position});
+											if (dropdown.outerHeight() > topOffset - win.scrollTop() - 20 ) {
+												dropdown.height(Math.floor((topOffset - win.scrollTop() - 20) / liHeight) * liHeight);
+												if (visible > 0 && visible < 6) {
+													if (dropdown.height() > minHeight) dropdown.height(minHeight);
+												} else if (visible > 6) {
+													if (dropdown.height() > newHeight) dropdown.height(newHeight);
 												}
-											// раскрытие вниз
-											} else if (bottomOffset > minHeight) {
-												dropdown.height('auto').css({bottom: 'auto', top: position});
-												if (dropdown.outerHeight() > bottomOffset - 20 ) {
-													dropdown.height(Math.floor((bottomOffset - 20) / liHeight) * liHeight);
-													if (visible > 0 && visible < 6) {
-														if (dropdown.height() > minHeight) dropdown.height(minHeight);
-													} else if (visible > 6) {
-														if (dropdown.height() > newHeight) dropdown.height(newHeight);
-													}
+											}
+										// раскрытие вниз
+										} else if (bottomOffset > minHeight) {
+											dropdown.height('auto').css({bottom: 'auto', top: position});
+											if (dropdown.outerHeight() > bottomOffset - 20 ) {
+												dropdown.height(Math.floor((bottomOffset - 20) / liHeight) * liHeight);
+												if (visible > 0 && visible < 6) {
+													if (dropdown.height() > minHeight) dropdown.height(minHeight);
+												} else if (visible > 6) {
+													if (dropdown.height() > newHeight) dropdown.height(newHeight);
 												}
 											}
 										}
+									}
 
-										$('span.jqselect').css({zIndex: (opt.singleSelectzIndex - 1)}).removeClass('focused');
-										selectbox.css({zIndex: opt.singleSelectzIndex});
-										if (dropdown.is(':hidden')) {
-											$('div.jq-selectbox__dropdown:visible').hide();
-											dropdown.show();
-											selectbox.addClass('opened');
-										} else {
-											dropdown.hide();
-											selectbox.removeClass('opened');
-										}
-
-										// прокручиваем до выбранного пункта при открытии списка
-										if (li.filter('.selected').length) {
-											dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight() / 2 + liHeight / 2);
-										}
-
-										preventScrolling(dropdown);
-										return false;
-									});
-
-									// при наведении курсора на пункт списка
-									li.hover(function() {
-										$(this).siblings().removeClass('selected');
-									});
-									var selectedText = li.filter('.selected').text();
-
-									// при клике на пункт списка
-									li.filter(':not(.disabled):not(.optgroup)').click(function() {
-										var t = $(this);
-										var liText = t.text();
-										if (selectedText != liText) {
-											var index = t.index();
-											if (t.is('.option')) index -= t.prevAll('.optgroup').length;
-											t.addClass('selected sel').siblings().removeClass('selected sel');
-											option.prop('selected', false).eq(index).prop('selected', true);
-											selectedText = liText;
-											divText.text(liText);
-											el.change();
-										}
+									$('div.jqselect').css({zIndex: (opt.singleSelectzIndex - 1)}).removeClass('opened focused');
+									selectbox.css({zIndex: opt.singleSelectzIndex});
+									if (dropdown.is(':hidden')) {
+										$('div.jq-selectbox__dropdown:visible').hide();
+										dropdown.show();
+										selectbox.addClass('opened');
+									} else {
 										dropdown.hide();
-									});
-									dropdown.mouseout(function() {
-										$('li.sel', dropdown).addClass('selected');
-									});
+										selectbox.removeClass('opened');
+									}
 
-									// изменение селекта
-									el.change(function() {
-										divText.text(option.filter(':selected').text());
-										li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
-									})
-									.focus(function() {
-										selectbox.addClass('focused');
-									})
-									.blur(function() {
-										selectbox.removeClass('focused');
-									})
-									// прокрутки списка с клавиатуры
-									.bind('keydown keyup', function(e) {
-										divText.text(option.filter(':selected').text());
-										li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
-										// вверх, влево, PageUp
-										if (e.which == 38 || e.which == 37 || e.which == 33) {
-											dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top);
-										}
-										// вниз, вправо, PageDown
-										if (e.which == 40 || e.which == 39 || e.which == 34) {
-											dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight() + liHeight);
-										}
-										if (e.which == 13) {
-											dropdown.hide();
-										}
-									});
+									// прокручиваем до выбранного пункта при открытии списка
+									if (li.filter('.selected').length) {
+										dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight() / 2 + liHeight / 2);
+									}
 
-									// прячем выпадающий список при клике за пределами селекта
-									$(document).on('click', function(e) {
-										// e.target.nodeName != 'OPTION' - добавлено для обхода бага в Опере
-										// (при изменении селекта с клавиатуры срабатывает событие onclick)
-										if (!$(e.target).parents().hasClass('selectbox') && e.target.nodeName != 'OPTION') {
-											dropdown.hide().find('li.sel').addClass('selected');
-											selectbox.removeClass('focused opened');
+									preventScrolling(dropdown);
+									return false;
+								});
+
+								// при наведении курсора на пункт списка
+								li.hover(function() {
+									$(this).siblings().removeClass('selected');
+								});
+								var selectedText = li.filter('.selected').text();
+
+								// при клике на пункт списка
+								li.filter(':not(.disabled):not(.optgroup)').click(function() {
+									var t = $(this);
+									var liText = t.text();
+									if (selectedText != liText) {
+										var index = t.index();
+										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
+										t.addClass('selected sel').siblings().removeClass('selected sel');
+										option.prop('selected', false).eq(index).prop('selected', true);
+										selectedText = liText;
+										divText.text(liText);
+
+										// добавляем класс, показывающий изменение селекта
+										if (liText != option.first().text()) {
+											selectbox.addClass('changed');
+										} else {
+											selectbox.removeClass('changed');
 										}
-									});
-								}
+
+										// передаем селекту класс выбранного пункта
+										selectbox.removeClass(selectbox.data('class'));
+										selectbox.data('class', t.data('class'));
+										selectbox.addClass(t.data('class'));
+
+										el.change();
+									}
+									dropdown.hide();
+									selectbox.removeClass('opened');
+								});
+								dropdown.mouseout(function() {
+									$('li.sel', dropdown).addClass('selected');
+								});
+
+								// изменение селекта
+								el.change(function() {
+									divText.text(option.filter(':selected').text());
+									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
+								})
+								.focus(function() {
+									selectbox.addClass('focused');
+								})
+								.blur(function() {
+									selectbox.removeClass('focused');
+								})
+								// прокрутки списка с клавиатуры
+								.bind('keydown keyup', function(e) {
+									divText.text(option.filter(':selected').text());
+									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
+									// вверх, влево, PageUp
+									if (e.which == 38 || e.which == 37 || e.which == 33) {
+										dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top);
+									}
+									// вниз, вправо, PageDown
+									if (e.which == 40 || e.which == 39 || e.which == 34) {
+										dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight() + liHeight);
+									}
+									if (e.which == 13) {
+										dropdown.hide();
+									}
+								});
+
+								// прячем выпадающий список при клике за пределами селекта
+								$(document).on('click', function(e) {
+									// e.target.nodeName != 'OPTION' - добавлено для обхода бага в Опере
+									// (при изменении селекта с клавиатуры срабатывает событие onclick)
+									if (!$(e.target).parents().hasClass('jq-selectbox') && e.target.nodeName != 'OPTION') {
+										dropdown.hide().find('li.sel').addClass('selected');
+										selectbox.removeClass('focused opened');
+									}
+								});
+
 							} // end doSelect()
 
 							// мультиселект
 							function doMultipleSelect() {
-								var selectbox = $('<span' + id + ' class="jq-select-multiple jqselect' + cl + '"' + title + ' style="display: inline-block"></span>');
+								var selectbox = $('<div' + id + ' class="jq-select-multiple jqselect' + cl + '"' + title + ' style="display: inline-block"></div>');
 								el.after(selectbox).css({position: 'absolute', left: -9999});
 								makeList();
 								selectbox.append('<ul style="position: relative">' + list + '</ul>');

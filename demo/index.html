@@ -100,44 +100,28 @@
 			</div><!-- .section -->
 
 			<div class="section">
-				<p>Этот селект вставлен прямо <strong>посреди текста</strong>.</p>
-				какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст
-				<select>
+
+				<p>Селект, имеющий пункт <strong>с длинным текстом</strong>.</p>
+				<select style="width: auto;">
 					<option>-- Выберите --</option>
 					<option>Пункт 1</option>
 					<option>Пункт 2</option>
-					<option>Пункт 3</option>
+					<option>Какой-то пункт с очень-очень-очень длинным-длинным-длинным текстом</option>
 					<option>Пункт 4</option>
 					<option>Пункт 5</option>
 				</select>
-				какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст какой-то текст
-			</div><!-- .section -->
 
-			<div class="section">
+				<br /><br />
 
-				<div class="sec">
-					<p>Селект, имеющий пункт <strong>с длинным текстом</strong>.</p>
-					<select>
-						<option>-- Выберите --</option>
-						<option>Пункт 1</option>
-						<option>Пункт 2</option>
-						<option>Какой-то пункт с очень длинным текстом, не влезающим в одну строку</option>
-						<option>Пункт 4</option>
-						<option>Пункт 5</option>
-					</select>
-				</div><!-- .sec -->
-
-				<div class="sec nowidth">
-					<p>У этого селекта <strong>не указана ширина</strong>.</p>
-					<select>
-						<option>-- Выберите --</option>
-						<option>Пункт 1</option>
-						<option>Пункт 2</option>
-						<option>Какой-то пункт с очень длинным текстом, не влезающим в одну строку</option>
-						<option>Пункт 4</option>
-						<option>Пункт 5</option>
-					</select>
-				</div><!-- .sec -->
+				<p>Селект, имеющий пункт <strong>с длинным текстом</strong> и <strong>с заданной шириной селекта</strong> (200 пикселей).</p>
+				<select style="width: 200px;">
+					<option>-- Выберите --</option>
+					<option>Пункт 1</option>
+					<option>Пункт 2</option>
+					<option>Какой-то пункт с очень-очень-очень длинным-длинным-длинным текстом</option>
+					<option>Пункт 4</option>
+					<option>Пункт 5</option>
+				</select>
 
 			</div><!-- .section -->
 
@@ -334,6 +318,34 @@
 							<option>Пункт 2.2</option>
 							<option>Пункт 2.3</option>
 						</optgroup>
+					</select>
+				</div><!-- .sec -->
+
+			</div><!-- .section -->
+
+			<div class="section">
+
+				<div class="sec showChanged">
+					<p>Показываем, что селект изменен, используя класс <code>.changed</code> (появляется зеленая обводка).</p>
+					<select>
+						<option>-- Выберите --</option>
+						<option>Пункт 1</option>
+						<option>Пункт 2</option>
+						<option>Пункт 3</option>
+						<option>Пункт 4</option>
+						<option>Пункт 5</option>
+					</select>
+				</div><!-- .sec -->
+
+				<div class="sec lang">
+					<p>Класс, указаннный для <code>option</code>, передается свернутом селекту, благодаря чему мы в нем видим флаг.</p>
+					<select>
+						<option>-- Выберите язык --</option>
+						<option class="lang-en">Английский</option>
+						<option class="lang-es">Испанский</option>
+						<option class="lang-de">Немецкий</option>
+						<option class="lang-ru">Русский</option>
+						<option class="lang-fr">Французский</option>
 					</select>
 				</div><!-- .sec -->
 
