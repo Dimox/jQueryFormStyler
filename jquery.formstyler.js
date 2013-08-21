@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.8
+ * jQuery Form Styler v1.3.8.1
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.08.12
+ * Date: 2013.08.21
  *
  */
 
@@ -269,13 +269,25 @@
 									dropdown.width(liWidth + dropdown.width() - li.width());
 								}
 
-								if (li.filter('.selected').length < 1) li.first().addClass('selected sel');
+								var liSelected = li.filter('.selected');
+								if (liSelected.length < 1) li.first().addClass('selected sel');
 								var selectHeight = selectbox.outerHeight();
 								if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
 								if (dropdown.css('top') == 'auto') dropdown.css({top: selectHeight});
 								var liHeight = li.outerHeight();
 								var position = dropdown.css('top');
 								dropdown.hide();
+
+								// если выбран не дефолтный пункт
+								if (liSelected.length) {
+									// добавляем класс, показывающий изменение селекта
+									if (option.first().text() != optionSelected.text()) {
+										selectbox.addClass('changed');
+									}
+									// передаем селекту класс выбранного пункта
+									selectbox.data('class', liSelected.data('class'));
+									selectbox.addClass(liSelected.data('class'));
+								}
 
 								// если селект неактивный
 								if (el.is(':disabled')) {
@@ -361,7 +373,7 @@
 										divText.text(liText);
 
 										// добавляем класс, показывающий изменение селекта
-										if (liText != selText) {
+										if (option.first().text() != liText) {
 											selectbox.addClass('changed');
 										} else {
 											selectbox.removeClass('changed');
