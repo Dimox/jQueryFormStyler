@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.8.1
+ * jQuery Form Styler v1.3.8.2
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.08.21
+ * Date: 2013.09.06
  *
  */
 
@@ -380,7 +380,7 @@
 										}
 
 										// передаем селекту класс выбранного пункта
-										selectbox.removeClass(selectbox.data('class'));
+										if (selectbox.data('class')) selectbox.removeClass(selectbox.data('class'));
 										selectbox.data('class', t.data('class'));
 										selectbox.addClass(t.data('class'));
 
