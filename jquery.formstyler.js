@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.8.2
+ * jQuery Form Styler v1.3.9
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.09.06
+ * Date: 2013.10.03
  *
  */
 
@@ -192,9 +192,10 @@
 								for (i = 0, len = option.length; i < len; i++) {
 									var li = '',
 											liClass = '',
-											dataClass = '',
+											dataList = '',
 											optionClass = '',
-											optgroupClass = '';
+											optgroupClass = '',
+											dataJqfsClass = '';
 									var disabled = 'disabled';
 									var selDis = 'selected sel disabled';
 									if (option.eq(i).prop('selected')) liClass = 'selected sel';
@@ -202,17 +203,25 @@
 									if (option.eq(i).is(':selected:disabled')) liClass = selDis;
 									if (option.eq(i).attr('class') !== undefined) {
 										optionClass = ' ' + option.eq(i).attr('class');
-										dataClass = ' data-class="' + option.eq(i).attr('class') + '"';
+										dataJqfsClass = ' data-jqfs-class="' + option.eq(i).attr('class') + '"';
 									}
-									li = '<li' + dataClass + ' class="' + liClass + optionClass + '">'+ option.eq(i).text() +'</li>';
+
+									var data = option.eq(i).data();
+									for (var k in data) {
+										if (data[k] != '') dataList += ' data-' + k + '="' + data[k] + '"';
+									}
+
+									li = '<li' + dataJqfsClass + dataList + ' class="' + liClass + optionClass + '">'+ option.eq(i).text() +'</li>';
+
 									// если есть optgroup
 									if (option.eq(i).parent().is('optgroup')) {
 										if (option.eq(i).parent().attr('class') !== undefined) optgroupClass = ' ' + option.eq(i).parent().attr('class');
-										li = '<li' + dataClass + ' class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).text() +'</li>';
+										li = '<li' + dataJqfsClass + ' class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).text() +'</li>';
 										if (option.eq(i).is(':first-child')) {
 											li = '<li class="optgroup' + optgroupClass + '">' + option.eq(i).parent().attr('label') + '</li>' + li;
 										}
 									}
+
 									list += li;
 								}
 							} // end makeList()
@@ -226,7 +235,7 @@
 												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>'+
 											'</div>'+
 										'</div>');
-								el.after(selectbox).css({position: 'absolute', left: -9999});
+								el.after(selectbox);
 								var divSelect = $('div.jq-selectbox__select', selectbox);
 								var divText = $('div.jq-selectbox__select-text', selectbox);
 								var optionSelected = option.filter(':selected');
@@ -269,6 +278,9 @@
 									dropdown.width(liWidth + dropdown.width() - li.width());
 								}
 
+								// прячем оригинальный селект
+								el.css({position: 'absolute', left: -9999});
+
 								var liSelected = li.filter('.selected');
 								if (liSelected.length < 1) li.first().addClass('selected sel');
 								var selectHeight = selectbox.outerHeight();
@@ -285,8 +297,8 @@
 										selectbox.addClass('changed');
 									}
 									// передаем селекту класс выбранного пункта
-									selectbox.data('class', liSelected.data('class'));
-									selectbox.addClass(liSelected.data('class'));
+									selectbox.data('jqfs-class', liSelected.data('jqfs-class'));
+									selectbox.addClass(liSelected.data('jqfs-class'));
 								}
 
 								// если селект неактивный
@@ -380,9 +392,9 @@
 										}
 
 										// передаем селекту класс выбранного пункта
-										if (selectbox.data('class')) selectbox.removeClass(selectbox.data('class'));
-										selectbox.data('class', t.data('class'));
-										selectbox.addClass(t.data('class'));
+										if (selectbox.data('jqfs-class')) selectbox.removeClass(selectbox.data('jqfs-class'));
+										selectbox.data('jqfs-class', t.data('jqfs-class'));
+										selectbox.addClass(t.data('jqfs-class'));
 
 										el.change();
 									}
@@ -436,11 +448,11 @@
 							// мультиселект
 							function doMultipleSelect() {
 								var selectbox = $('<div' + id + ' class="jq-select-multiple jqselect' + cl + '"' + title + ' style="display: inline-block"></div>');
-								el.after(selectbox).css({position: 'absolute', left: -9999});
+								el.after(selectbox);
 								makeList();
 								selectbox.append('<ul style="position: relative">' + list + '</ul>');
-								var ul = $('ul', selectbox);
-								var li = $('li', selectbox).attr('unselectable', 'on').css({'-webkit-user-select': 'none', '-moz-user-select': 'none', '-ms-user-select': 'none', '-o-user-select': 'none', 'user-select': 'none'});
+								var ul = $('ul', selectbox).css({'overflow-x': 'hidden'});
+								var li = $('li', selectbox).attr('unselectable', 'on').css({'-webkit-user-select': 'none', '-moz-user-select': 'none', '-ms-user-select': 'none', '-o-user-select': 'none', 'user-select': 'none', 'white-space': 'nowrap'});
 								var size = el.attr('size');
 								var ulHeight = ul.outerHeight();
 								var liHeight = li.outerHeight();
@@ -457,12 +469,26 @@
 										ul.scrollTop(ul.scrollTop() + li.filter('.selected').position().top);
 									}
 								}
+
+								// если селект неактивный
 								if (el.is(':disabled')) {
 									selectbox.addClass('disabled');
 									option.each(function() {
 										if ($(this).is(':selected')) li.eq($(this).index()).addClass('selected');
 									});
+									// устанавливаем ширину псевдоселекта
+									selectbox.width(el.outerWidth());
+									selectbox.width(selectbox.width() - (selectbox.outerWidth() - selectbox.width()));
+
+								// если селект активный
 								} else {
+
+									// устанавливаем ширину псевдоселекта
+									selectbox.width(el.outerWidth());
+									selectbox.width(selectbox.width() - (selectbox.outerWidth() - selectbox.width()));
+
+									// прячем оригинальный селект
+									el.css({position: 'absolute', left: -9999});
 
 									// при клике на пункт списка
 									li.filter(':not(.disabled):not(.optgroup)').click(function(e) {

@@ -185,7 +185,7 @@ select {
 }
 
 .width .jq-select-multiple {
-	width: 286px;
+	width: 286px !important;
 }
 .sec {
 	float: right;
