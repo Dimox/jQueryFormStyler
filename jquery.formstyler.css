@@ -97,6 +97,9 @@
 	background: #F5F5F5;
 	box-shadow: inset 1px 1px 3px #DDD;
 }
+.jq-file.disabled .jq-file__name {
+	color: #888;
+}
 .jq-file.disabled,
 .jq-file.disabled .jq-file__browse {
 	border-color: #CCC;
