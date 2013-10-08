@@ -78,6 +78,8 @@
 	background: none;
 	color: #333;
 	font: 14px Arial, Tahoma, sans-serif;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 .jq-file__browse {
 	padding: 0 10px;
