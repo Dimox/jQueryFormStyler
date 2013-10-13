@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.3.9
+ * jQuery Form Styler v1.4
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.10.03
+ * Date: 2013.10.13
  *
  */
 
@@ -14,6 +14,7 @@
 
 		var opt = $.extend({
 			idSuffix: '-styler',
+			filePlaceholder: 'Файл не выбран',
 			browseText: 'Обзор...',
 			selectVisibleOptions: 0,
 			singleSelectzIndex: '100',
@@ -37,10 +38,10 @@
 
 			// checkbox
 			if (el.is(':checkbox')) {
-				el.css({position: 'absolute', left: -9999}).each(function() {
+				el.css({position: 'absolute', opacity: 0}).each(function() {
 					if (el.next('div.jq-checkbox').length < 1) {
 						var checkbox = $('<div' + id + ' class="jq-checkbox' + cl + '"' + title + ' style="display: inline-block"><div></div></div>');
-						el.after(checkbox);
+						el.after(checkbox).css('margin-top', checkbox.outerHeight());
 						if (el.is(':checked')) checkbox.addClass('checked');
 						if (el.is(':disabled')) checkbox.addClass('disabled');
 						// клик на псевдочекбокс
@@ -78,9 +79,9 @@
 						})
 						.blur(function() {
 							checkbox.removeClass('focused');
-						});
+						})
 						// обновление при динамическом изменении
-						el.on('refresh', function() {
+						.on('refresh', function() {
 							if (el.is(':checked')) checkbox.addClass('checked');
 								else checkbox.removeClass('checked');
 							if (el.is(':disabled')) checkbox.addClass('disabled');
@@ -91,10 +92,10 @@
 
 			// radio
 			} else if (el.is(':radio')) {
-				el.css({position: 'absolute', left: -9999}).each(function() {
+				el.css({position: 'absolute', opacity: 0}).each(function() {
 					if (el.next('div.jq-radio').length < 1) {
 						var radio = $('<div' + id + ' class="jq-radio' + cl + '"' + title + ' style="display: inline-block"><div></div></div>');
-						el.after(radio);
+						el.after(radio).css('margin-top', radio.outerHeight());
 						if (el.is(':checked')) radio.addClass('checked');
 						if (el.is(':disabled')) radio.addClass('disabled');
 						// клик на псевдорадиокнопке
@@ -123,9 +124,9 @@
 						})
 						.blur(function() {
 							radio.removeClass('focused');
-						});
+						})
 						// обновление при динамическом изменении
-						el.on('refresh', function() {
+						.on('refresh', function() {
 							if (el.is(':checked')) {
 								$('input[name="' + el.attr('name') + '"]').next().removeClass('checked');
 								radio.addClass('checked');
@@ -140,11 +141,11 @@
 
 			// file
 			} else if (el.is(':file')) {
-				el.css({position: 'absolute', top: '-50%', right: '-50%', fontSize: '200px', opacity: 0}).each(function() {
+				el.css({position: 'absolute', top: '0', right: '0', width: '100%', height: '100%', opacity: 0}).each(function() {
 					if (el.parent('div.jq-file').length < 1) {
 						var file = $('<div' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></div>');
-						var name = $('<div class="jq-file__name" style="float: left; white-space: nowrap"></div>').appendTo(file);
-						var browse = $('<div class="jq-file__browse" style="float: left">' + opt.browseText + '</div>').appendTo(file);
+						var name = $('<div class="jq-file__name">' + opt.filePlaceholder + '</div>').appendTo(file);
+						var browse = $('<div class="jq-file__browse">' + opt.browseText + '</div>').appendTo(file);
 						el.after(file);
 						file.append(el);
 						if (el.is(':disabled')) file.addClass('disabled');
@@ -235,7 +236,12 @@
 												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>'+
 											'</div>'+
 										'</div>');
-								el.after(selectbox);
+
+								// .jq-selectbox-wrapper необходим для того, чтобы избавиться от горизонтальной прокрутки,
+								// появляемой из-за свойства position: absolute, которое добавлено к селекту,
+								// например, когда ширина селекта = 100%
+								el.wrap('<div class="jq-selectbox-wrapper" style="position: relative"></div>').after(selectbox);
+
 								var divSelect = $('div.jq-selectbox__select', selectbox);
 								var divText = $('div.jq-selectbox__select-text', selectbox);
 								var optionSelected = option.filter(':selected');
@@ -279,7 +285,7 @@
 								}
 
 								// прячем оригинальный селект
-								el.css({position: 'absolute', left: -9999});
+								el.css({position: 'absolute', opacity: 0, height: selectbox.outerHeight()});
 
 								var liSelected = li.filter('.selected');
 								if (liSelected.length < 1) li.first().addClass('selected sel');
@@ -447,8 +453,13 @@
 
 							// мультиселект
 							function doMultipleSelect() {
-								var selectbox = $('<div' + id + ' class="jq-select-multiple jqselect' + cl + '"' + title + ' style="display: inline-block"></div>');
-								el.after(selectbox);
+								var selectbox = $('<div' + id + ' class="jq-select-multiple jqselect' + cl + '"' + title + ' style="display: inline-block; position: relative"></div>');
+
+								// .jq-selectbox-wrapper необходим для того, чтобы избавиться от горизонтальной прокрутки,
+								// появляемой из-за свойства position: absolute, которое добавлено к селекту,
+								// например, когда ширина селекта = 100%
+								el.wrap('<div class="jq-selectbox-wrapper" style="position: relative"></div>').after(selectbox);
+
 								makeList();
 								selectbox.append('<ul style="position: relative">' + list + '</ul>');
 								var ul = $('ul', selectbox).css({'overflow-x': 'hidden'});
@@ -480,6 +491,9 @@
 									selectbox.width(el.outerWidth());
 									selectbox.width(selectbox.width() - (selectbox.outerWidth() - selectbox.width()));
 
+									// прячем оригинальный селект
+									el.css({position: 'absolute', opacity: 0, height: selectbox.outerHeight()});
+
 								// если селект активный
 								} else {
 
@@ -488,7 +502,7 @@
 									selectbox.width(selectbox.width() - (selectbox.outerWidth() - selectbox.width()));
 
 									// прячем оригинальный селект
-									el.css({position: 'absolute', left: -9999});
+									el.css({position: 'absolute', opacity: 0, height: selectbox.outerHeight()});
 
 									// при клике на пункт списка
 									li.filter(':not(.disabled):not(.optgroup)').click(function(e) {
@@ -590,6 +604,15 @@
 						el.on('refresh', function() {
 							el.next().remove();
 							selectbox();
+						});
+						// адаптивная ширина
+						el.on('adaptiveWidth', function() {
+							el.css({position: 'static'});
+							el.next().width(el.outerWidth());
+							el.css({position: 'absolute'});
+						});
+						$(window).on('resize', function () {
+							el.trigger('adaptiveWidth');
 						});
 					}
 				});
