@@ -1,5 +1,4 @@
 .jq-checkbox {
-	position: relative;
 	top: -1px;
 	width: 13px;
 	height: 13px;
@@ -10,8 +9,7 @@
 	vertical-align: middle;
 	cursor: pointer;
 }
-.jq-checkbox.checked div {
-	display: block;
+.jq-checkbox.checked .jq-checkbox__div {
 	width: 9px;
 	height: 9px;
 	margin: 2px 0 0 2px;
@@ -38,11 +36,9 @@
 	vertical-align: middle;
 	cursor: pointer;
 }
-.jq-radio.checked div {
-	display: block;
+.jq-radio.checked .jq-radio__div {
 	width: 6px;
 	height: 6px;
-	overflow: hidden;
 	margin: 3px 0 0 3px;
 	border-radius: 50%;
 	background: #666;
