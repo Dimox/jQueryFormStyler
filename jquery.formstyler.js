@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.1
+ * jQuery Form Styler v1.4.2
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.10.27
+ * Date: 2013.11.03
  *
  */
 
@@ -46,7 +46,9 @@
 						el.css({
 							position: 'absolute',
 							zIndex: '-1',
-							opacity: 0
+							opacity: 0,
+							margin: 0,
+							padding: 0
 						}).after(checkbox).prependTo(checkbox);
 
 						checkbox.attr('unselectable', 'on').css({
@@ -119,7 +121,9 @@
 						el.css({
 							position: 'absolute',
 							zIndex: '-1',
-							opacity: 0
+							opacity: 0,
+							margin: 0,
+							padding: 0
 						}).after(radio).prependTo(radio);
 
 						radio.attr('unselectable', 'on').css({
@@ -177,7 +181,17 @@
 
 			// file
 			} else if (el.is(':file')) {
-				el.css({position: 'absolute', top: '0', right: '0', width: '100%', height: '100%', opacity: 0}).each(function() {
+				// прячем оригинальное поле
+				el.css({
+					position: 'absolute',
+					top: 0,
+					right: 0,
+					width: '100%',
+					height: '100%',
+					opacity: 0,
+					margin: 0,
+					padding: 0
+				}).each(function() {
 					if (el.parent('div.jq-file').length < 1) {
 						var file = $('<div' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></div>');
 						var name = $('<div class="jq-file__name">' + opt.filePlaceholder + '</div>').appendTo(file);
@@ -274,9 +288,17 @@
 										'</div>');
 
 								// .jq-selectbox-wrapper необходим для того, чтобы избавиться от горизонтальной прокрутки,
-								// появляемой из-за свойства position: absolute, которое добавлено к селекту,
-								// например, когда ширина селекта = 100%
-								el.wrap('<div class="jq-selectbox-wrapper" style="position: relative"></div>').after(selectbox);
+								// появляемой, когда ширина селекта указана в процентах
+								// из-за свойства position: absolute у оригинального селекта
+								el.css({margin: 0, padding: 0}).wrap('<div class="jq-selectbox-wrapper" style="display: inline-block; position: relative;"></div>').after(selectbox);
+
+								// делаем .jq-selectbox-wrapper блочным, если ширина оригинала указана в процентах
+								var elClone = el.clone().appendTo('body');
+								var elCloneWidth = elClone.width();
+								elClone.remove();
+								if (elCloneWidth != el.width()) {
+									el.parent().css('display', 'block');
+								}
 
 								var divSelect = $('div.jq-selectbox__select', selectbox);
 								var divText = $('div.jq-selectbox__select-text', selectbox);
@@ -304,24 +326,21 @@
 									if ($(this).width() > liWidth) liWidth = $(this).width();
 									$(this).css({'display': 'block', 'white-space': 'normal'});
 								});
-								// определяем, указана ли ширина селекта
-								var elClone = el.clone().css('width', 'auto').insertAfter(el);
-								var elCloneWidth = elClone.width();
-								elClone.remove();
-								// если ширина селекта не указана
-								if (elCloneWidth == el.width()) {
-									divSelect.width(liWidth);
-								// если ширина селекта указана
-								} else {
-									selectbox.width(el.outerWidth());
-								}
+
+								// ставим ширину псевдоселекта равной ширине оригинального селекта
+								selectbox.width(el.outerWidth());
+
 								// если ширина селекта указана, но есть пункт, ширина которого больше
 								if (liWidth > dropdown.width()) {
 									dropdown.width(liWidth + dropdown.width() - li.width());
 								}
 
 								// прячем оригинальный селект
-								el.css({position: 'absolute', opacity: 0, height: selectbox.outerHeight()});
+								el.css({
+									position: 'absolute',
+									opacity: 0,
+									height: selectbox.outerHeight()
+								});
 
 								var liSelected = li.filter('.selected');
 								if (liSelected.length < 1) li.first().addClass('selected sel');
@@ -492,9 +511,17 @@
 								var selectbox = $('<div' + id + ' class="jq-select-multiple jqselect' + cl + '"' + title + ' style="display: inline-block; position: relative"></div>');
 
 								// .jq-selectbox-wrapper необходим для того, чтобы избавиться от горизонтальной прокрутки,
-								// появляемой из-за свойства position: absolute, которое добавлено к селекту,
-								// например, когда ширина селекта = 100%
-								el.wrap('<div class="jq-selectbox-wrapper" style="position: relative"></div>').after(selectbox);
+								// появляемой, когда ширина селекта указана в процентах
+								// из-за свойства position: absolute у оригинального селекта
+								el.css({margin: 0, padding: 0}).wrap('<div class="jq-selectbox-wrapper" style="display: inline-block; position: relative;"></div>').after(selectbox);
+
+								// делаем .jq-selectbox-wrapper блочным, если ширина оригинала указана в процентах
+								var elClone = el.clone().appendTo('body');
+								var elCloneWidth = elClone.width();
+								elClone.remove();
+								if (elCloneWidth != el.width()) {
+									el.parent().css('display', 'block');
+								}
 
 								makeList();
 								selectbox.append('<ul style="position: relative">' + list + '</ul>');
@@ -528,7 +555,11 @@
 									selectbox.width(selectbox.width() - (selectbox.outerWidth() - selectbox.width()));
 
 									// прячем оригинальный селект
-									el.css({position: 'absolute', opacity: 0, height: selectbox.outerHeight()});
+									el.css({
+										position: 'absolute',
+										opacity: 0,
+										height: selectbox.outerHeight()
+									});
 
 								// если селект активный
 								} else {
@@ -538,7 +569,11 @@
 									selectbox.width(selectbox.width() - (selectbox.outerWidth() - selectbox.width()));
 
 									// прячем оригинальный селект
-									el.css({position: 'absolute', opacity: 0, height: selectbox.outerHeight()});
+									el.css({
+										position: 'absolute',
+										opacity: 0,
+										height: selectbox.outerHeight()
+									});
 
 									// при клике на пункт списка
 									li.filter(':not(.disabled):not(.optgroup)').click(function(e) {
