@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.2
+ * jQuery Form Styler v1.4.3
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.11.03
+ * Date: 2013.11.09
  *
  */
 
@@ -371,6 +371,10 @@
 								// при клике на псевдоселекте
 								divSelect.click(function() {
 									el.focus();
+
+									// если iOS, то не показываем выпадающий список
+									var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false;
+									if (iOS) return;
 
 									// умное позиционирование
 									if (opt.selectSmartPositioning) {
