@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.3
+ * jQuery Form Styler v1.4.4
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.11.09
+ * Date: 2013.11.17
  *
  */
 
@@ -110,6 +110,7 @@
 						});
 					}
 				});
+			// end checkbox
 
 			// radio
 			} else if (el.is(':radio')) {
@@ -178,6 +179,7 @@
 						});
 					}
 				});
+			// end radio
 
 			// file
 			} else if (el.is(':file')) {
@@ -215,9 +217,11 @@
 						.on('refresh', function() {
 							if (el.is(':disabled')) file.addClass('disabled');
 								else file.removeClass('disabled');
+							if (el.val() == '') name.text(opt.filePlaceholder);
 						})
 					}
 				});
+			// end file
 
 			// select
 			} else if (el.is('select')) {
@@ -691,7 +695,17 @@
 						});
 					}
 				});
-			}// end select
+			// end select
+
+			// reset
+			} else if (el.is(':reset')) {
+				el.click(function() {
+					setTimeout(function() {
+						el.closest('form').find('input, select').trigger('refresh');
+					}, 1)
+				});
+			}
+			// end reset
 
 		});
 
