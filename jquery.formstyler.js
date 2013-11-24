@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.4
+ * jQuery Form Styler v1.4.5
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.11.17
+ * Date: 2013.11.24
  *
  */
 
@@ -23,91 +23,105 @@
 
 		return this.each(function() {
 			var el = $(this);
-			var id = '',
-					cl = '',
-					title = '',
-					dataList = '';
-			if (el.attr('id') !== undefined && el.attr('id') != '') id = ' id="' + el.attr('id') + opt.idSuffix + '"';
-			if (el.attr('class') !== undefined && el.attr('class') != '') cl = ' ' + el.attr('class');
-			if (el.attr('title') !== undefined && el.attr('title') != '') title = ' title="' + el.attr('title') + '"';
-			var data = el.data();
-			for (var i in data) {
-				if (data[i] != '') dataList += ' data-' + i + '="' + data[i] + '"';
+
+			function attributes() {
+				var id = '',
+						title = '',
+						classes = '',
+						dataList = '';
+				if (el.attr('id') !== undefined && el.attr('id') != '') id = ' id="' + el.attr('id') + opt.idSuffix + '"';
+				if (el.attr('title') !== undefined && el.attr('title') != '') title = ' title="' + el.attr('title') + '"';
+				if (el.attr('class') !== undefined && el.attr('class') != '') classes = ' ' + el.attr('class');
+				var data = el.data();
+				for (var i in data) {
+					if (data[i] != '') dataList += ' data-' + i + '="' + data[i] + '"';
+				}
+				id += dataList;
+				this.id = id;
+				this.title = title;
+				this.classes = classes;
 			}
-			id += dataList;
 
 			// checkbox
 			if (el.is(':checkbox')) {
 				el.each(function() {
 					if (el.parent('div.jq-checkbox').length < 1) {
-						var checkbox = $('<div' + id + ' class="jq-checkbox' + cl + '"' + title + '><div class="jq-checkbox__div"></div></div>');
 
-						// прячем оригинальный чекбокс
-						el.css({
-							position: 'absolute',
-							zIndex: '-1',
-							opacity: 0,
-							margin: 0,
-							padding: 0
-						}).after(checkbox).prependTo(checkbox);
+						function checkbox() {
 
-						checkbox.attr('unselectable', 'on').css({
-							'-webkit-user-select': 'none',
-							'-moz-user-select': 'none',
-							'-ms-user-select': 'none',
-							'-o-user-select': 'none',
-							'user-select': 'none',
-							display: 'inline-block',
-							position: 'relative',
-							overflow: 'hidden'
-						});
+							var att = new attributes();
+							var checkbox = $('<div' + att.id + ' class="jq-checkbox' + att.classes + '"' + att.title + '><div class="jq-checkbox__div"></div></div>');
 
-						if (el.is(':checked')) checkbox.addClass('checked');
-						if (el.is(':disabled')) checkbox.addClass('disabled');
+							// прячем оригинальный чекбокс
+							el.css({
+								position: 'absolute',
+								zIndex: '-1',
+								opacity: 0,
+								margin: 0,
+								padding: 0
+							}).after(checkbox).prependTo(checkbox);
 
-						// клик на псевдочекбокс
-						checkbox.click(function() {
-							if (!checkbox.is('.disabled')) {
-								if (el.is(':checked')) {
-									el.prop('checked', false);
-									checkbox.removeClass('checked');
-								} else {
-									el.prop('checked', true);
-									checkbox.addClass('checked');
-								}
-								el.change();
-								return false;
-							} else {
-								return false;
-							}
-						});
-						// клик на label
-						el.closest('label').add('label[for="' + el.attr('id') + '"]').click(function(e) {
-							checkbox.click();
-							e.preventDefault();
-						});
-						// переключение по Space или Enter
-						el.change(function() {
+							checkbox.attr('unselectable', 'on').css({
+								'-webkit-user-select': 'none',
+								'-moz-user-select': 'none',
+								'-ms-user-select': 'none',
+								'-o-user-select': 'none',
+								'user-select': 'none',
+								display: 'inline-block',
+								position: 'relative',
+								overflow: 'hidden'
+							});
+
 							if (el.is(':checked')) checkbox.addClass('checked');
-							else checkbox.removeClass('checked');
-						})
-						// чтобы переключался чекбокс, который находится в теге label
-						.keydown(function(e) {
-							if (e.which == 13 || e.which == 32) checkbox.click();
-						})
-						.focus(function() {
-							if (!checkbox.is('.disabled')) checkbox.addClass('focused');
-						})
-						.blur(function() {
-							checkbox.removeClass('focused');
-						})
-						// обновление при динамическом изменении
-						.on('refresh', function() {
-							if (el.is(':checked')) checkbox.addClass('checked');
-								else checkbox.removeClass('checked');
 							if (el.is(':disabled')) checkbox.addClass('disabled');
-								else checkbox.removeClass('disabled');
+
+							// клик на псевдочекбокс
+							checkbox.click(function() {
+								if (!checkbox.is('.disabled')) {
+									if (el.is(':checked')) {
+										el.prop('checked', false);
+										checkbox.removeClass('checked');
+									} else {
+										el.prop('checked', true);
+										checkbox.addClass('checked');
+									}
+									el.change();
+									return false;
+								} else {
+									return false;
+								}
+							});
+							// клик на label
+							el.closest('label').add('label[for="' + el.attr('id') + '"]').click(function(e) {
+								checkbox.click();
+								e.preventDefault();
+							});
+							// переключение по Space или Enter
+							el.change(function() {
+								if (el.is(':checked')) checkbox.addClass('checked');
+								else checkbox.removeClass('checked');
+							})
+							// чтобы переключался чекбокс, который находится в теге label
+							.keydown(function(e) {
+								if (e.which == 13 || e.which == 32) checkbox.click();
+							})
+							.focus(function() {
+								if (!checkbox.is('.disabled')) checkbox.addClass('focused');
+							})
+							.blur(function() {
+								checkbox.removeClass('focused');
+							})
+
+						} // end checkbox()
+
+						checkbox();
+
+						// обновление при динамическом изменении
+						el.on('refresh', function() {
+							el.parent().before(el).remove();
+							checkbox();
 						});
+
 					}
 				});
 			// end checkbox
@@ -116,67 +130,71 @@
 			} else if (el.is(':radio')) {
 				el.each(function() {
 					if (el.parent('div.jq-radio').length < 1) {
-						var radio = $('<div' + id + ' class="jq-radio' + cl + '"' + title + '><div class="jq-radio__div"></div></div>');
 
-						// прячем оригинальную радиокнопку
-						el.css({
-							position: 'absolute',
-							zIndex: '-1',
-							opacity: 0,
-							margin: 0,
-							padding: 0
-						}).after(radio).prependTo(radio);
+						function radio() {
 
-						radio.attr('unselectable', 'on').css({
-							'-webkit-user-select': 'none',
-							'-moz-user-select': 'none',
-							'-ms-user-select': 'none',
-							'-o-user-select': 'none',
-							'user-select': 'none',
-							display: 'inline-block',
-							position: 'relative'
-						});
+							var att = new attributes();
+							var radio = $('<div' + att.id + ' class="jq-radio' + att.classes + '"' + att.title + '><div class="jq-radio__div"></div></div>');
 
-						if (el.is(':checked')) radio.addClass('checked');
-						if (el.is(':disabled')) radio.addClass('disabled');
+							// прячем оригинальную радиокнопку
+							el.css({
+								position: 'absolute',
+								zIndex: '-1',
+								opacity: 0,
+								margin: 0,
+								padding: 0
+							}).after(radio).prependTo(radio);
 
-						// клик на псевдорадиокнопке
-						radio.click(function() {
-							if (!radio.is('.disabled')) {
-								radio.closest('form').find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
-								el.prop('checked', true).parent().addClass('checked');
-								el.change();
-								return false;
-							} else {
-								return false;
-							}
-						});
-						// клик на label
-						el.closest('label').add('label[for="' + el.attr('id') + '"]').click(function(e) {
-							radio.click();
-							e.preventDefault();
-						});
-						// переключение стрелками
-						el.change(function() {
-							el.parent().addClass('checked');
-						})
-						.focus(function() {
-							if (!radio.is('.disabled')) radio.addClass('focused');
-						})
-						.blur(function() {
-							radio.removeClass('focused');
-						})
-						// обновление при динамическом изменении
-						.on('refresh', function() {
-							if (el.is(':checked')) {
-								$('input[name="' + el.attr('name') + '"]').parent().removeClass('checked');
-								radio.addClass('checked');
-							} else {
-								radio.removeClass('checked');
-							}
+							radio.attr('unselectable', 'on').css({
+								'-webkit-user-select': 'none',
+								'-moz-user-select': 'none',
+								'-ms-user-select': 'none',
+								'-o-user-select': 'none',
+								'user-select': 'none',
+								display: 'inline-block',
+								position: 'relative'
+							});
+
+							if (el.is(':checked')) radio.addClass('checked');
 							if (el.is(':disabled')) radio.addClass('disabled');
-								else radio.removeClass('disabled');
+
+							// клик на псевдорадиокнопке
+							radio.click(function() {
+								if (!radio.is('.disabled')) {
+									radio.closest('form').find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
+									el.prop('checked', true).parent().addClass('checked');
+									el.change();
+									return false;
+								} else {
+									return false;
+								}
+							});
+							// клик на label
+							el.closest('label').add('label[for="' + el.attr('id') + '"]').click(function(e) {
+								radio.click();
+								e.preventDefault();
+							});
+							// переключение стрелками
+							el.change(function() {
+								el.parent().addClass('checked');
+							})
+							.focus(function() {
+								if (!radio.is('.disabled')) radio.addClass('focused');
+							})
+							.blur(function() {
+								radio.removeClass('focused');
+							})
+
+						} // end radio()
+
+						radio();
+
+						// обновление при динамическом изменении
+						el.on('refresh', function() {
+							el.parent().before(el).remove();
+							radio();
 						});
+
 					}
 				});
 			// end radio
@@ -195,30 +213,39 @@
 					padding: 0
 				}).each(function() {
 					if (el.parent('div.jq-file').length < 1) {
-						var file = $('<div' + id + ' class="jq-file' + cl + '" style="display: inline-block; position: relative; overflow: hidden"></div>');
-						var name = $('<div class="jq-file__name">' + opt.filePlaceholder + '</div>').appendTo(file);
-						var browse = $('<div class="jq-file__browse">' + opt.browseText + '</div>').appendTo(file);
-						el.after(file);
-						file.append(el);
-						if (el.is(':disabled')) file.addClass('disabled');
-						el.change(function() {
-							name.text(el.val().replace(/.+[\\\/]/, ''));
-						})
-						.focus(function() {
-							file.addClass('focused');
-						})
-						.blur(function() {
-							file.removeClass('focused');
-						})
-						.click(function() {
-							file.removeClass('focused');
-						})
-						// обновление при динамическом изменении
-						.on('refresh', function() {
+
+						function file() {
+
+							var att = new attributes();
+							var file = $('<div' + att.id + ' class="jq-file' + att.classes + '"' + att.title + ' style="display: inline-block; position: relative; overflow: hidden"></div>');
+							var name = $('<div class="jq-file__name">' + opt.filePlaceholder + '</div>').appendTo(file);
+							var browse = $('<div class="jq-file__browse">' + opt.browseText + '</div>').appendTo(file);
+							el.after(file);
+							file.append(el);
 							if (el.is(':disabled')) file.addClass('disabled');
-								else file.removeClass('disabled');
-							if (el.val() == '') name.text(opt.filePlaceholder);
+							el.change(function() {
+								name.text(el.val().replace(/.+[\\\/]/, ''));
+							})
+							.focus(function() {
+								file.addClass('focused');
+							})
+							.blur(function() {
+								file.removeClass('focused');
+							})
+							.click(function() {
+								file.removeClass('focused');
+							})
+
+						} // end file()
+
+						file();
+
+						// обновление при динамическом изменении
+						el.on('refresh', function() {
+							el.parent().before(el).remove();
+							file();
 						})
+
 					}
 				});
 			// end file
@@ -283,9 +310,10 @@
 
 							// одиночный селект
 							function doSelect() {
+								var att = new attributes();
 								var selectbox =
-									$('<div' + id + ' class="jq-selectbox jqselect' + cl + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-											'<div class="jq-selectbox__select"' + title + '>'+
+									$('<div' + att.id + ' class="jq-selectbox jqselect' + att.classes + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
+											'<div class="jq-selectbox__select"' + att.title + '>'+
 												'<div class="jq-selectbox__select-text"></div>'+
 												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>'+
 											'</div>'+
@@ -516,7 +544,8 @@
 
 							// мультиселект
 							function doMultipleSelect() {
-								var selectbox = $('<div' + id + ' class="jq-select-multiple jqselect' + cl + '"' + title + ' style="display: inline-block; position: relative"></div>');
+								var att = new attributes();
+								var selectbox = $('<div' + att.id + ' class="jq-select-multiple jqselect' + att.classes + '"' + att.title + ' style="display: inline-block; position: relative"></div>');
 
 								// .jq-selectbox-wrapper необходим для того, чтобы избавиться от горизонтальной прокрутки,
 								// появляемой, когда ширина селекта указана в процентах
@@ -681,7 +710,7 @@
 
 						// обновление при динамическом изменении
 						el.on('refresh', function() {
-							el.next().remove();
+							el.parent().before(el).remove();
 							selectbox();
 						});
 						// адаптивная ширина
@@ -693,6 +722,7 @@
 						$(window).on('resize', function () {
 							el.trigger('adaptiveWidth');
 						});
+
 					}
 				});
 			// end select
