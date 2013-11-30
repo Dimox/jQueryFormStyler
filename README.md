@@ -1,6 +1,11 @@
 jQuery Form Styler <sup>[1.4.5](http://dimox.name/jquery-form-styler/#log)</sup>
 ==================
 
+
+Поиск в одиночном селекте
+------
+
+
 jQuery-плагин для стилизации элементов html-форм:
 
 * `<input type="checkbox">`

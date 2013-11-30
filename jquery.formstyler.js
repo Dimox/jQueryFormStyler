@@ -251,7 +251,7 @@
 			// end file
 
 			// select
-			} else if (el.is('select')) {
+			} else 	if (el.is('select')) {
 				el.each(function() {
 					if (el.next('div.jqselect').length < 1) {
 
@@ -269,8 +269,25 @@
 
 							var option = $('option', el);
 							var list = '';
+							
+							if (opt.selectSearch) { // задаем классы для поля поиска
+									var liSearchClass = 'li-search',
+										liInputSearchClass = 'input-search';
+							};
+
 							// формируем список селекта
+
 							function makeList() {
+								// feature
+								if (opt.selectSearch) {
+									if (option.length > opt.selectSearchLimit) {
+									list = '<li class="'+liSearchClass+'"><input class="'+liInputSearchClass+' styler"'
+										+' style="width: 100%" '
+										+' type="search" placeholder="'+opt.selectSearchPlaceholder+'" autofocus></li>';
+									};
+								};
+								
+
 								for (i = 0, len = option.length; i < len; i++) {
 									var li = '',
 											liClass = '',
@@ -400,6 +417,11 @@
 									return false;
 								}
 
+
+								// feauture
+								var dropdownHeight;
+								////////////////////////
+
 								// при клике на псевдоселекте
 								divSelect.click(function() {
 									el.focus();
@@ -407,6 +429,12 @@
 									// если iOS, то не показываем выпадающий список
 									var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false;
 									if (iOS) return;
+
+									//////////////////////////
+									// feature
+									li.children('.'+liInputSearchClass+'').val('');
+									li.show();
+									//////////////////////////
 
 									// умное позиционирование
 									if (opt.selectSmartPositioning) {
@@ -459,6 +487,11 @@
 									}
 
 									preventScrolling(dropdown);
+									// feature
+									dropdownHeight = dropdown.height();
+									li.children('.'+liInputSearchClass+'').focus();
+
+									///////////////////
 									return false;
 								});
 
@@ -470,11 +503,17 @@
 								var selText = li.filter('.selected').text();
 
 								// при клике на пункт списка
-								li.filter(':not(.disabled):not(.optgroup)').click(function() {
+								// feature :not(.jqselect-li-search)
+								li.filter(':not(.disabled):not(.optgroup):not(.'+liSearchClass+')').click(function() {
 									var t = $(this);
 									var liText = t.text();
 									if (selectedText != liText) {
-										var index = t.index();
+										if (opt.selectSearch) {
+											var index = t.index() - 1;	 // смещение, если есть поле поиска
+										} else {
+											var index = t.index();
+										}
+										
 										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
 										t.addClass('selected sel').siblings().removeClass('selected sel');
 										option.prop('selected', false).eq(index).prop('selected', true);
@@ -501,6 +540,34 @@
 								dropdown.mouseout(function() {
 									$('li.sel', dropdown).addClass('selected');
 								});
+
+								//////////////////////////
+								// feature
+								// регистронзависимый :contains
+								jQuery.expr[":"].contains = function( elem, i, match, array ) {
+   									return (elem.textContent || elem.innerText || jQuery.text( elem ) || "").toLowerCase().indexOf(match[3].toLowerCase()) >= 0;
+								}
+								// при отжатии кнопки в поле поиска
+								li.children('.'+liInputSearchClass+'').keyup(function() {
+									li.show(); // показываем все элементы select'а
+									$('#no_match').remove();
+									dropdown.height(dropdownHeight); // восстанавливаем высоту dropdown
+									var value = $(this).val();
+									if (value != false ) {
+										li.filter(":not(:contains('"+value+"')):not(."+liSearchClass+")").hide();
+										var liShowSize = li.filter(":contains('"+value+"')").size() + 1; // учитываем поле поиска
+
+										if (liShowSize == 1) { // если ничего не найдено
+											dropdown.append('<li id="no_match" style="list-style-type: none">Совпадений не найдено</li>');
+											liShowSize++;
+										}
+
+										if (liShowSize < dropdownHeight / liHeight) { // если кол-во совпадающих меньше чем было
+											dropdown.height(liHeight * liShowSize); // уменьшаем высоту dropdown
+										}
+									}
+								});
+								//////////////////////////
 
 								// изменение селекта
 								el.change(function() {
