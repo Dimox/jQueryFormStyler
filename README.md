@@ -6,7 +6,7 @@ jQuery-плагин для стилизации элементов html-форм
 ------
 ###Опции для поиска в селекте###
 
-<table border="1" style="text-align: center">
+<table cellspacing="0" border="1" style="text-align: center; padding: 5px">
 	<tr>
 		<th>Ключ</th>
 		<th>Значение по умолчанию</th>
