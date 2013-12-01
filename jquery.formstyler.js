@@ -18,7 +18,11 @@
 			browseText: 'Обзор...',
 			selectVisibleOptions: 0,
 			singleSelectzIndex: '100',
-			selectSmartPositioning: true
+			selectSmartPositioning: true,
+			// feauture
+			selectSearch: true,
+			selectSearchPlaceholder: 'Поиск...',
+			selectSearchLimit: 10
 		}, opt);
 
 		return this.each(function() {
