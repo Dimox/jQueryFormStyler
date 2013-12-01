@@ -424,6 +424,7 @@
 
 								// feauture
 								var dropdownHeight;
+								var liSearch = li.children('.'+liInputSearchClass+'');
 								////////////////////////
 
 								// при клике на псевдоселекте
@@ -436,7 +437,7 @@
 
 									//////////////////////////
 									// feature
-									li.children('.'+liInputSearchClass+'').val('');
+									liSearch.val('');
 									li.show();
 									//////////////////////////
 
@@ -552,7 +553,7 @@
    									return (elem.textContent || elem.innerText || jQuery.text( elem ) || "").toLowerCase().indexOf(match[3].toLowerCase()) >= 0;
 								}
 								// при отжатии кнопки в поле поиска
-								li.children('.'+liInputSearchClass+'').keyup(function() {
+								liSearch.keyup(function() {
 									li.show(); // показываем все элементы select'а
 									$('#no_match').remove();
 									dropdown.height(dropdownHeight); // восстанавливаем высоту dropdown
