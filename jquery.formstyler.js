@@ -285,7 +285,7 @@
 								// feature
 								if (opt.selectSearch) {
 									if (option.length > opt.selectSearchLimit) {
-									list = '<li class="'+liSearchClass+'"><input class="'+liInputSearchClass+' styler"'
+									list = '<li class="'+liSearchClass+'"><input class="'+liInputSearchClass+' styler search-box"'
 										+' style="width: 100%" '
 										+' type="search" placeholder="'+opt.selectSearchPlaceholder+'" autofocus></li>';
 									};
