@@ -557,18 +557,19 @@
 									li.show(); // показываем все элементы select'а
 									$('#no_match').remove();
 									dropdown.height(dropdownHeight); // восстанавливаем высоту dropdown
-									var value = $(this).val();
+									var value = $(this).val(); // значение input'a
 									if (value != false ) {
 										li.filter(":not(:contains('"+value+"')):not(."+liSearchClass+")").hide();
 										var liShowSize = li.filter(":contains('"+value+"')").size() + 1; // учитываем поле поиска
-
+										var ulSize = $('ul', selectbox).innerHeight() + 5;
 										if (liShowSize == 1) { // если ничего не найдено
 											dropdown.append('<li id="no_match" style="list-style-type: none">Совпадений не найдено</li>');
 											liShowSize++;
+											ulSize = li.filter(':not(.'+liSearchClass+')').innerHeight() + li.innerHeight() + 5;
 										}
 
 										if (liShowSize < dropdownHeight / liHeight) { // если кол-во совпадающих меньше чем было
-											dropdown.height(liHeight * liShowSize); // уменьшаем высоту dropdown
+											dropdown.height(ulSize); // уменьшаем высоту dropdown
 										}
 									}
 								});
