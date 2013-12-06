@@ -18,7 +18,10 @@
 			browseText: 'Обзор...',
 			selectVisibleOptions: 0,
 			singleSelectzIndex: '100',
-			selectSmartPositioning: true
+			selectSmartPositioning: true,
+			selectSearch: true,
+			selectSearchPlaceholder: 'Поиск...',
+			selectSearchLimit: 10
 		}, opt);
 
 		return this.each(function() {
@@ -251,7 +254,7 @@
 			// end file
 
 			// select
-			} else if (el.is('select')) {
+			} else 	if (el.is('select')) {
 				el.each(function() {
 					if (el.next('div.jqselect').length < 1) {
 
@@ -269,8 +272,24 @@
 
 							var option = $('option', el);
 							var list = '';
+							
+							if (opt.selectSearch) { // задаем классы для поля поиска
+									var liSearchClass = 'li-search',
+										liInputSearchClass = 'input-search';
+							};
+
 							// формируем список селекта
+
 							function makeList() {
+
+								if (opt.selectSearch) { // если включен поиск
+									if (option.length > opt.selectSearchLimit) { // если длина select'а больше чем значение для появления поиска
+									list = '<li class="'+liSearchClass+'"><input class="'+liInputSearchClass+' styler search-box"'
+										+' style="width: 100%" '
+										+' type="search" placeholder="'+opt.selectSearchPlaceholder+'" autofocus></li>';
+									};
+								};
+
 								for (i = 0, len = option.length; i < len; i++) {
 									var li = '',
 											liClass = '',
@@ -400,6 +419,9 @@
 									return false;
 								}
 
+								var dropdownHeight;
+								var liSearch = li.children('.'+liInputSearchClass+''); // здесь input[type="search"]
+
 								// при клике на псевдоселекте
 								divSelect.click(function() {
 									el.focus();
@@ -407,6 +429,9 @@
 									// если iOS, то не показываем выпадающий список
 									var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false;
 									if (iOS) return;
+
+									liSearch.val(''); // при раскрытии очищаем input
+									li.show(); // и показываем все пункты, чтобы не спрятались закрытые при прошлом поиске
 
 									// умное позиционирование
 									if (opt.selectSmartPositioning) {
@@ -459,6 +484,10 @@
 									}
 
 									preventScrolling(dropdown);
+
+									dropdownHeight = dropdown.height(); // запоминаем высоту
+									li.children('.'+liInputSearchClass+'').focus(); // фокус на input
+
 									return false;
 								});
 
@@ -470,14 +499,22 @@
 								var selText = li.filter('.selected').text();
 
 								// при клике на пункт списка
-								li.filter(':not(.disabled):not(.optgroup)').click(function() {
+								// :not(.jqselect-li-search) - исключаем li с input'ом
+								li.filter(':not(.disabled):not(.optgroup):not(.'+liSearchClass+')').click(function() {
 									var t = $(this);
 									var liText = t.text();
+
 									if (selectedText != liText) {
 										var index = t.index();
+										
 										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
 										t.addClass('selected sel').siblings().removeClass('selected sel');
-										option.prop('selected', false).eq(index).prop('selected', true);
+										if (liSearch) {
+											option.prop('selected', false).eq(index - 1).prop('selected', true);
+										} else {
+											option.prop('selected', false).eq(index).prop('selected', true);	
+										};
+										
 										selectedText = liText;
 										divText.text(liText);
 
@@ -500,6 +537,32 @@
 								});
 								dropdown.mouseout(function() {
 									$('li.sel', dropdown).addClass('selected');
+								});
+
+								// регистронзависимый :contains
+								jQuery.expr[":"].contains = function( elem, i, match, array ) {
+   									return (elem.textContent || elem.innerText || jQuery.text( elem ) || "").toLowerCase().indexOf(match[3].toLowerCase()) >= 0;
+								}
+								// при отжатии кнопки в поле поиска
+								liSearch.keyup(function() {
+									li.show(); // показываем все элементы select'а
+									$('#no_match').remove();
+									dropdown.height(dropdownHeight); // восстанавливаем высоту dropdown
+									var value = $(this).val(); // значение input'a
+									if (value != false ) {
+										li.filter(":not(:contains('"+value+"')):not(."+liSearchClass+")").hide();
+										var liShowSize = li.filter(":contains('"+value+"')").size() + 1; // учитываем поле поиска
+										var ulSize = $('ul', selectbox).innerHeight() + 5;
+										if (liShowSize == 1) { // если ничего не найдено
+											dropdown.append('<li id="no_match" style="list-style-type: none">Совпадений не найдено</li>');
+											liShowSize++;
+											ulSize = li.filter(':not(.'+liSearchClass+')').innerHeight() + li.innerHeight() + 5;
+										}
+
+										if (liShowSize < dropdownHeight / liHeight) { // если кол-во совпадающих меньше чем было
+											dropdown.height(ulSize); // уменьшаем высоту dropdown
+										}
+									}
 								});
 
 								// изменение селекта
