@@ -509,7 +509,12 @@
 										
 										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
 										t.addClass('selected sel').siblings().removeClass('selected sel');
-										option.prop('selected', false).eq(index - 1).prop('selected', true);
+										if (liSearch) {
+											option.prop('selected', false).eq(index - 1).prop('selected', true);
+										} else {
+											option.prop('selected', false).eq(index).prop('selected', true);	
+										};
+										
 										selectedText = liText;
 										divText.text(liText);
 
