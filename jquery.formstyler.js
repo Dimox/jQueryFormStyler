@@ -503,16 +503,13 @@
 								li.filter(':not(.disabled):not(.optgroup):not(.'+liSearchClass+')').click(function() {
 									var t = $(this);
 									var liText = t.text();
+
 									if (selectedText != liText) {
-										if (opt.selectSearch) {
-											var index = t.index() - 1;	 // смещение, если есть поле поиска
-										} else {
-											var index = t.index();
-										}
+										var index = t.index();
 										
 										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
 										t.addClass('selected sel').siblings().removeClass('selected sel');
-										option.prop('selected', false).eq(index).prop('selected', true);
+										option.prop('selected', false).eq(index - 1).prop('selected', true);
 										selectedText = liText;
 										divText.text(liText);
 
