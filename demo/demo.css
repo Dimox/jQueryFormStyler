@@ -147,7 +147,7 @@ small {
 select {
 	width: 250px;
 }
-.maxheight .jq-selectbox__dropdown {
+.maxheight .jq-selectbox__dropdown ul {
 	max-height: 203px;
 }
 .showChanged .jq-selectbox.changed .jq-selectbox__select {

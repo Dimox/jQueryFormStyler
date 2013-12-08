@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.5
+ * jQuery Form Styler v1.4.6
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.11.24
+ * Date: 2013.12.08
  *
  */
 
@@ -15,7 +15,11 @@
 		var opt = $.extend({
 			idSuffix: '-styler',
 			filePlaceholder: 'Файл не выбран',
-			browseText: 'Обзор...',
+			fileBrowse: 'Обзор...',
+			selectSearch: true,
+			selectSearchLimit: 10,
+			selectSearchNotFound: 'Совпадений не найдено',
+			selectSearchPlaceholder: 'Поиск...',
 			selectVisibleOptions: 0,
 			singleSelectzIndex: '100',
 			selectSmartPositioning: true
@@ -219,7 +223,7 @@
 							var att = new attributes();
 							var file = $('<div' + att.id + ' class="jq-file' + att.classes + '"' + att.title + ' style="display: inline-block; position: relative; overflow: hidden"></div>');
 							var name = $('<div class="jq-file__name">' + opt.filePlaceholder + '</div>').appendTo(file);
-							var browse = $('<div class="jq-file__browse">' + opt.browseText + '</div>').appendTo(file);
+							var browse = $('<div class="jq-file__browse">' + opt.fileBrowse + '</div>').appendTo(file);
 							el.after(file);
 							file.append(el);
 							if (el.is(':disabled')) file.addClass('disabled');
@@ -312,11 +316,11 @@
 							function doSelect() {
 								var att = new attributes();
 								var selectbox =
-									$('<div' + att.id + ' class="jq-selectbox jqselect' + att.classes + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">'+
-											'<div class="jq-selectbox__select"' + att.title + '>'+
-												'<div class="jq-selectbox__select-text"></div>'+
-												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>'+
-											'</div>'+
+									$('<div' + att.id + ' class="jq-selectbox jqselect' + att.classes + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">' +
+											'<div class="jq-selectbox__select"' + att.title + '>' +
+												'<div class="jq-selectbox__select-text"></div>' +
+												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>' +
+											'</div>' +
 										'</div>');
 
 								// .jq-selectbox-wrapper необходим для того, чтобы избавиться от горизонтальной прокрутки,
@@ -344,12 +348,21 @@
 								}
 
 								makeList();
+								var searchHTML = '';
+								if (opt.selectSearch) searchHTML =
+									'<div class="jq-selectbox__search"><input type="search" autocomplete="off" placeholder="' + opt.selectSearchPlaceholder + '"></div>' +
+									'<div class="jq-selectbox__not-found">' + opt.selectSearchNotFound + '</div>';
 								var dropdown =
-									$('<div class="jq-selectbox__dropdown" style="position: absolute; overflow: auto; overflow-x: hidden">'+
-											'<ul style="list-style: none">' + list + '</ul>'+
+									$('<div class="jq-selectbox__dropdown" style="position: absolute">' +
+											searchHTML +
+											'<ul style="position: relative; list-style: none; overflow: auto; overflow-x: hidden">' + list + '</ul>' +
 										'</div>');
 								selectbox.append(dropdown);
+								var ul = $('ul', dropdown);
 								var li = $('li', dropdown);
+								var search = $('input', dropdown);
+								var notFound = $('div.jq-selectbox__not-found', dropdown).hide();
+								if (li.length < opt.selectSearchLimit) search.parent().hide();
 
 								// определяем самый широкий пункт селекта
 								var liWidth = 0;
@@ -374,13 +387,15 @@
 									height: selectbox.outerHeight()
 								});
 
+								var selectHeight = selectbox.outerHeight();
+								var searchHeight = search.outerHeight();
+								var isMaxHeight = ul.css('max-height');
 								var liSelected = li.filter('.selected');
 								if (liSelected.length < 1) li.first().addClass('selected sel');
-								var selectHeight = selectbox.outerHeight();
-								if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
-								if (dropdown.css('top') == 'auto') dropdown.css({top: selectHeight});
 								var liHeight = li.outerHeight();
 								var position = dropdown.css('top');
+								if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
+								if (dropdown.css('top') == 'auto') dropdown.css({top: selectHeight});
 								dropdown.hide();
 
 								// если выбран не дефолтный пункт
@@ -414,30 +429,52 @@
 										var topOffset = selectbox.offset().top;
 										var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
 										var visible = opt.selectVisibleOptions;
-										var	minHeight = liHeight * 6;
+										var	minHeight = liHeight * 5;
 										var	newHeight = liHeight * visible;
-										if (visible > 0 && visible < 6) minHeight =  newHeight;
-										// раскрытие вверх
-										if (bottomOffset < 0 || bottomOffset < minHeight)	{
-											dropdown.height('auto').css({top: 'auto', bottom: position});
-											if (dropdown.outerHeight() > topOffset - win.scrollTop() - 20 ) {
-												dropdown.height(Math.floor((topOffset - win.scrollTop() - 20) / liHeight) * liHeight);
-												if (visible > 0 && visible < 6) {
-													if (dropdown.height() > minHeight) dropdown.height(minHeight);
-												} else if (visible > 6) {
-													if (dropdown.height() > newHeight) dropdown.height(newHeight);
+										if (visible > 0 && visible < 6) minHeight = newHeight;
+
+										// раскрытие вниз
+										if (bottomOffset > (minHeight + searchHeight + 20))	{
+											dropdown.height('auto').css({bottom: 'auto', top: position});
+											function maxHeightBottom() {
+												ul.css('max-height', Math.floor((bottomOffset - 20 - searchHeight) / liHeight) * liHeight);
+											}
+											function smartMaxHeightBottom() {
+												if (bottomOffset < (dropdown.outerHeight() + 20)) {
+													maxHeightBottom();
 												}
 											}
-										// раскрытие вниз
-										} else if (bottomOffset > minHeight) {
-											dropdown.height('auto').css({bottom: 'auto', top: position});
-											if (dropdown.outerHeight() > bottomOffset - 20 ) {
-												dropdown.height(Math.floor((bottomOffset - 20) / liHeight) * liHeight);
-												if (visible > 0 && visible < 6) {
-													if (dropdown.height() > minHeight) dropdown.height(minHeight);
-												} else if (visible > 6) {
-													if (dropdown.height() > newHeight) dropdown.height(newHeight);
+											maxHeightBottom();
+											if (visible > 0 && visible < 6) {
+												ul.css('max-height', newHeight);
+											} else if (visible > 6) {
+												ul.css('max-height', newHeight);
+												smartMaxHeightBottom();
+											} else if (isMaxHeight != 'none') {
+												ul.css('max-height', isMaxHeight);
+												smartMaxHeightBottom();
+											}
+
+										// раскрытие вверх
+										} else {
+											dropdown.height('auto').css({top: 'auto', bottom: position});
+											function maxHeightTop() {
+												ul.css('max-height', Math.floor((topOffset - win.scrollTop() - 20 - searchHeight) / liHeight) * liHeight);
+											}
+											function smartMaxHeightTop() {
+												if ((topOffset - win.scrollTop() - 20) < (dropdown.outerHeight() + 20)) {
+													maxHeightTop();
 												}
+											}
+											maxHeightTop();
+											if (visible > 0 && visible < 6) {
+												ul.css('max-height', newHeight);
+											} else if (visible > 6) {
+												ul.css('max-height', newHeight);
+												smartMaxHeightTop();
+											} else if (isMaxHeight != 'none') {
+												ul.css('max-height', isMaxHeight);
+												smartMaxHeightTop();
 											}
 										}
 									}
@@ -455,10 +492,34 @@
 
 									// прокручиваем до выбранного пункта при открытии списка
 									if (li.filter('.selected').length) {
-										dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight() / 2 + liHeight / 2);
+										// если нечетное количество видимых пунктов,
+										// то высоту пункта делим пополам для последующего расчета
+										if ( (ul.innerHeight() / liHeight) % 2 != 0 ) liHeight = liHeight / 2;
+										ul.scrollTop(ul.scrollTop() + li.filter('.selected').position().top - ul.innerHeight() / 2 + liHeight);
 									}
 
-									preventScrolling(dropdown);
+									// поисковое поле
+									if (search.length) {
+										search.val('').keyup();
+										notFound.hide();
+										search.focus().keyup(function() {
+											var query = $(this).val();
+											li.each(function() {
+												if (!$(this).html().match(new RegExp('.*?' + query + '.*?', 'i'))) {
+													$(this).hide();
+												} else {
+													$(this).show();
+												}
+											});
+											if (li.filter(':visible').length < 1) {
+												notFound.show();
+											} else {
+												notFound.hide();
+											}
+										});
+									}
+
+									preventScrolling(ul);
 									return false;
 								});
 
@@ -494,6 +555,10 @@
 										selectbox.addClass(t.data('jqfs-class'));
 
 										el.change();
+									}
+									if (search.length) {
+										search.val('').keyup();
+										notFound.hide();
 									}
 									dropdown.hide();
 									selectbox.removeClass('opened');
@@ -535,6 +600,7 @@
 									// e.target.nodeName != 'OPTION' - добавлено для обхода бага в Опере
 									// (при изменении селекта с клавиатуры срабатывает событие onclick)
 									if (!$(e.target).parents().hasClass('jq-selectbox') && e.target.nodeName != 'OPTION') {
+										if (search.length) search.val('').keyup();
 										dropdown.hide().find('li.sel').addClass('selected');
 										selectbox.removeClass('focused opened');
 									}
@@ -617,12 +683,12 @@
 										el.focus();
 										selectbox.removeClass('focused');
 										var clkd = $(this);
-										if(!e.ctrlKey) clkd.addClass('selected');
+										if(!e.ctrlKey && !e.metaKey) clkd.addClass('selected');
 										if(!e.shiftKey) clkd.addClass('first');
-										if(!e.ctrlKey && !e.shiftKey) clkd.siblings().removeClass('selected first');
+										if(!e.ctrlKey && !e.metaKey && !e.shiftKey) clkd.siblings().removeClass('selected first');
 
 										// выделение пунктов при зажатом Ctrl
-										if(e.ctrlKey) {
+										if(e.ctrlKey || e.metaKey) {
 											if (clkd.is('.selected')) clkd.removeClass('selected first');
 												else clkd.addClass('selected first');
 											clkd.siblings().removeClass('first');
