@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.6
+ * jQuery Form Styler v1.4.7
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.12.08
+ * Date: 2013.12.16
  *
  */
 
@@ -22,7 +22,8 @@
 			selectSearchPlaceholder: 'Поиск...',
 			selectVisibleOptions: 0,
 			singleSelectzIndex: '100',
-			selectSmartPositioning: true
+			selectSmartPositioning: true,
+			wrapper: 'form' // Обёртка стилизуемых элементов (на случай, если они располагаются вне тега form http://htmlbook.ru/html/input/form)
 		}, opt);
 
 		return this.each(function() {
@@ -165,7 +166,7 @@
 							// клик на псевдорадиокнопке
 							radio.click(function() {
 								if (!radio.is('.disabled')) {
-									radio.closest('form').find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
+									radio.closest(opt.wrapper).find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
 									el.prop('checked', true).parent().addClass('checked');
 									el.change();
 									return false;
@@ -797,7 +798,7 @@
 			} else if (el.is(':reset')) {
 				el.click(function() {
 					setTimeout(function() {
-						el.closest('form').find('input, select').trigger('refresh');
+						el.closest(opt.wrapper).find('input, select').trigger('refresh');
 					}, 1)
 				});
 			}
