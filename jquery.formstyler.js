@@ -22,7 +22,8 @@
 			selectSearchPlaceholder: 'Поиск...',
 			selectVisibleOptions: 0,
 			singleSelectzIndex: '100',
-			selectSmartPositioning: true
+			selectSmartPositioning: true,
+			triggerClickEvent: false
 		}, opt);
 
 		return this.each(function() {
@@ -81,19 +82,27 @@
 
 							// клик на псевдочекбокс
 							checkbox.click(function() {
-								if (!checkbox.is('.disabled')) {
-									if (el.is(':checked')) {
-										el.prop('checked', false);
-										checkbox.removeClass('checked');
-									} else {
-										el.prop('checked', true);
-										checkbox.addClass('checked');
-									}
-									el.change();
-									return false;
-								} else {
+								if (checkbox.is('.disabled')) {
 									return false;
 								}
+
+								if (opt.triggerClickEvent) {
+									el.click();
+								}
+
+								if (el.is(':checked')) {
+									el.prop('checked', false);
+									checkbox.removeClass('checked');
+								} else {
+									el.prop('checked', true);
+									checkbox.addClass('checked');
+								}
+
+								if (!opt.triggerClickEvent) {
+									el.change();
+								}
+
+								return false;
 							});
 							// клик на label
 							el.closest('label').add('label[for="' + el.attr('id') + '"]').click(function(e) {
@@ -164,14 +173,31 @@
 
 							// клик на псевдорадиокнопке
 							radio.click(function() {
-								if (!radio.is('.disabled')) {
-									radio.closest('form').find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
-									el.prop('checked', true).parent().addClass('checked');
-									el.change();
-									return false;
-								} else {
+								if (radio.is('.disabled')) {
 									return false;
 								}
+
+								// предотвращаем рекурсию
+								if (opt.triggerClickEvent) {
+									if (el.data('prevent-handle')) {
+										el.data('prevent-handle', false);
+
+										return false;
+									}
+
+									el.data('prevent-handle', true);
+									el.click();
+								}
+
+								radio.closest('form').find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
+								el.prop('checked', true);
+								radio.addClass('checked');
+
+								if (!opt.triggerClickEvent) {
+									el.change();
+								}
+
+								return false;
 							});
 							// клик на label
 							el.closest('label').add('label[for="' + el.attr('id') + '"]').click(function(e) {
@@ -180,7 +206,7 @@
 							});
 							// переключение стрелками
 							el.change(function() {
-								el.parent().addClass('checked');
+								radio.addClass('checked');
 							})
 							.focus(function() {
 								if (!radio.is('.disabled')) radio.addClass('focused');
