@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.6
+ * jQuery Form Styler v1.4.7
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2013 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2013.12.08
+ * Date: 2013.12.21
  *
  */
 
@@ -13,6 +13,7 @@
 	$.fn.styler = function(opt) {
 
 		var opt = $.extend({
+			wrapper: 'form',
 			idSuffix: '-styler',
 			filePlaceholder: 'Файл не выбран',
 			fileBrowse: 'Обзор...',
@@ -165,7 +166,7 @@
 							// клик на псевдорадиокнопке
 							radio.click(function() {
 								if (!radio.is('.disabled')) {
-									radio.closest('form').find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
+									radio.closest(opt.wrapper).find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
 									el.prop('checked', true).parent().addClass('checked');
 									el.change();
 									return false;
@@ -267,7 +268,11 @@
 									var scrollTo = null;
 									if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
 									else if (e.type == 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
-									if (scrollTo) { e.preventDefault(); $(this).scrollTop(scrollTo + $(this).scrollTop()); }
+									if (scrollTo) {
+										e.stopPropagation();
+										e.preventDefault();
+										$(this).scrollTop(scrollTo + $(this).scrollTop());
+									}
 								});
 							}
 
@@ -392,7 +397,7 @@
 								var isMaxHeight = ul.css('max-height');
 								var liSelected = li.filter('.selected');
 								if (liSelected.length < 1) li.first().addClass('selected sel');
-								var liHeight = li.outerHeight();
+								if (li.data('li-height') === undefined) li.data('li-height', li.outerHeight());
 								var position = dropdown.css('top');
 								if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
 								if (dropdown.css('top') == 'auto') dropdown.css({top: selectHeight});
@@ -429,9 +434,11 @@
 										var topOffset = selectbox.offset().top;
 										var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
 										var visible = opt.selectVisibleOptions;
+										var liHeight = li.data('li-height');
 										var	minHeight = liHeight * 5;
 										var	newHeight = liHeight * visible;
 										if (visible > 0 && visible < 6) minHeight = newHeight;
+										if (visible == 0) newHeight = 'auto';
 
 										// раскрытие вниз
 										if (bottomOffset > (minHeight + searchHeight + 20))	{
@@ -439,20 +446,13 @@
 											function maxHeightBottom() {
 												ul.css('max-height', Math.floor((bottomOffset - 20 - searchHeight) / liHeight) * liHeight);
 											}
-											function smartMaxHeightBottom() {
-												if (bottomOffset < (dropdown.outerHeight() + 20)) {
-													maxHeightBottom();
-												}
-											}
 											maxHeightBottom();
-											if (visible > 0 && visible < 6) {
-												ul.css('max-height', newHeight);
-											} else if (visible > 6) {
-												ul.css('max-height', newHeight);
-												smartMaxHeightBottom();
-											} else if (isMaxHeight != 'none') {
+											ul.css('max-height', newHeight);
+											if (isMaxHeight != 'none') {
 												ul.css('max-height', isMaxHeight);
-												smartMaxHeightBottom();
+											}
+											if (bottomOffset < (dropdown.outerHeight() + 20)) {
+												maxHeightBottom();
 											}
 
 										// раскрытие вверх
@@ -461,20 +461,13 @@
 											function maxHeightTop() {
 												ul.css('max-height', Math.floor((topOffset - win.scrollTop() - 20 - searchHeight) / liHeight) * liHeight);
 											}
-											function smartMaxHeightTop() {
-												if ((topOffset - win.scrollTop() - 20) < (dropdown.outerHeight() + 20)) {
-													maxHeightTop();
-												}
-											}
 											maxHeightTop();
-											if (visible > 0 && visible < 6) {
-												ul.css('max-height', newHeight);
-											} else if (visible > 6) {
-												ul.css('max-height', newHeight);
-												smartMaxHeightTop();
-											} else if (isMaxHeight != 'none') {
+											ul.css('max-height', newHeight);
+											if (isMaxHeight != 'none') {
 												ul.css('max-height', isMaxHeight);
-												smartMaxHeightTop();
+											}
+											if ((topOffset - win.scrollTop() - 20) < (dropdown.outerHeight() + 20)) {
+												maxHeightTop();
 											}
 										}
 									}
@@ -627,8 +620,12 @@
 								}
 
 								makeList();
-								selectbox.append('<ul style="position: relative">' + list + '</ul>');
-								var ul = $('ul', selectbox).css({'overflow-x': 'hidden'});
+								selectbox.append('<ul>' + list + '</ul>');
+								var ul = $('ul', selectbox).css({
+									'position': 'relative',
+									'overflow-x': 'hidden',
+									'-webkit-overflow-scrolling': 'touch'
+								});
 								var li = $('li', selectbox).attr('unselectable', 'on').css({'-webkit-user-select': 'none', '-moz-user-select': 'none', '-ms-user-select': 'none', '-o-user-select': 'none', 'user-select': 'none', 'white-space': 'nowrap'});
 								var size = el.attr('size');
 								var ulHeight = ul.outerHeight();
@@ -797,7 +794,7 @@
 			} else if (el.is(':reset')) {
 				el.click(function() {
 					setTimeout(function() {
-						el.closest('form').find('input, select').trigger('refresh');
+						el.closest(opt.wrapper).find('input, select').trigger('refresh');
 					}, 1)
 				});
 			}
