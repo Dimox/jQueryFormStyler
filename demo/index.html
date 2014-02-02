@@ -82,6 +82,8 @@
 
 			<h2>Одиночные селекты</h2>
 
+			<p>По умолчанию ширина селекта установлена 250 пикселей.</p>
+
 			<div class="section">
 				<div class="buttons">
 					<button type="submit" class="add3">Добавить селект</button>
@@ -102,8 +104,8 @@
 
 			<div class="section">
 
-				<p>Селект, имеющий пункт <strong>с длинным текстом</strong>.</p>
-				<select style="width: auto;">
+				<p>Селект <strong>без заданной ширины</strong>, имеющий пункт <strong>с длинным текстом</strong>.</p>
+				<select class="width-auto">
 					<option>-- Выберите --</option>
 					<option>Пункт 1</option>
 					<option>Пункт 2</option>
@@ -114,8 +116,8 @@
 
 				<br /><br />
 
-				<p>Селект, имеющий пункт <strong>с длинным текстом</strong> и <strong>с заданной шириной селекта</strong> (200 пикселей).</p>
-				<select style="width: 200px;">
+				<p>Селект <strong>с шириной 200 пикселей</strong>, имеющий пункт <strong>с длинным текстом</strong>.</p>
+				<select class="width-200">
 					<option>-- Выберите --</option>
 					<option>Пункт 1</option>
 					<option>Пункт 2</option>
@@ -379,31 +381,15 @@
 			</div><!-- .section -->
 
 			<div class="section">
-
-				<div class="sec">
-					<p>Мультиселект, параметр <code>size</code> равен <code>6</code>.</p>
-					<select multiple size="6">
-						<option>-- Выберите --</option>
-						<option>Пункт 1</option>
-						<option>Пункт 2</option>
-						<option>Пункт 3</option>
-						<option>Пункт 4</option>
-						<option>Пункт 5</option>
-					</select>
-				</div><!-- .sec -->
-
-				<div class="sec width">
-					<p>Мультиселект <strong>с заданной шириной</strong> и длинным пунктом.</p>
-					<select multiple>
-						<option>- Выберите 1 или несколько пунктов -</option>
-						<option>Пункт 1</option>
-						<option>Пункт 2</option>
-						<option>Пункт 3</option>
-						<option>Пункт 4</option>
-						<option>Пункт 5</option>
-					</select>
-				</div><!-- .sec -->
-
+				<p>Мультиселект <strong>с параметром</strong> <code>size</code> <strong>равным</strong> <code>6</code> и <strong>с заданной шириной</strong> (400 пикселей).</p>
+				<select multiple size="6" class="width-400">
+					<option>-- Выберите один или несколько пунктов --</option>
+					<option>Пункт 1</option>
+					<option>Пункт 2</option>
+					<option>Пункт 3</option>
+					<option>Пункт 4</option>
+					<option>Пункт 5</option>
+				</select>
 			</div><!-- .section -->
 
 			<div class="section">
