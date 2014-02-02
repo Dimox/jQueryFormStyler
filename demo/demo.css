@@ -144,8 +144,23 @@ small {
 	padding: 12px 25px;
 	line-height: 40px;
 }
-select {
+.sec {
+	float: right;
+	width: 290px;
+}
+.sec:first-child {
+	float: left;
+	width: 330px;
+}
+
+.jq-selectbox {
 	width: 250px;
+}
+.jq-selectbox.width-auto {
+	width: auto;
+}
+.jq-selectbox.width-200 {
+	width: 200px;
 }
 .maxheight .jq-selectbox__dropdown ul {
 	max-height: 203px;
@@ -185,17 +200,10 @@ select {
 	padding-left: 10px;
 }
 
-.width .jq-select-multiple {
-	width: 286px !important;
+.jq-select-multiple.width-400 {
+	width: 400px;
 }
-.sec {
-	float: right;
-	width: 290px;
-}
-.sec:first-child {
-	float: left;
-	width: 330px;
-}
+
 .buttons {
 	float: right;
 	width: 270px;
