@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.8
+ * jQuery Form Styler v1.4.8.1
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.02.02
+ * Date: 2014.02.17
  *
  */
 
@@ -365,7 +365,7 @@
 								li.each(function() {
 									var l = $(this);
 									l.css({'display': 'inline-block', 'white-space': 'nowrap'});
-									if (l.width() > liWidth1) {
+									if (l.innerWidth() > liWidth1) {
 										liWidth1 = l.innerWidth();
 										liWidth2 = l.width();
 									}
