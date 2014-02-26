@@ -565,7 +565,7 @@
 
 								// изменение селекта
 								el.change(function() {
-									divText.text(option.filter(':selected').text());
+									divText.html(option.filter(':selected').text());
 									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
 								})
 								.focus(function() {
