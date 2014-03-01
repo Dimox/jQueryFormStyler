@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.8.2
+ * jQuery Form Styler v1.4.8.3
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.02.26
+ * Date: 2014.03.01
  *
  */
 
@@ -337,9 +337,9 @@
 
 								// берем опцию по умолчанию
 								if (optionSelected.length) {
-									divText.text(optionSelected.text());
+									divText.html(optionSelected.text());
 								} else {
-									divText.text(option.first().text());
+									divText.html(option.first().text());
 								}
 
 								makeList();
@@ -536,7 +536,7 @@
 										t.addClass('selected sel').siblings().removeClass('selected sel');
 										option.prop('selected', false).eq(index).prop('selected', true);
 										selectedText = liText;
-										divText.text(liText);
+										divText.html(liText);
 
 										// добавляем класс, показывающий изменение селекта
 										if (option.first().text() != liText) {
