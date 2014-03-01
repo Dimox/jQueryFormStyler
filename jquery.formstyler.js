@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.8.2
+ * jQuery Form Styler v1.4.8.3
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.02.26
+ * Date: 2014.03.01
  *
  */
 
