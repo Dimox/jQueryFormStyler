@@ -337,9 +337,9 @@
 
 								// берем опцию по умолчанию
 								if (optionSelected.length) {
-									divText.text(optionSelected.text());
+									divText.html(optionSelected.text());
 								} else {
-									divText.text(option.first().text());
+									divText.html(option.first().text());
 								}
 
 								makeList();
@@ -536,7 +536,7 @@
 										t.addClass('selected sel').siblings().removeClass('selected sel');
 										option.prop('selected', false).eq(index).prop('selected', true);
 										selectedText = liText;
-										divText.text(liText);
+										divText.html(liText);
 
 										// добавляем класс, показывающий изменение селекта
 										if (option.first().text() != liText) {
