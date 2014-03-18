@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.8.3
+ * jQuery Form Styler v1.4.9
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.03.01
+ * Date: 2014.03.18
  *
  */
 
@@ -23,7 +23,10 @@
 			selectSearchPlaceholder: 'Поиск...',
 			selectVisibleOptions: 0,
 			singleSelectzIndex: '100',
-			selectSmartPositioning: true
+			selectSmartPositioning: true,
+			onSelectOpened: function() {},
+			onSelectClosed: function() {},
+			onFormStyled: function() {}
 		}, opt);
 
 		return this.each(function() {
@@ -108,7 +111,7 @@
 							})
 							// чтобы переключался чекбокс, который находится в теге label
 							.keydown(function(e) {
-								if (e.which == 13 || e.which == 32) checkbox.click();
+								if (e.which == 32) checkbox.click();
 							})
 							.focus(function() {
 								if (!checkbox.is('.disabled')) checkbox.addClass('focused');
@@ -265,7 +268,7 @@
 
 							// запрещаем прокрутку страницы при прокрутке селекта
 							function preventScrolling(selector) {
-								selector.unbind('mousewheel DOMMouseScroll').bind('mousewheel DOMMouseScroll', function(e) {
+								selector.off('mousewheel DOMMouseScroll').on('mousewheel DOMMouseScroll', function(e) {
 									var scrollTo = null;
 									if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
 									else if (e.type == 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
@@ -427,6 +430,11 @@
 								divSelect.click(function() {
 									el.focus();
 
+									// колбек при закрытии селекта
+									if ($('div.jq-selectbox').filter('.opened').length) {
+										opt.onSelectClosed.call($('div.jq-selectbox').filter('.opened'));
+									}
+
 									// если iOS, то не показываем выпадающий список
 									var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false;
 									if (iOS) return;
@@ -481,9 +489,15 @@
 										$('div.jq-selectbox__dropdown:visible').hide();
 										dropdown.show();
 										selectbox.addClass('opened');
+										// колбек при открытии селекта
+										opt.onSelectOpened.call(selectbox);
 									} else {
 										dropdown.hide();
 										selectbox.removeClass('opened');
+										// колбек при закрытии селекта
+										if ($('div.jq-selectbox').filter('.opened').length) {
+											opt.onSelectClosed.call(selectbox);
+										}
 									}
 
 									// прокручиваем до выбранного пункта при открытии списка
@@ -558,6 +572,9 @@
 									}
 									dropdown.hide();
 									selectbox.removeClass('opened');
+									// колбек при закрытии селекта
+									opt.onSelectClosed.call(selectbox);
+
 								});
 								dropdown.mouseout(function() {
 									$('li.sel', dropdown).addClass('selected');
@@ -575,7 +592,7 @@
 									selectbox.removeClass('focused');
 								})
 								// прокрутки списка с клавиатуры
-								.bind('keydown keyup', function(e) {
+								.on('keydown keyup', function(e) {
 									divText.text(option.filter(':selected').text());
 									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
 									// вверх, влево, PageUp
@@ -593,12 +610,19 @@
 
 								// прячем выпадающий список при клике за пределами селекта
 								$(document).on('click', function(e) {
-									// e.target.nodeName != 'OPTION' - добавлено для обхода бага в Опере
+									// e.target.nodeName != 'OPTION' - добавлено для обхода бага в Opera на движке Presto
 									// (при изменении селекта с клавиатуры срабатывает событие onclick)
 									if (!$(e.target).parents().hasClass('jq-selectbox') && e.target.nodeName != 'OPTION') {
+
+										// колбек при закрытии селекта
+										if ($('div.jq-selectbox').filter('.opened').length) {
+											opt.onSelectClosed.call($('div.jq-selectbox').filter('.opened'));
+										}
+
 										if (search.length) search.val('').keyup();
 										dropdown.hide().find('li.sel').addClass('selected');
 										selectbox.removeClass('focused opened');
+
 									}
 								});
 
@@ -772,6 +796,12 @@
 			}
 			// end reset
 
+		})
+
+		// колбек после выполнения плагина
+		.promise()
+		.done(function() {
+			opt.onFormStyled.call();
 		});
 
 	}
