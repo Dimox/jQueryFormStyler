@@ -576,7 +576,7 @@
 								})
 								// прокрутки списка с клавиатуры
 								.bind('keydown keyup', function(e) {
-									divText.text(option.filter(':selected').text());
+									divText.html(option.filter(':selected').text());
 									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
 									// вверх, влево, PageUp
 									if (e.which == 38 || e.which == 37 || e.which == 33) {
