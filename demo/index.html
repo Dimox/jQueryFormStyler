@@ -4,15 +4,29 @@
 	<meta charset="utf-8" />
 	<title>Примеры для плагина jQuery Form Styler</title>
 	<link href="demo.css" rel="stylesheet" />
-	<link href="../jquery.formstyler.css" rel="stylesheet" />
+	<link href="../jquery.formstyler.css" rel="stylesheet" id="stylerStyles" />
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="../jquery.formstyler.js"></script>
 	<script>
-		(function($) {
-		$(function() {
-			$('input, select').styler();
-		})
+		(function ($) {
+			$(function () {
+				$('input, select').styler();
+			});
 		})(jQuery)
+
+		// Смена скина по клику на кнопке
+		$(document)
+			.on('click', '[data-skin]', function(event) {
+				event.preventDefault();
+				var $this = $(this),
+					$styles = $('#stylerStyles'),
+					skin = $this.data('skin');
+				$styles.prop('href', skin);
+			})
+			.on('mouseleave', '[data-skin]', function(event) {
+				event.preventDefault();
+				$('input, select').trigger('refresh');
+			});	
 	</script>
 	<script src="demo.js"></script>
 </head>
@@ -32,6 +46,11 @@
 		<li data-hash="multiselect">Мультиселекты</li>
 		<li data-hash="css">Прочие элементы форм (только CSS)</li>
 	</ul>
+	<div class="skins">
+		<button class="styler" data-skin="../jquery.formstyler.css">Скин по умолчанию</button>
+		<button class="styler" data-skin="../skins/flat-blue.css">Flat скин (синий)</button>
+		<button class="styler" data-skin="../skins/flat-red.css">Flat скин (красный)</button>
+	</div>
 
 	<div class="content">
 
@@ -40,9 +59,9 @@
 
 			<div class="section lh">
 				<div class="buttons">
-					<button type="submit" class="add1">Добавить чекбоксы</button>
-					<button type="submit" class="dis">Переключить активность</button>
-					<button type="submit" class="check">Переключить галочки</button>
+					<button type="submit" class="add1 styler">Добавить чекбоксы</button>
+					<button type="submit" class="dis styler">Переключить активность</button>
+					<button type="submit" class="check styler">Переключить галочки</button>
 				</div>
 				<input type="checkbox" /> без тега <code>label</code><br />
 				<span id="r"><input type="checkbox" id="checkbox1" /></span> <label for="checkbox1"> в тег <code>label</code> помещен только текст</label><br />
@@ -56,8 +75,8 @@
 
 			<div class="section lh">
 				<div class="buttons">
-					<button type="submit" class="add2">Добавить радиокнопки</button>
-					<button type="submit" class="dis">Переключить активность</button>
+					<button type="submit" class="add2 styler">Добавить радиокнопки</button>
+					<button type="submit" class="dis styler">Переключить активность</button>
 				</div>
 				<input type="radio" name="radio" /> без тега <code>label</code><br />
 				<input type="radio" name="radio" id="radio1" /> <label for="radio1"> в тег <code>label</code> помещен только текст</label><br />
@@ -71,8 +90,8 @@
 
 			<div class="section">
 				<div class="buttons">
-					<button type="submit" class="add5">Добавить поле</button>
-					<button type="submit" class="dis">Переключить активность</button>
+					<button type="submit" class="add5 styler">Добавить поле</button>
+					<button type="submit" class="dis styler">Переключить активность</button>
 				</div>
 				<input type="file" name="" />
 			</div><!-- .section -->
@@ -86,10 +105,10 @@
 
 			<div class="section">
 				<div class="buttons">
-					<button type="submit" class="add3">Добавить селект</button>
-					<button type="submit" class="add4">Добавить пункты в список</button>
-					<button type="submit" class="dis2">Переключить активность селекта</button>
-					<button type="submit" class="dis3">Переключить активность пунктов</button>
+					<button type="submit" class="add3 styler">Добавить селект</button>
+					<button type="submit" class="add4 styler">Добавить пункты в список</button>
+					<button type="submit" class="dis2 styler">Переключить активность селекта</button>
+					<button type="submit" class="dis3 styler">Переключить активность пунктов</button>
 				</div>
 				<p><strong>Простой селект</strong> с несколькими пунктами, <br />один из них неактивный.</p>
 				<select>
@@ -364,10 +383,10 @@
 
 			<div class="section">
 				<div class="buttons">
-					<button type="submit" class="add6">Добавить селект</button>
-					<button type="submit" class="add4">Добавить пункты в список</button>
-					<button type="submit" class="dis2">Переключить активность селекта</button>
-					<button type="submit" class="dis3">Переключить активность пунктов</button>
+					<button type="submit" class="add6 styler">Добавить селект</button>
+					<button type="submit" class="add4 styler">Добавить пункты в список</button>
+					<button type="submit" class="dis2 styler">Переключить активность селекта</button>
+					<button type="submit" class="dis3 styler">Переключить активность пунктов</button>
 				</div>
 				<p><strong>Мультиселект</strong>, один из пунктов неактивный, <br />параметр <code>size</code> не указан.</p>
 				<select multiple>
