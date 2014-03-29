@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Чекбоксы */
+/* ========================================================================== */
+	
+
+	.jq-checkbox {
+		.square(@checkboxSize);
+		border-radius: @radius;
+		background: transparent;
+		border: solid 2px @bgColor;
+		vertical-align: middle;
+		cursor: pointer;
+
+		&:hover,
+		label:hover & {
+			border-color: @bgColorHover;
+			&.checked .jq-checkbox__div:before {
+				border-color: @bgColorHover;
+			}
+		}
+		
+		&.checked {
+			.jq-checkbox__div {
+				&:before {
+					content: ' ';
+					position: absolute;
+					border: solid @dotColor;
+					border-width: 0 0 3px 3px;
+					height: 3px;
+					width: 7px;
+					left: (@checkboxSize / 2) - (@dotSize / 2) - 1;
+					top: (@checkboxSize / 2) - (@dotSize / 2);
+					transform: rotate(-45deg);
+				}
+			}
+
+
+		}
+		
+		&.focused {
+			box-shadow: 0 0 0 2px fadeout(@focusColor, 30%);
+		}
+		
+		&.disabled {
+			opacity: 0.55;
+			filter: alpha(opacity=55);
+		}
+		
+	} //.jq-checkbox

@@ -1,0 +1,63 @@
+
+
+.styler {
+	padding: 7px 9px;
+	border: solid 2px @bgColor;
+	border-radius: @radius;
+	color: @textColor;
+	font: @fz~"/"@lh @ff;
+	box-sizing: border-box;
+	transition: all ease .3s;
+
+	&:hover,
+	&:focus {
+		border-color: @bgColorHover;
+		outline: none;
+	}
+}
+input[type="search"].styler {
+	-webkit-appearance: none;
+}
+textarea.styler {
+	overflow: auto;
+}
+
+button.styler,
+input[type="button"].styler,
+input[type="submit"].styler,
+input[type="reset"].styler {
+	overflow: visible;
+	padding: 5px 11px;
+	outline: none;
+	border: 2px solid @bgColor;
+	border-radius: @radius;
+	background: @bgColor;
+	color: @lightColor;
+	cursor: pointer;
+	box-shadow: none;
+	text-shadow: none;
+
+	&::-moz-focus-inner {
+		padding: 0;
+		border: 0;
+	}
+
+	&:hover,
+	&:focus {
+		background: @bgColorHover;
+		color: @lightColorHover;
+		border-color: @bgColorHover;
+	}
+	&:active {
+		background: @bgColor;
+		color: @lightColor;
+		border-color: @bgColor;
+	}
+	
+}
+
+button.styler:after {
+	content: '';
+}
+
+

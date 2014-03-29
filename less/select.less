@@ -1,0 +1,226 @@
+/* ==========================================================================
+   Селекты */
+/* ========================================================================== */
+	
+	.jq-selectbox {
+		vertical-align: middle;
+		cursor: pointer;
+
+		&.disabled .jq-selectbox__select {
+			background: @disabledColor;
+			color: @lightColor;
+		}
+
+		&:hover .jq-selectbox__trigger-arrow {
+			opacity: 1;
+			filter: alpha(opacity=100);
+		}
+		&.disabled .jq-selectbox__trigger-arrow {
+			opacity: 0.3;
+			filter: alpha(opacity=30);
+		}
+
+		& ul {
+			margin: 0;
+			padding: 0;
+		}
+		& li {
+			min-height: @lh;
+			padding: 5px 10px 6px;
+			color: @lightColor;
+			border-radius: @radius;
+			transition: all ease .3s;
+			
+			&.selected {
+				background-color: @selectedColor;
+				color: @lightColor;
+			}
+			&:hover {
+				background-color: @darkColorHover;
+				color: @lightColorHover;
+			}
+			&.disabled {
+				color: @disabledColor;
+				&:hover {
+					background: none;
+				}
+			}
+			&.optgroup {
+				font-weight: bold;
+				
+				&:hover {
+					background: none;
+					color: @lightColorHover;
+					cursor: default;
+				}
+			}
+			&.option {
+				padding-left: 25px;
+			}
+		}
+
+	} //.jq-selectbox
+
+	.jq-selectbox__select {
+		height: @inputHeight + 2;
+		padding: 0 45px 0 10px;
+		border-radius: @radius;
+		background: @bgColor;
+		color: @lightColor;
+		font: @fz~"/"(@inputHeight + 2) @ff;
+		
+		&:hover,
+		&:active {
+			background-color: @bgColorHover;
+		}
+	
+	}
+
+	.jq-selectbox__select-text {
+		display: block;
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.jq-selectbox__trigger {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 34px;
+		height: 100%;
+		// border-left: solid 1px fade(@lightColor, 50%);
+	}
+	.jq-selectbox__trigger-arrow {
+		position: absolute;
+		top: 14px;
+		right: 12px;
+		width: 0;
+		height: 0;
+		overflow: hidden;
+		border-top: 5px solid @lightColor;
+		border-right: 5px solid transparent;
+		border-left: 5px solid transparent;
+	}
+
+	.jq-selectbox__dropdown {
+		top: @inputHeight + 13;
+		width: 100%;
+		margin: 0;
+		padding: 0;
+		font: @fz~"/"@lh @ff;
+		background: @darkColor;
+		border: solid 2px @darkColor;
+		border-radius: @radius + (@radius / 2);
+		box-sizing: border-box;
+		
+		&:before {
+			content: ' ';
+			position: absolute;
+			top: -11px;
+			left: 6px;
+			width: 0;
+			height: 0;
+			overflow: hidden;
+			border-bottom: 10px solid @darkColor;
+			border-right: 10px solid transparent;
+			border-left: 10px solid transparent;
+		}
+
+	}
+	.jq-selectbox__search {
+		margin: 5px;
+	
+		& input {
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			width: 100%;
+			margin: 0;
+			padding: 5px 27px 6px 8px;
+			outline: none;
+			border: solid 2px @bgColor;
+			border-radius: @radius;
+			background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAMCAYAAABiDJ37AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAO1JREFUeNqU078LAXEYx/FzYfNzk5TJaFNKYjFYSQZ/hvwBsvg1UCY2xT9gM8hukQGThWRjkcFw3pdnujhfT736Xn2fPvfc3fd07V0OFDDFAnM0ENYsZRiGLSc9OpqIYIA9fMhhjCrW2h9VlMlcH/aymMGtOqEugX08PwQucUZKdTozMIqdTc9WepQD7wjY9ARx+ydwhfyXfS+S0qMcOEQJGcueB3VccFINdMgal6NzkmPjRwJXxDBB7/2RDdtAp6wb+dpphHDASG5QQ0V6u2aoSqBZD/lDrNWRJynLK2qpBn4rc6K2XB9/Nb8EGABtf1thzY6X2AAAAABJRU5ErkJggg==) no-repeat 100% 50%;
+			color: @textColor;
+			-webkit-appearance: textfield;
+		
+			&::-webkit-search-cancel-button,
+			&::-webkit-search-decoration {
+				-webkit-appearance: none;
+			}
+		}
+	}
+	.jq-selectbox__not-found {
+		margin: 5px;
+		padding: 5px 8px 6px;
+		color: @lightColor;
+		font-size: @fz - 2;
+	}
+
+
+
+	.jq-select-multiple {
+		// padding: 1px;
+		border: solid 2px @bgColor;
+		border-radius: @radius;
+		background: @lightColor;
+		color: @textColor;
+		font: @fz~"/"@lh @ff;
+		cursor: default;
+		box-sizing: border-box;
+		transition: all ease .3s;
+
+		&.focused {
+			border-color: @focusColor;
+		}
+		&.disabled {
+			border-color: @disabledColor;
+			background: @disabledColor;
+			box-shadow: none;
+			color: textColor;
+		}
+	
+		&.disabled li.selected,
+		li.selected.disabled,
+		li.disabled,
+		li.disabled:hover {
+			background: @disabledColor;
+			color: @textColor;
+		}
+
+		& ul {
+			margin: 0;
+			padding: 0;
+		}
+		& li {
+			padding: 3px 9px 4px;
+			list-style: none;
+			transition: all ease .3s;
+			
+			&:first-child {
+				border-radius: (@radius - 2) (@radius - 2) 0 0;
+			}
+			&:last-child {
+				border-radius: 0 0 (@radius - 2) (@radius - 2);
+			}
+			&.selected,
+			&:hover {
+				background: @bgColor;
+				color: @lightColor;
+			}
+			&.disabled {
+				color: @textColor;
+			}
+			&.optgroup {
+				font-weight: bold;
+				&:hover {
+					background: @lightColor;
+					color: @textColor;
+				}
+			}
+			&.option {
+				padding-left: 25px;
+			}
+		}
+
+	} //.jq-select-multiple
