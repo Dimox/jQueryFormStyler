@@ -1,0 +1,80 @@
+/* ==========================================================================
+   Файловые инпуты */
+/* ========================================================================== */
+	
+	.jq-file {
+		width: @fileWidth;
+		border-radius: @radius;
+		
+		input {
+			cursor: pointer;
+			height: auto;
+			line-height: 1em;
+		}
+
+		&:hover .jq-file__browse,
+		&:active .jq-file__browse {
+			background: @bgColorHover;
+			border-color: @bgColorHover;
+		}
+		&:hover .jq-file__name,
+		&:active .jq-file__name {
+			border-color: @bgColorHover;
+		}
+
+		&.disabled {
+			color: @disabledColor;
+			border-color: @disabledColor;
+			
+			.jq-file__name {
+				color: @disabledColor;
+				border-color: @disabledColor;
+			}
+
+			&:hover .jq-file__browse,
+			&:active .jq-file__browse {
+				background: @disabledColor;
+				border-color: @disabledColor;
+			}
+			
+			.jq-file__browse {
+				border-color: @disabledColor;
+				background: @disabledColor;
+				color: @lightColor;
+			}
+		}
+
+	}
+
+	.jq-file__name {
+		box-sizing: border-box;
+		width: 100%;
+		height: @inputHeight;
+		padding: 0 80px 0 10px;
+		color: @bgColor;
+		font: @fz~"/"(@inputHeight - 4) @ff;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		border: solid 2px @bgColor;
+		border-radius: @radius;
+
+
+		.focused & {
+			border-color: @bgColorHover;
+		}
+	
+	}
+
+	.jq-file__browse {
+		position: absolute;
+		top: 0;
+		right: 0;
+		color: @lightColor;
+		font: @fz~"/"(@inputHeight) @ff;
+		padding: 0 10px;
+		border-left: solid 2px @bgColor;
+		border-radius: 0 @radius @radius 0;
+		background: @bgColor;
+
+	}

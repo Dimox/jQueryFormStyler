@@ -1,0 +1,40 @@
+
+/* ==========================================================================
+   Радиокнопки */
+/* ========================================================================== */
+	
+
+	.jq-radio {
+		.square;
+		cursor: pointer;
+		border: solid 2px @bgColor;		
+		background: transparent;
+		vertical-align: middle;
+		border-radius: 50%;
+
+		&:hover,
+		label:hover & {
+			border-color: @bgColorHover;
+			&.checked .jq-radio__div {
+				background: @bgColorHover;
+			}
+		}
+
+		&.checked {
+			.jq-radio__div {
+				.square(@dotSize);
+				margin: (@radioSize / 2) - (@dotSize / 2) ~"0 0" (@radioSize / 2) - (@dotSize / 2);
+				border-radius: 50%;
+				background: @dotColor;
+			}
+		}
+
+		&.focused {
+			box-shadow: 0 0 0 2px fadeout(@focusColor, 30%);
+		}
+
+		&.disabled {
+			opacity: 0.55;
+			filter: alpha(opacity=55);
+		}
+	} //.jq-radio
