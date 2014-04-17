@@ -790,7 +790,8 @@
 								$(this)
 									.parent()
 									.find('li')
-									.show();
+									.show()
+									.removeClass('filter_hide');
 							}
 							else
 							{
@@ -815,7 +816,7 @@
 												{
 													$this.removeClass('filter_hide');
 												}
-												window.console.debug(result);
+												
 												return result;
 											}).show()
 									;
