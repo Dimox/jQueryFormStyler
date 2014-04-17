@@ -515,7 +515,8 @@
 										search.focus().keyup(function() {
 											var query = $(this).val();
 											li.each(function() {
-												if (!$(this).html().match(new RegExp('.*?' + query + '.*?', 'i'))) {
+												if (!$(this).html().match(new RegExp('.*?' + query + '.*?', 'i'))
+														|| $(this).hasClass('filter_hide')) {
 													$(this).hide();
 												} else {
 													$(this).show();
@@ -780,6 +781,46 @@
 						el.on('refresh', function() {
 							el.parent().before(el).remove();
 							selectbox();
+						});
+						
+						el.on('filter', function(e, attr) {
+
+							if(attr == 'all')
+							{
+								$(this)
+									.parent()
+									.find('li')
+									.show();
+							}
+							else
+							{
+								//не очень надёжно
+								if(typeof(attr) == 'object')
+								{
+									var key = Object.keys(attr)[0];
+									var val = attr[key];
+
+									$(this)
+											.parent()
+											.find('li')
+											.hide()
+											.filter(function() {
+												var $this = $(this);
+												var result = $this.attr(key) == val;
+												if(!result)
+												{
+													$this.addClass('filter_hide');
+												}
+												else
+												{
+													$this.removeClass('filter_hide');
+												}
+												window.console.debug(result);
+												return result;
+											}).show()
+									;
+								}
+							}
 						});
 
 					}
