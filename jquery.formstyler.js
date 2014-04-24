@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.4.9
+ * jQuery Form Styler v1.5
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.03.18
+ * Date: 2014.04.24
  *
  */
 
@@ -233,7 +233,12 @@
 							if (el.is(':disabled')) file.addClass('disabled');
 							el.change(function() {
 								name.text(el.val().replace(/.+[\\\/]/, ''));
-								if (el.val() == '') name.text(opt.filePlaceholder);
+								if (el.val() == '') {
+									name.text(opt.filePlaceholder);
+									file.removeClass('changed');
+								} else {
+									file.addClass('changed');
+								}
 							})
 							.focus(function() {
 								file.addClass('focused');
@@ -483,12 +488,12 @@
 										}
 									}
 
-									$('div.jqselect').css({zIndex: (opt.singleSelectzIndex - 1)}).removeClass('opened focused');
+									$('div.jqselect').css({zIndex: (opt.singleSelectzIndex - 1)}).removeClass('opened');
 									selectbox.css({zIndex: opt.singleSelectzIndex});
 									if (dropdown.is(':hidden')) {
 										$('div.jq-selectbox__dropdown:visible').hide();
 										dropdown.show();
-										selectbox.addClass('opened');
+										selectbox.addClass('opened focused');
 										// колбек при открытии селекта
 										opt.onSelectOpened.call(selectbox);
 									} else {
@@ -552,13 +557,6 @@
 										selectedText = liText;
 										divText.html(liText);
 
-										// добавляем класс, показывающий изменение селекта
-										if (option.first().text() != liText) {
-											selectbox.addClass('changed');
-										} else {
-											selectbox.removeClass('changed');
-										}
-
 										// передаем селекту класс выбранного пункта
 										if (selectbox.data('jqfs-class')) selectbox.removeClass(selectbox.data('jqfs-class'));
 										selectbox.data('jqfs-class', t.data('jqfs-class'));
@@ -584,16 +582,24 @@
 								el.change(function() {
 									divText.html(option.filter(':selected').text());
 									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
+									// добавляем класс, показывающий изменение селекта
+									if (option.first().text() != li.filter('.selected').text()) {
+										selectbox.addClass('changed');
+									} else {
+										selectbox.removeClass('changed');
+									}
 								})
 								.focus(function() {
 									selectbox.addClass('focused');
+									$('div.jqselect').removeClass('opened');
+									$('div.jq-selectbox__dropdown:visible').not(dropdown).hide();
 								})
 								.blur(function() {
 									selectbox.removeClass('focused');
 								})
-								// прокрутки списка с клавиатуры
+								// изменение селекта с клавиатуры
 								.on('keydown keyup', function(e) {
-									divText.text(option.filter(':selected').text());
+									divText.html(option.filter(':selected').text());
 									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
 									// вверх, влево, PageUp
 									if (e.which == 38 || e.which == 37 || e.which == 33) {
@@ -603,7 +609,17 @@
 									if (e.which == 40 || e.which == 39 || e.which == 34) {
 										dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight() + liHeight);
 									}
+									// открываем выпадающий список при нажатии Space
+									if (e.which == 32) {
+										e.preventDefault();
+										// можно было бы открывать через запуск divSelect.click(),
+										// но почему-то список после открытия сразу закрывается
+										// решение пока не найдено
+										// divSelect.click();
+									}
+									// закрываем выпадающий список при нажатии Enter
 									if (e.which == 13) {
+										e.preventDefault();
 										dropdown.hide();
 									}
 								});
