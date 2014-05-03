@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5
+ * jQuery Form Styler v1.5.1
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.04.24
+ * Date: 2014.05.03
  *
  */
 
@@ -592,7 +592,6 @@
 								.focus(function() {
 									selectbox.addClass('focused');
 									$('div.jqselect').removeClass('opened');
-									$('div.jq-selectbox__dropdown:visible').not(dropdown).hide();
 								})
 								.blur(function() {
 									selectbox.removeClass('focused');

@@ -388,17 +388,25 @@ input[type="reset"].styler::-moz-focus-inner {
 button.styler:after {
 	content: '';
 }
-button.styler:hover,
-input[type="button"].styler:hover,
-input[type="submit"].styler:hover,
+button.styler:not([disabled]):hover,
+input[type="button"].styler:not([disabled]):hover,
+input[type="submit"].styler:not([disabled]):hover,
 input[type="reset"].styler:hover {
 	background-color: #E6E6E6;
 	background-position: 0 -10px;
 }
-button.styler:active,
-input[type="button"].styler:active,
-input[type="submit"].styler:active,
+button.styler:not([disabled]):active,
+input[type="button"].styler:not([disabled]):active,
+input[type="submit"].styler:not([disabled]):active,
 input[type="reset"].styler:active {
 	background: #F5F5F5;
 	box-shadow: inset 1px 1px 3px #DDD;
+}
+button.styler[disabled],
+input[type="button"].styler[disabled],
+input[type="submit"].styler[disabled] {
+	border-color: #CCC;
+	background: #F5F5F5;
+	box-shadow: none;
+	color: #888;
 }
