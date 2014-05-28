@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5.1
+ * jQuery Form Styler v1.5.2
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.05.03
+ * Date: 2014.05.28
  *
  */
 
@@ -126,7 +126,7 @@
 
 						// обновление при динамическом изменении
 						el.on('refresh', function() {
-							el.parent().before(el).remove();
+							el.off().parent().before(el).remove();
 							checkbox();
 						});
 
@@ -199,7 +199,7 @@
 
 						// обновление при динамическом изменении
 						el.on('refresh', function() {
-							el.parent().before(el).remove();
+							el.off().parent().before(el).remove();
 							radio();
 						});
 
@@ -232,8 +232,16 @@
 							file.append(el);
 							if (el.is(':disabled')) file.addClass('disabled');
 							el.change(function() {
-								name.text(el.val().replace(/.+[\\\/]/, ''));
-								if (el.val() == '') {
+								var value = el.val();
+								if (el.is('[multiple]')) {
+									value = '';
+									var files = el[0].files;
+									for (var i = 0; i < files.length; i++) {
+										value += ( (i > 0) ? ', ' : '' ) + files[i].name;
+									}
+								}
+								name.text(value.replace(/.+[\\\/]/, ''));
+								if (value == '') {
 									name.text(opt.filePlaceholder);
 									file.removeClass('changed');
 								} else {
@@ -256,7 +264,7 @@
 
 						// обновление при динамическом изменении
 						el.on('refresh', function() {
-							el.parent().before(el).remove();
+							el.off().parent().before(el).remove();
 							file();
 						})
 
@@ -551,7 +559,7 @@
 									var liText = t.text();
 									if (selectedText != liText) {
 										var index = t.index();
-										if (t.is('.option')) index -= t.prevAll('.optgroup').length;
+										index -= t.prevAll('.optgroup').length;
 										t.addClass('selected sel').siblings().removeClass('selected sel');
 										option.prop('selected', false).eq(index).prop('selected', true);
 										selectedText = liText;
@@ -793,7 +801,7 @@
 
 						// обновление при динамическом изменении
 						el.on('refresh', function() {
-							el.parent().before(el).remove();
+							el.off().parent().before(el).remove();
 							selectbox();
 						});
 
