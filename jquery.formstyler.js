@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5.3
+ * jQuery Form Styler v1.5.3.1
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.06.01
+ * Date: 2014.06.02
  *
  */
 
@@ -442,7 +442,7 @@
 
 								// при клике на псевдоселекте
 								divSelect.click(function() {
-									el.trigger('focus.styler');
+									el.focus();
 
 									// колбек при закрытии селекта
 									if ($('div.jq-selectbox').filter('.opened').length) {
@@ -572,7 +572,7 @@
 										selectbox.data('jqfs-class', t.data('jqfs-class'));
 										selectbox.addClass(t.data('jqfs-class'));
 
-										el.trigger('change.styler');
+										el.change();
 									}
 									if (search.length) {
 										search.val('').keyup();
