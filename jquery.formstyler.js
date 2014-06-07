@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5.3.1
+ * jQuery Form Styler v1.5.3.2
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.06.02
+ * Date: 2014.06.07
  *
  */
 
@@ -527,7 +527,7 @@
 									if (search.length) {
 										search.val('').keyup();
 										notFound.hide();
-										search.focus().keyup(function() {
+										search.keyup(function() {
 											var query = $(this).val();
 											li.each(function() {
 												if (!$(this).html().match(new RegExp('.*?' + query + '.*?', 'i'))) {
@@ -608,15 +608,16 @@
 								})
 								// изменение селекта с клавиатуры
 								.on('keydown.styler keyup.styler', function(e) {
+									var liHeight = li.data('li-height');
 									divText.html(option.filter(':selected').text());
 									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
-									// вверх, влево, PageUp
-									if (e.which == 38 || e.which == 37 || e.which == 33) {
-										dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top);
+									// вверх, влево, Page Up, Home
+									if (e.which == 38 || e.which == 37 || e.which == 33 || e.which == 36) {
+										ul.scrollTop(ul.scrollTop() + li.filter('.selected').position().top);
 									}
-									// вниз, вправо, PageDown
-									if (e.which == 40 || e.which == 39 || e.which == 34) {
-										dropdown.scrollTop(dropdown.scrollTop() + li.filter('.selected').position().top - dropdown.innerHeight() + liHeight);
+									// вниз, вправо, Page Down, End
+									if (e.which == 40 || e.which == 39 || e.which == 34 || e.which == 35) {
+										ul.scrollTop(ul.scrollTop() + li.filter('.selected').position().top - ul.innerHeight() + liHeight);
 									}
 									// открываем выпадающий список при нажатии Space
 									if (e.which == 32) {
