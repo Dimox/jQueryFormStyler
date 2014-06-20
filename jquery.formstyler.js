@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5.3.2
+ * jQuery Form Styler v1.5.3.3
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.06.07
+ * Date: 2014.06.20
  *
  */
 
@@ -557,9 +557,10 @@
 
 								// при клике на пункт списка
 								li.filter(':not(.disabled):not(.optgroup)').click(function() {
+									el.focus();
 									var t = $(this);
 									var liText = t.text();
-									if (selectedText != liText) {
+									if (!t.is('.selected')) {
 										var index = t.index();
 										index -= t.prevAll('.optgroup').length;
 										t.addClass('selected sel').siblings().removeClass('selected sel');
@@ -709,7 +710,6 @@
 									// при клике на пункт списка
 									li.filter(':not(.disabled):not(.optgroup)').click(function(e) {
 										el.trigger('focus.styler');
-										selectbox.removeClass('focused');
 										var clkd = $(this);
 										if(!e.ctrlKey && !e.metaKey) clkd.addClass('selected');
 										if(!e.shiftKey) clkd.addClass('first');
