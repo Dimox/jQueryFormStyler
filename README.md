@@ -1,5 +1,4 @@
-jQuery Form Styler <sup>[1.5.3.2](http://dimox.name/jquery-form-styler/#log)</sup>
-==================
+# jQuery Form Styler <sup>[1.5.3.3](https://github.com/Dimox/jQueryFormStyler/blob/master/CHANGELOG.md)</sup>
 
 jQuery-плагин для стилизации элементов html-форм:
 
@@ -8,12 +7,11 @@ jQuery-плагин для стилизации элементов html-форм
 * `<input type="file">`
 * `<select>`
 
-Ссылки
-------
+## Ссылки
 
 * [Страница с примерами](http://dimox.github.io/jQueryFormStyler/demo/)
 * [Домашняя страница плагина](http://dimox.name/jquery-form-styler/)
 
-Лицензия
-------
+## Лицензия
+
 [MIT](https://github.com/Dimox/jQueryFormStyler/blob/master/MIT-LICENSE)
