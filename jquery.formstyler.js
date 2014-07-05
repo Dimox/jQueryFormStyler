@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5.3.3
+ * jQuery Form Styler v1.5.3.4
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.06.20
+ * Date: 2014.07.05
  *
  */
 
@@ -442,12 +442,13 @@
 
 								// при клике на псевдоселекте
 								divSelect.click(function() {
-									el.focus();
 
 									// колбек при закрытии селекта
 									if ($('div.jq-selectbox').filter('.opened').length) {
 										opt.onSelectClosed.call($('div.jq-selectbox').filter('.opened'));
 									}
+
+									el.focus();
 
 									// если iOS, то не показываем выпадающий список
 									var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false;
@@ -632,6 +633,8 @@
 									if (e.which == 13) {
 										e.preventDefault();
 										dropdown.hide();
+										// колбек при закрытии селекта
+										opt.onSelectClosed.call(selectbox);
 									}
 								});
 
@@ -709,7 +712,7 @@
 
 									// при клике на пункт списка
 									li.filter(':not(.disabled):not(.optgroup)').click(function(e) {
-										el.trigger('focus.styler');
+										el.focus();
 										var clkd = $(this);
 										if(!e.ctrlKey && !e.metaKey) clkd.addClass('selected');
 										if(!e.shiftKey) clkd.addClass('first');
@@ -756,7 +759,7 @@
 											if (t.is('.option')) index -= t.prevAll('.optgroup').length;
 											option.eq(index).prop('selected', true);
 										});
-										el.trigger('change.styler');
+										el.change();
 
 									});
 
