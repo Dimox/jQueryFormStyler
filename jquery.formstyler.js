@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5.3.4
+ * jQuery Form Styler v1.5.4
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.07.05
+ * Date: 2014.07.12
  *
  */
 
@@ -454,50 +454,62 @@
 									var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false;
 									if (iOS) return;
 
-									var liHeight = li.data('li-height');
-
 									// умное позиционирование
-									if (opt.selectSmartPositioning) {
-										var win = $(window);
-										var topOffset = selectbox.offset().top;
-										var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
-										var visible = opt.selectVisibleOptions;
-										var	minHeight = liHeight * 5;
-										var	newHeight = liHeight * visible;
-										if (visible > 0 && visible < 6) minHeight = newHeight;
-										if (visible === 0) newHeight = 'auto';
+									var win = $(window);
+									var liHeight = li.data('li-height');
+									var topOffset = selectbox.offset().top;
+									var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
+									var visible = opt.selectVisibleOptions;
+									var	minHeight = liHeight * 5;
+									var	newHeight = liHeight * visible;
+									if (visible > 0 && visible < 6) minHeight = newHeight;
+									if (visible === 0) newHeight = 'auto';
 
+									var dropDown = function() {
+										dropdown.height('auto').css({bottom: 'auto', top: position});
+										var maxHeightBottom = function() {
+											ul.css('max-height', Math.floor((bottomOffset - 20 - searchHeight) / liHeight) * liHeight);
+										};
+										maxHeightBottom();
+										ul.css('max-height', newHeight);
+										if (isMaxHeight != 'none') {
+											ul.css('max-height', isMaxHeight);
+										}
+										if (bottomOffset < (dropdown.outerHeight() + 20)) {
+											maxHeightBottom();
+										}
+									};
+
+									var dropUp = function() {
+										dropdown.height('auto').css({top: 'auto', bottom: position});
+										var maxHeightTop = function() {
+											ul.css('max-height', Math.floor((topOffset - win.scrollTop() - 20 - searchHeight) / liHeight) * liHeight);
+										};
+										maxHeightTop();
+										ul.css('max-height', newHeight);
+										if (isMaxHeight != 'none') {
+											ul.css('max-height', isMaxHeight);
+										}
+										if ((topOffset - win.scrollTop() - 20) < (dropdown.outerHeight() + 20)) {
+											maxHeightTop();
+										}
+									};
+
+									if (opt.selectSmartPositioning === true) {
 										// раскрытие вниз
 										if (bottomOffset > (minHeight + searchHeight + 20))	{
-											dropdown.height('auto').css({bottom: 'auto', top: position});
-											var maxHeightBottom = function() {
-												ul.css('max-height', Math.floor((bottomOffset - 20 - searchHeight) / liHeight) * liHeight);
-											};
-											maxHeightBottom();
-											ul.css('max-height', newHeight);
-											if (isMaxHeight != 'none') {
-												ul.css('max-height', isMaxHeight);
-											}
-											if (bottomOffset < (dropdown.outerHeight() + 20)) {
-												maxHeightBottom();
-											}
-
+											dropDown();
 										// раскрытие вверх
 										} else {
-											dropdown.height('auto').css({top: 'auto', bottom: position});
-											var maxHeightTop = function() {
-												ul.css('max-height', Math.floor((topOffset - win.scrollTop() - 20 - searchHeight) / liHeight) * liHeight);
-											};
-											maxHeightTop();
-											ul.css('max-height', newHeight);
-											if (isMaxHeight != 'none') {
-												ul.css('max-height', isMaxHeight);
-											}
-											if ((topOffset - win.scrollTop() - 20) < (dropdown.outerHeight() + 20)) {
-												maxHeightTop();
-											}
+											dropUp();
+										}
+									} else if (opt.selectSmartPositioning === false) {
+										// раскрытие вниз
+										if (bottomOffset > (minHeight + searchHeight + 20))	{
+											dropDown();
 										}
 									}
+									// конец умного позиционирования
 
 									$('div.jqselect').css({zIndex: (opt.singleSelectzIndex - 1)}).removeClass('opened');
 									selectbox.css({zIndex: opt.singleSelectzIndex});
@@ -603,7 +615,7 @@
 								})
 								.on('focus.styler', function() {
 									selectbox.addClass('focused');
-									$('div.jqselect').removeClass('opened');
+									$('div.jqselect').not('.focused').removeClass('opened');
 								})
 								.on('blur.styler', function() {
 									selectbox.removeClass('focused');
@@ -633,6 +645,7 @@
 									if (e.which == 13) {
 										e.preventDefault();
 										dropdown.hide();
+										selectbox.removeClass('opened');
 										// колбек при закрытии селекта
 										opt.onSelectClosed.call(selectbox);
 									}
