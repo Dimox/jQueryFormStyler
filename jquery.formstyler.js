@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5.4
+ * jQuery Form Styler v1.5.5
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.07.12
+ * Date: 2014.08.29
  *
  */
 
@@ -18,7 +18,8 @@
 			idSuffix: '-styler',
 			filePlaceholder: 'Файл не выбран',
 			fileBrowse: 'Обзор...',
-			selectSearch: true,
+			selectPlaceholder: 'Выберите...',
+			selectSearch: false,
 			selectSearchLimit: 10,
 			selectSearchNotFound: 'Совпадений не найдено',
 			selectSearchPlaceholder: 'Поиск...',
@@ -298,7 +299,7 @@
 							var list = '';
 							// формируем список селекта
 							function makeList() {
-								for (i = 0, len = option.length; i < len; i++) {
+								for (var i = 0, len = option.length; i < len; i++) {
 									var li = '',
 											liClass = '',
 											dataList = '',
@@ -320,12 +321,12 @@
 										if (data[k] !== '') dataList += ' data-' + k + '="' + data[k] + '"';
 									}
 
-									li = '<li' + dataJqfsClass + dataList + ' class="' + liClass + optionClass + '">'+ option.eq(i).text() +'</li>';
+									li = '<li' + dataJqfsClass + dataList + ' class="' + liClass + optionClass + '">'+ option.eq(i).html() +'</li>';
 
 									// если есть optgroup
 									if (option.eq(i).parent().is('optgroup')) {
 										if (option.eq(i).parent().attr('class') !== undefined) optgroupClass = ' ' + option.eq(i).parent().attr('class');
-										li = '<li' + dataJqfsClass + ' class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).text() +'</li>';
+										li = '<li' + dataJqfsClass + ' class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).html() +'</li>';
 										if (option.eq(i).is(':first-child')) {
 											li = '<li class="optgroup' + optgroupClass + '">' + option.eq(i).parent().attr('label') + '</li>' + li;
 										}
@@ -351,13 +352,6 @@
 								var divSelect = $('div.jq-selectbox__select', selectbox);
 								var divText = $('div.jq-selectbox__select-text', selectbox);
 								var optionSelected = option.filter(':selected');
-
-								// берем опцию по умолчанию
-								if (optionSelected.length) {
-									divText.html(optionSelected.text());
-								} else {
-									divText.html(option.first().text());
-								}
 
 								makeList();
 								var searchHTML = '';
@@ -400,6 +394,21 @@
 								}
 								if ( liWidth1 > selectbox.width() ) {
 									dropdown.width(liWidth1);
+								}
+
+								// показываем опцию по умолчанию
+								// если 1-я опция пустая и выбрана по умолчанию, то показываем плейсхолдер
+								if (el.val() === '') {
+									var placeholder = el.data('placeholder');
+									if (placeholder === undefined) placeholder = opt.selectPlaceholder;
+									divText.text(placeholder).addClass('placeholder');
+								} else {
+									divText.text(optionSelected.text());
+								}
+								// прячем 1-ю пустую опцию, если она есть и если атрибут data-placeholder не пустой
+								// если все же нужно, чтобы первая пустая опция отображалась, то указываем у селекта: data-placeholder=""
+								if (option.first().text() === '' && el.data('placeholder') !== '') {
+									li.first().hide();
 								}
 
 								// прячем оригинальный селект
@@ -528,14 +537,6 @@
 										}
 									}
 
-									// прокручиваем до выбранного пункта при открытии списка
-									if (li.filter('.selected').length) {
-										// если нечетное количество видимых пунктов,
-										// то высоту пункта делим пополам для последующего расчета
-										if ( (ul.innerHeight() / liHeight) % 2 !== 0 ) liHeight = liHeight / 2;
-										ul.scrollTop(ul.scrollTop() + li.filter('.selected').position().top - ul.innerHeight() / 2 + liHeight);
-									}
-
 									// поисковое поле
 									if (search.length) {
 										search.val('').keyup();
@@ -549,6 +550,10 @@
 													$(this).show();
 												}
 											});
+											// прячем 1-ю пустую опцию
+											if (option.first().text() === '' && el.data('placeholder') !== '') {
+												li.first().hide();
+											}
 											if (li.filter(':visible').length < 1) {
 												notFound.show();
 											} else {
@@ -557,9 +562,18 @@
 										});
 									}
 
+									// прокручиваем до выбранного пункта при открытии списка
+									if (li.filter('.selected').length) {
+										// если нечетное количество видимых пунктов,
+										// то высоту пункта делим пополам для последующего расчета
+										if ( (ul.innerHeight() / liHeight) % 2 !== 0 ) liHeight = liHeight / 2;
+										ul.scrollTop(ul.scrollTop() + li.filter('.selected').position().top - ul.innerHeight() / 2 + liHeight);
+									}
+
 									preventScrolling(ul);
 									return false;
-								});
+
+								}); // end divSelect.click()
 
 								// при наведении курсора на пункт списка
 								li.hover(function() {
@@ -579,7 +593,7 @@
 										t.addClass('selected sel').siblings().removeClass('selected sel');
 										option.prop('selected', false).eq(index).prop('selected', true);
 										selectedText = liText;
-										divText.html(liText);
+										divText.text(liText);
 
 										// передаем селекту класс выбранного пункта
 										if (selectbox.data('jqfs-class')) selectbox.removeClass(selectbox.data('jqfs-class'));
@@ -587,10 +601,6 @@
 										selectbox.addClass(t.data('jqfs-class'));
 
 										el.change();
-									}
-									if (search.length) {
-										search.val('').keyup();
-										notFound.hide();
 									}
 									dropdown.hide();
 									selectbox.removeClass('opened');
@@ -604,7 +614,7 @@
 
 								// изменение селекта
 								el.on('change.styler', function() {
-									divText.html(option.filter(':selected').text());
+									divText.text(option.filter(':selected').text()).removeClass('placeholder');
 									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
 									// добавляем класс, показывающий изменение селекта
 									if (option.first().text() != li.filter('.selected').text()) {
@@ -623,7 +633,7 @@
 								// изменение селекта с клавиатуры
 								.on('keydown.styler keyup.styler', function(e) {
 									var liHeight = li.data('li-height');
-									divText.html(option.filter(':selected').text());
+									divText.text(option.filter(':selected').text());
 									li.removeClass('selected sel').not('.optgroup').eq(el[0].selectedIndex).addClass('selected sel');
 									// вверх, влево, Page Up, Home
 									if (e.which == 38 || e.which == 37 || e.which == 33 || e.which == 36) {
