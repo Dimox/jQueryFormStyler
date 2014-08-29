@@ -1,6 +1,6 @@
 {
 	"name": "Dimox/jQueryFormStyler",
-	"version": "1.5.4",
+	"version": "1.5.5",
 	"main": "jquery.formstyler.css",
 	"description": "jQuery-плагин для стилизации элементов html-форм",
 	"license": "MIT",

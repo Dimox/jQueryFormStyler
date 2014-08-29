@@ -155,6 +155,9 @@
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
+.jq-selectbox .placeholder {
+	color: #888;
+}
 .jq-selectbox__trigger {
 	position: absolute;
 	top: 0;
