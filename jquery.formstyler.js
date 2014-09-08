@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5.5
+ * jQuery Form Styler v1.5.6
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.08.29
+ * Date: 2014.09.08
  *
  */
 
@@ -459,8 +459,9 @@
 
 									el.focus();
 
-									// если iOS, то не показываем выпадающий список
-									var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/g) ? true : false;
+									// если iOS, то не показываем выпадающий список,
+									// т.к. отображается нативный и неизвестно, как его спрятать
+									var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false;
 									if (iOS) return;
 
 									// умное позиционирование
@@ -625,7 +626,7 @@
 								})
 								.on('focus.styler', function() {
 									selectbox.addClass('focused');
-									$('div.jqselect').not('.focused').removeClass('opened');
+									$('div.jqselect').not('.focused').removeClass('opened').find('div.jq-selectbox__dropdown').hide();
 								})
 								.on('blur.styler', function() {
 									selectbox.removeClass('focused');
@@ -643,14 +644,6 @@
 									if (e.which == 40 || e.which == 39 || e.which == 34 || e.which == 35) {
 										ul.scrollTop(ul.scrollTop() + li.filter('.selected').position().top - ul.innerHeight() + liHeight);
 									}
-									// открываем выпадающий список при нажатии Space
-									if (e.which == 32) {
-										e.preventDefault();
-										// можно было бы открывать через запуск divSelect.click(),
-										// но почему-то список после открытия сразу закрывается
-										// решение пока не найдено
-										// divSelect.click();
-									}
 									// закрываем выпадающий список при нажатии Enter
 									if (e.which == 13) {
 										e.preventDefault();
@@ -658,6 +651,12 @@
 										selectbox.removeClass('opened');
 										// колбек при закрытии селекта
 										opt.onSelectClosed.call(selectbox);
+									}
+								}).on('keydown.styler', function(e) {
+									// открываем выпадающий список при нажатии Space
+									if (e.which == 32) {
+										e.preventDefault();
+										divSelect.click();
 									}
 								});
 
@@ -823,7 +822,21 @@
 
 								}
 							} // end doMultipleSelect()
-							if (el.is('[multiple]')) doMultipleSelect(); else doSelect();
+
+							if (el.is('[multiple]')) {
+
+								// если Android или iOS, то мультиселект не стилизуем
+								// причина для Android - в стилизованном селекте нет возможности выбрать несколько пунктов
+								// причина для iOS - в стилизованном селекте неправильно отображаются выбранные пункты
+								var Android = navigator.userAgent.match(/Android/i) ? true : false;
+								var iOS = navigator.userAgent.match(/(iPad|iPhone|iPod)/i) ? true : false;
+								if (Android || iOS) return;
+
+								doMultipleSelect();
+							} else {
+								doSelect();
+							}
+
 						}; // end selectboxOutput()
 
 						selectboxOutput();
