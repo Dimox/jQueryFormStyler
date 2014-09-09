@@ -8,8 +8,31 @@
  * Date: 2014.09.08
  *
  */
+/* jshint undef: true, unused: true, browser: true */
 
 (function($) {
+
+	// прячем выпадающий список при клике за пределами селекта
+	function onDocumentClick(e) {
+		// e.target.nodeName != 'OPTION' - добавлено для обхода бага в Opera на движке Presto
+		// (при изменении селекта с клавиатуры срабатывает событие onclick)
+		if (!$(e.target).parents().hasClass('jq-selectbox') && e.target.nodeName != 'OPTION') {
+			// колбек при закрытии селекта
+			$('div.jq-selectbox.opened').each(function(){
+				var selectbox = $(this),
+					search = $('.jq-selectbox__search', this),
+					dropdown = $('.jq-selectbox__dropdown', this);
+
+				// XXX: как это взывать?
+				// opt.onSelectClosed.call(this);
+				if (search.length) search.val('').keyup();
+				dropdown.hide().find('li.sel').addClass('selected');
+				selectbox.removeClass('focused opened');
+			});
+		}
+	}
+	onDocumentClick.registered = false;
+
 
 	$.fn.styler = function(options) {
 
@@ -660,23 +683,10 @@
 									}
 								});
 
-								// прячем выпадающий список при клике за пределами селекта
-								$(document).on('click', function(e) {
-									// e.target.nodeName != 'OPTION' - добавлено для обхода бага в Opera на движке Presto
-									// (при изменении селекта с клавиатуры срабатывает событие onclick)
-									if (!$(e.target).parents().hasClass('jq-selectbox') && e.target.nodeName != 'OPTION') {
-
-										// колбек при закрытии селекта
-										if ($('div.jq-selectbox').filter('.opened').length) {
-											opt.onSelectClosed.call($('div.jq-selectbox').filter('.opened'));
-										}
-
-										if (search.length) search.val('').keyup();
-										dropdown.hide().find('li.sel').addClass('selected');
-										selectbox.removeClass('focused opened');
-
-									}
-								});
+								if (!onDocumentClick.registered) {
+									$(document).on('click', onDocumentClick);
+									onDocumentClick.registered = true;
+								}
 
 							} // end doSelect()
 
