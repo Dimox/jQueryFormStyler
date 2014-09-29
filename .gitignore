@@ -1,1 +1,6 @@
 TODO.txt
+
+# IntelliJ IDEA
+.idea
+*.ipr
+*.iml
