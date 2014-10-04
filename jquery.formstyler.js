@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.5.6
+ * jQuery Form Styler v1.6
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.09.08
+ * Date: 2014.10.04
  *
  */
 
@@ -43,7 +43,7 @@
 				if (el.attr('title') !== undefined && el.attr('title') !== '') title = ' title="' + el.attr('title') + '"';
 				if (el.attr('class') !== undefined && el.attr('class') !== '') classes = ' ' + el.attr('class');
 				var data = el.data();
-				for (var i = 0; i < data.length; i++) {
+				for (var i in data) {
 					if (data[i] !== '') dataList += ' data-' + i + '="' + data[i] + '"';
 				}
 				id += dataList;
@@ -227,9 +227,13 @@
 						var fileOutput = function() {
 
 							var att = new Attributes();
+							var placeholder = el.data('placeholder');
+							if (placeholder === undefined) placeholder = opt.filePlaceholder;
+							var browse = el.data('browse');
+							if (browse === undefined || browse === '') browse = opt.fileBrowse;
 							var file = $('<div' + att.id + ' class="jq-file' + att.classes + '"' + att.title + ' style="display: inline-block; position: relative; overflow: hidden"></div>');
-							var name = $('<div class="jq-file__name">' + opt.filePlaceholder + '</div>').appendTo(file);
-							var browse = $('<div class="jq-file__browse">' + opt.fileBrowse + '</div>').appendTo(file);
+							var name = $('<div class="jq-file__name">' + placeholder + '</div>').appendTo(file);
+							$('<div class="jq-file__browse">' + browse + '</div>').appendTo(file);
 							el.after(file);
 							file.append(el);
 							if (el.is(':disabled')) file.addClass('disabled');
@@ -244,7 +248,7 @@
 								}
 								name.text(value.replace(/.+[\\\/]/, ''));
 								if (value === '') {
-									name.text(opt.filePlaceholder);
+									name.text(placeholder);
 									file.removeClass('changed');
 								} else {
 									file.addClass('changed');
@@ -339,8 +343,26 @@
 							// одиночный селект
 							function doSelect() {
 								var att = new Attributes();
+
+								var searchHTML = '';
+								var selectPlaceholder = el.data('placeholder');
+								var selectSearch = el.data('search');
+								var selectSearchLimit = el.data('search-limit');
+								var selectSearchNotFound = el.data('search-not-found');
+								var selectSearchPlaceholder = el.data('search-placeholder');
+								var singleSelectzIndex = el.data('z-index');
+								var selectSmartPositioning = el.data('smart-positioning');
+
+								if (selectPlaceholder === undefined) selectPlaceholder = opt.selectPlaceholder;
+								if (selectSearch === undefined || selectSearch === '') selectSearch = opt.selectSearch;
+								if (selectSearchLimit === undefined || selectSearchLimit === '') selectSearchLimit = opt.selectSearchLimit;
+								if (selectSearchNotFound === undefined || selectSearchNotFound === '') selectSearchNotFound = opt.selectSearchNotFound;
+								if (selectSearchPlaceholder === undefined) selectSearchPlaceholder = opt.selectSearchPlaceholder;
+								if (singleSelectzIndex === undefined || singleSelectzIndex === '') singleSelectzIndex = opt.singleSelectzIndex;
+								if (selectSmartPositioning === undefined || selectSmartPositioning === '') selectSmartPositioning = opt.selectSmartPositioning;
+
 								var selectbox =
-									$('<div' + att.id + ' class="jq-selectbox jqselect' + att.classes + '" style="display: inline-block; position: relative; z-index:' + opt.singleSelectzIndex + '">' +
+									$('<div' + att.id + ' class="jq-selectbox jqselect' + att.classes + '" style="display: inline-block; position: relative; z-index:' + singleSelectzIndex + '">' +
 											'<div class="jq-selectbox__select"' + att.title + ' style="position: relative">' +
 												'<div class="jq-selectbox__select-text"></div>' +
 												'<div class="jq-selectbox__trigger"><div class="jq-selectbox__trigger-arrow"></div></div>' +
@@ -354,10 +376,10 @@
 								var optionSelected = option.filter(':selected');
 
 								makeList();
-								var searchHTML = '';
-								if (opt.selectSearch) searchHTML =
-									'<div class="jq-selectbox__search"><input type="search" autocomplete="off" placeholder="' + opt.selectSearchPlaceholder + '"></div>' +
-									'<div class="jq-selectbox__not-found">' + opt.selectSearchNotFound + '</div>';
+
+								if (selectSearch) searchHTML =
+									'<div class="jq-selectbox__search"><input type="search" autocomplete="off" placeholder="' + selectSearchPlaceholder + '"></div>' +
+									'<div class="jq-selectbox__not-found">' + selectSearchNotFound + '</div>';
 								var dropdown =
 									$('<div class="jq-selectbox__dropdown" style="position: absolute">' +
 											searchHTML +
@@ -368,7 +390,7 @@
 								var li = $('li', dropdown);
 								var search = $('input', dropdown);
 								var notFound = $('div.jq-selectbox__not-found', dropdown).hide();
-								if (li.length < opt.selectSearchLimit) search.parent().hide();
+								if (li.length < selectSearchLimit) search.parent().hide();
 
 								// определяем самый широкий пункт селекта
 								var liWidth1 = 0,
@@ -390,7 +412,6 @@
 								selClone.remove();
 								if (selCloneWidth == selectbox.width()) {
 									divText.width(liWidth2);
-									liWidth1 += selectbox.find('div.jq-selectbox__trigger').width();
 								}
 								if ( liWidth1 > selectbox.width() ) {
 									dropdown.width(liWidth1);
@@ -399,9 +420,7 @@
 								// показываем опцию по умолчанию
 								// если 1-я опция пустая и выбрана по умолчанию, то показываем плейсхолдер
 								if (el.val() === '') {
-									var placeholder = el.data('placeholder');
-									if (placeholder === undefined) placeholder = opt.selectPlaceholder;
-									divText.text(placeholder).addClass('placeholder');
+									divText.text(selectPlaceholder).addClass('placeholder');
 								} else {
 									divText.text(optionSelected.text());
 								}
@@ -469,7 +488,8 @@
 									var liHeight = li.data('li-height');
 									var topOffset = selectbox.offset().top;
 									var bottomOffset = win.height() - selectHeight - (topOffset - win.scrollTop());
-									var visible = opt.selectVisibleOptions;
+									var visible = el.data('visible-options');
+									if (visible === undefined || visible === '') visible = opt.selectVisibleOptions;
 									var	minHeight = liHeight * 5;
 									var	newHeight = liHeight * visible;
 									if (visible > 0 && visible < 6) minHeight = newHeight;
@@ -505,24 +525,27 @@
 										}
 									};
 
-									if (opt.selectSmartPositioning === true) {
+									if (selectSmartPositioning === true || selectSmartPositioning === 1) {
 										// раскрытие вниз
 										if (bottomOffset > (minHeight + searchHeight + 20))	{
 											dropDown();
+											selectbox.removeClass('dropup').addClass('dropdown');
 										// раскрытие вверх
 										} else {
 											dropUp();
+											selectbox.removeClass('dropdown').addClass('dropup');
 										}
-									} else if (opt.selectSmartPositioning === false) {
+									} else if (selectSmartPositioning === false || selectSmartPositioning === 0) {
 										// раскрытие вниз
 										if (bottomOffset > (minHeight + searchHeight + 20))	{
 											dropDown();
+											selectbox.removeClass('dropup').addClass('dropdown');
 										}
 									}
 									// конец умного позиционирования
 
-									$('div.jqselect').css({zIndex: (opt.singleSelectzIndex - 1)}).removeClass('opened');
-									selectbox.css({zIndex: opt.singleSelectzIndex});
+									$('div.jqselect').css({zIndex: (singleSelectzIndex - 1)}).removeClass('opened');
+									selectbox.css({zIndex: singleSelectzIndex});
 									if (dropdown.is(':hidden')) {
 										$('div.jq-selectbox__dropdown:visible').hide();
 										dropdown.show();
@@ -531,7 +554,7 @@
 										opt.onSelectOpened.call(selectbox);
 									} else {
 										dropdown.hide();
-										selectbox.removeClass('opened');
+										selectbox.removeClass('opened dropup dropdown');
 										// колбек при закрытии селекта
 										if ($('div.jq-selectbox').filter('.opened').length) {
 											opt.onSelectClosed.call(selectbox);
@@ -604,7 +627,7 @@
 										el.change();
 									}
 									dropdown.hide();
-									selectbox.removeClass('opened');
+									selectbox.removeClass('opened dropup dropdown');
 									// колбек при закрытии селекта
 									opt.onSelectClosed.call(selectbox);
 
@@ -626,7 +649,7 @@
 								})
 								.on('focus.styler', function() {
 									selectbox.addClass('focused');
-									$('div.jqselect').not('.focused').removeClass('opened').find('div.jq-selectbox__dropdown').hide();
+									$('div.jqselect').not('.focused').removeClass('opened dropup dropdown').find('div.jq-selectbox__dropdown').hide();
 								})
 								.on('blur.styler', function() {
 									selectbox.removeClass('focused');
@@ -648,7 +671,7 @@
 									if (e.which == 13) {
 										e.preventDefault();
 										dropdown.hide();
-										selectbox.removeClass('opened');
+										selectbox.removeClass('opened dropup dropdown');
 										// колбек при закрытии селекта
 										opt.onSelectClosed.call(selectbox);
 									}
@@ -673,7 +696,7 @@
 
 										if (search.length) search.val('').keyup();
 										dropdown.hide().find('li.sel').addClass('selected');
-										selectbox.removeClass('focused opened');
+										selectbox.removeClass('focused opened dropup dropdown');
 
 									}
 								});
