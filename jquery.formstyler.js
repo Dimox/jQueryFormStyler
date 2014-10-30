@@ -1,4 +1,4 @@
-/*
+/*!
  * jQuery Form Styler v1.6
  * https://github.com/Dimox/jQueryFormStyler
  *
@@ -9,7 +9,21 @@
  *
  */
 
-(function($) {
+(function (factory) {
+	if (typeof define === 'function' && define.amd) {
+
+		// AMD
+		define(['jquery'], factory);
+	} else if (typeof exports === 'object') {
+
+		// CommonJS
+		module.exports = factory(require('jquery'));
+	} else {
+
+		// Browser globals
+		factory(jQuery);
+	}
+}(function ($) {
 
 	$.fn.styler = function(options) {
 
@@ -893,4 +907,4 @@
 		});
 
 	};
-})(jQuery);
+}));
