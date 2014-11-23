@@ -1,15 +1,25 @@
 /*
- * jQuery Form Styler v1.6
+ * jQuery Form Styler v1.6.1
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2014 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2014.10.04
+ * Date: 2014.11.23
  *
  */
 
-(function($) {
+(function(factory) {
+	if (typeof define === 'function' && define.amd) {
+		// AMD
+		define(['jquery'], factory);
+	} else if (typeof exports === 'object') {
+		// CommonJS
+		module.exports = factory(require('jquery'));
+	} else {
+		factory(jQuery);
+	}
+}(function($) {
 
 	$.fn.styler = function(options) {
 
@@ -103,8 +113,10 @@
 							});
 							// клик на label
 							el.closest('label').add('label[for="' + el.attr('id') + '"]').click(function(e) {
-								checkbox.click();
-								e.preventDefault();
+								if (!$(e.target).is('a')) {
+									checkbox.click();
+									e.preventDefault();
+								}
 							});
 							// переключение по Space или Enter
 							el.on('change.styler', function() {
@@ -181,8 +193,10 @@
 							});
 							// клик на label
 							el.closest('label').add('label[for="' + el.attr('id') + '"]').click(function(e) {
-								radio.click();
-								e.preventDefault();
+								if (!$(e.target).is('a')) {
+									radio.click();
+									e.preventDefault();
+								}
 							});
 							// переключение стрелками
 							el.on('change.styler', function() {
@@ -306,6 +320,7 @@
 								for (var i = 0, len = option.length; i < len; i++) {
 									var li = '',
 											liClass = '',
+											liClasses = '',
 											dataList = '',
 											optionClass = '',
 											optgroupClass = '',
@@ -325,7 +340,8 @@
 										if (data[k] !== '') dataList += ' data-' + k + '="' + data[k] + '"';
 									}
 
-									li = '<li' + dataJqfsClass + dataList + ' class="' + liClass + optionClass + '">'+ option.eq(i).html() +'</li>';
+									if ( (liClass + optionClass) !== '' )	liClasses = ' class="' + liClass + optionClass + '"';
+									li = '<li' + dataJqfsClass + dataList + liClasses + '>'+ option.eq(i).html() +'</li>';
 
 									// если есть optgroup
 									if (option.eq(i).parent().is('optgroup')) {
@@ -392,31 +408,6 @@
 								var notFound = $('div.jq-selectbox__not-found', dropdown).hide();
 								if (li.length < selectSearchLimit) search.parent().hide();
 
-								// определяем самый широкий пункт селекта
-								var liWidth1 = 0,
-										liWidth2 = 0;
-								li.each(function() {
-									var l = $(this);
-									l.css({'display': 'inline-block', 'white-space': 'nowrap'});
-									if (l.innerWidth() > liWidth1) {
-										liWidth1 = l.innerWidth();
-										liWidth2 = l.width();
-									}
-									l.css({'display': 'block'});
-								});
-
-								// подстраиваем ширину псевдоселекта и выпадающего списка
-								// в зависимости от самого широкого пункта
-								var selClone = selectbox.clone().appendTo('body').width('auto');
-								var selCloneWidth = selClone.width();
-								selClone.remove();
-								if (selCloneWidth == selectbox.width()) {
-									divText.width(liWidth2);
-								}
-								if ( liWidth1 > selectbox.width() ) {
-									dropdown.width(liWidth1);
-								}
-
 								// показываем опцию по умолчанию
 								// если 1-я опция пустая и выбрана по умолчанию, то показываем плейсхолдер
 								if (el.val() === '') {
@@ -424,6 +415,37 @@
 								} else {
 									divText.text(optionSelected.text());
 								}
+
+								// определяем самый широкий пункт селекта
+								var liWidth1 = 0,
+										liWidth2 = 0;
+								li.each(function() {
+									var l = $(this);
+									l.css({'display': 'inline-block'});
+									if (l.innerWidth() > liWidth1) {
+										liWidth1 = l.innerWidth();
+										liWidth2 = l.width();
+									}
+									l.css({'display': ''});
+								});
+
+								// подстраиваем ширину псевдоселекта и выпадающего списка
+								// в зависимости от самого широкого пункта
+								var selClone = selectbox.clone().appendTo('body').width('auto');
+								var selCloneWidth = selClone.find('select').outerWidth();
+								selClone.remove();
+								if (selCloneWidth == selectbox.width()) {
+									divText.width(liWidth2);
+								}
+								if (liWidth1 > selectbox.width()) {
+									dropdown.width(liWidth1);
+								}
+								// на случай, когда ширина плейсхолдера больше ширины пункта селекта
+								// чтобы плейсхолдер не обрезался
+								if (divText.is('.placeholder') && (divText.width() > liWidth1)) {
+									divText.width(divText.width());
+								}
+
 								// прячем 1-ю пустую опцию, если она есть и если атрибут data-placeholder не пустой
 								// если все же нужно, чтобы первая пустая опция отображалась, то указываем у селекта: data-placeholder=""
 								if (option.first().text() === '' && el.data('placeholder') !== '') {
@@ -717,7 +739,7 @@
 									'overflow-x': 'hidden',
 									'-webkit-overflow-scrolling': 'touch'
 								});
-								var li = $('li', selectbox).attr('unselectable', 'on').css({'-webkit-user-select': 'none', '-moz-user-select': 'none', '-ms-user-select': 'none', '-o-user-select': 'none', 'user-select': 'none', 'white-space': 'nowrap'});
+								var li = $('li', selectbox).attr('unselectable', 'on');
 								var size = el.attr('size');
 								var ulHeight = ul.outerHeight();
 								var liHeight = li.outerHeight();
@@ -893,4 +915,4 @@
 		});
 
 	};
-})(jQuery);
+}));
