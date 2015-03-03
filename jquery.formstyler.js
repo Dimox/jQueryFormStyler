@@ -638,7 +638,6 @@
 									$(this).siblings().removeClass('selected');
 								});
 								var selectedText = li.filter('.selected').text();
-								var selText = li.filter('.selected').text();
 
 								// при клике на пункт списка
 								li.filter(':not(.disabled):not(.optgroup)').click(function() {
