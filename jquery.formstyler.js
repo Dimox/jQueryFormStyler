@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.6.2
+ * jQuery Form Styler v1.6.3
  * https://github.com/Dimox/jQueryFormStyler
  *
- * Copyright 2012-2014 Dimox (http://dimox.name/)
+ * Copyright 2012-2015 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2015.02.21
+ * Date: 2015.04.10
  *
  */
 
@@ -20,6 +20,8 @@
 		factory(jQuery);
 	}
 }(function($) {
+
+	'use strict';
 
 	$.fn.styler = function(options) {
 
@@ -349,7 +351,7 @@
 									// если есть optgroup
 									if (option.eq(i).parent().is('optgroup')) {
 										if (option.eq(i).parent().attr('class') !== undefined) optgroupClass = ' ' + option.eq(i).parent().attr('class');
-										li = '<li' + dataJqfsClass + ' class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).html() +'</li>';
+										li = '<li' + dataJqfsClass + dataList + ' class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).html() +'</li>';
 										if (option.eq(i).is(':first-child')) {
 											li = '<li class="optgroup' + optgroupClass + '">' + option.eq(i).parent().attr('label') + '</li>' + li;
 										}
@@ -638,7 +640,6 @@
 									$(this).siblings().removeClass('selected');
 								});
 								var selectedText = li.filter('.selected').text();
-								var selText = li.filter('.selected').text();
 
 								// при клике на пункт списка
 								li.filter(':not(.disabled):not(.optgroup)').click(function() {
