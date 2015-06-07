@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.6.3
+ * jQuery Form Styler v1.6.4
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2015 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2015.04.10
+ * Date: 2015.06.07
  *
  */
 
@@ -422,34 +422,28 @@
 								}
 
 								// определяем самый широкий пункт селекта
-								var liWidth1 = 0,
-										liWidth2 = 0;
+								var liWidthInner = 0,
+										liWidth = 0;
 								li.each(function() {
 									var l = $(this);
 									l.css({'display': 'inline-block'});
-									if (l.innerWidth() > liWidth1) {
-										liWidth1 = l.innerWidth();
-										liWidth2 = l.width();
+									if (l.innerWidth() > liWidthInner) {
+										liWidthInner = l.innerWidth();
+										liWidth = l.width();
 									}
 									l.css({'display': ''});
 								});
 
-								// подстраиваем ширину псевдоселекта и выпадающего списка
-								// в зависимости от самого широкого пункта
-								var selClone = selectbox.clone().appendTo('body').width('auto');
-								var selCloneWidth = selClone.find('select').outerWidth();
-								selClone.remove();
-								if (selCloneWidth == selectbox.width()) {
-									divText.width(liWidth2);
-								}
-								if (liWidth1 > selectbox.width()) {
-									dropdown.width(liWidth1);
-								}
-								// на случай, когда ширина плейсхолдера больше ширины пункта селекта
-								// чтобы плейсхолдер не обрезался
-								if (divText.is('.placeholder') && (divText.width() > liWidth1)) {
+								// подстраиваем ширину свернутого селекта в зависимости
+								// от ширины плейсхолдера или самого широкого пункта
+								if (divText.is('.placeholder') && (divText.width() > liWidthInner)) {
 									divText.width(divText.width());
+								} else {
+									divText.width(liWidth);
 								}
+
+								// подстраиваем ширину выпадающего списка в зависимости от самого широкого пункта
+								if (liWidthInner > selectbox.width()) dropdown.width(liWidthInner);
 
 								// прячем 1-ю пустую опцию, если она есть и если атрибут data-placeholder не пустой
 								// если все же нужно, чтобы первая пустая опция отображалась, то указываем у селекта: data-placeholder=""
