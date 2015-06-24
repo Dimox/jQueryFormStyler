@@ -936,8 +936,11 @@
 			// колбек после выполнения плагина
 			.promise()
 			.done(function() {
-				var opt = $(this[0]).data('_' + pluginName).options;
-				opt.onFormStyled.call();
+				var data = $(this[0]).data('_' + pluginName)
++				if(data) {
++					var opt = data.options;
++					opt.onFormStyled.call();	
++				}
 			});
 		} else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
 			var returns;
