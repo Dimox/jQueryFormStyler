@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.7
+ * jQuery Form Styler v1.7.1
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2015 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2015.06.21
+ * Date: 2015.07.12
  *
  */
 
@@ -320,38 +320,43 @@
 					var list = '';
 					// формируем список селекта
 					function makeList() {
-						for (var i = 0, len = option.length; i < len; i++) {
+						for (var i = 0; i < option.length; i++) {
+							var op = option.eq(i);
 							var li = '',
 									liClass = '',
 									liClasses = '',
+									id = '',
+									title = '',
 									dataList = '',
 									optionClass = '',
 									optgroupClass = '',
 									dataJqfsClass = '';
 							var disabled = 'disabled';
 							var selDis = 'selected sel disabled';
-							if (option.eq(i).prop('selected')) liClass = 'selected sel';
-							if (option.eq(i).is(':disabled')) liClass = disabled;
-							if (option.eq(i).is(':selected:disabled')) liClass = selDis;
-							if (option.eq(i).attr('class') !== undefined) {
-								optionClass = ' ' + option.eq(i).attr('class');
-								dataJqfsClass = ' data-jqfs-class="' + option.eq(i).attr('class') + '"';
+							if (op.prop('selected')) liClass = 'selected sel';
+							if (op.is(':disabled')) liClass = disabled;
+							if (op.is(':selected:disabled')) liClass = selDis;
+							if (op.attr('id') !== undefined && op.attr('id') !== '') id = ' id="' + op.attr('id') + opt.idSuffix + '"';
+							if (op.attr('title') !== undefined && option.attr('title') !== '') title = ' title="' + op.attr('title') + '"';
+							if (op.attr('class') !== undefined) {
+								optionClass = ' ' + op.attr('class');
+								dataJqfsClass = ' data-jqfs-class="' + op.attr('class') + '"';
 							}
 
-							var data = option.eq(i).data();
+							var data = op.data();
 							for (var k in data) {
 								if (data[k] !== '') dataList += ' data-' + k + '="' + data[k] + '"';
 							}
 
 							if ( (liClass + optionClass) !== '' )   liClasses = ' class="' + liClass + optionClass + '"';
-							li = '<li' + dataJqfsClass + dataList + liClasses + '>'+ option.eq(i).html() +'</li>';
+							li = '<li' + dataJqfsClass + dataList + liClasses + title + id + '>'+ op.html() +'</li>';
 
 							// если есть optgroup
-							if (option.eq(i).parent().is('optgroup')) {
-								if (option.eq(i).parent().attr('class') !== undefined) optgroupClass = ' ' + option.eq(i).parent().attr('class');
-								li = '<li' + dataJqfsClass + dataList + ' class="' + liClass + optionClass + ' option' + optgroupClass + '">'+ option.eq(i).html() +'</li>';
-								if (option.eq(i).is(':first-child')) {
-									li = '<li class="optgroup' + optgroupClass + '">' + option.eq(i).parent().attr('label') + '</li>' + li;
+							if (op.parent().is('optgroup')) {
+								if (op.parent().attr('class') !== undefined) optgroupClass = ' ' + op.parent().attr('class');
+								li = '<li' + dataJqfsClass + dataList + ' class="' + liClass + optionClass + ' option' + optgroupClass + '"' + title + id + '>'+ op.html() +'</li>';
+								if (op.is(':first-child')) {
+									li = '<li class="optgroup' + optgroupClass + '">' + op.parent().attr('label') + '</li>' + li;
 								}
 							}
 
@@ -936,8 +941,8 @@
 			// колбек после выполнения плагина
 			.promise()
 			.done(function() {
-				var opt = $(this[0]).data('_' + pluginName).options;
-				opt.onFormStyled.call();
+				var opt = $(this[0]).data('_' + pluginName);
+				if (opt) opt.options.onFormStyled.call();
 			});
 		} else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
 			var returns;
