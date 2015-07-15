@@ -3,39 +3,35 @@
 	padding: 0;
 }
 body {
+	overflow-y: scroll;
+	padding: 83px 0 0;
 	background: #F7F5F2;
 	font: 15px/18px Arial, sans-serif;
-	overflow-y: scroll;
 	color: #333;
-	padding: 83px 0 0;
 }
 h1 {
 	position: fixed;
+	z-index: 1000;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 70px;
-	z-index: 1000;
 	border-bottom: 1px solid #D0CFCE;
 	background: #FFF;
-	color: #444;
-	text-align: center;
+	box-shadow: 0 2px 5px rgba(0,0,0,.05);
 	font-size: 30px;
 	line-height: 68px;
-	box-shadow: 0 2px 5px rgba(0,0,0,.05);
+	color: #444;
+	text-align: center;
 }
 h1 a {
-	text-decoration: none;
 	background: -webkit-linear-gradient(#08D 1px, #FFF 0) 0 31px;
-	background:    -moz-linear-gradient(#08D 1px, #FFF 0) 0 31px;
-	background:      -o-linear-gradient(#08D 1px, #FFF 0) 0 31px;
 	background:         linear-gradient(#08D 1px, #FFF 0) 0 31px;
+	text-decoration: none;
 	text-shadow: -1px 0 #FFF, -2px 0 #FFF, -3px 0 #FFF, 1px 0 #FFF, 2px 0 #FFF, 3px 0 #FFF;
 }
 h1 a:hover {
 	background: -webkit-linear-gradient(#0AD 1px, #FFF 0) 0 31px;
-	background:    -moz-linear-gradient(#0AD 1px, #FFF 0) 0 31px;
-	background:      -o-linear-gradient(#0AD 1px, #FFF 0) 0 31px;
 	background:         linear-gradient(#0AD 1px, #FFF 0) 0 31px;
 }
 @media screen and (max-width: 620px) {
@@ -60,10 +56,10 @@ a:hover {
 }
 code {
 	padding: 0 3px 1px;
-	border-radius: 3px;
-	color: #EA0000;
 	border: 1px solid #E1E1E1;
+	border-radius: 3px;
 	background: #F6F6F6;
+	color: #EA0000;
 }
 label {
 	cursor: pointer;
@@ -75,24 +71,24 @@ small {
 	font-size: 12px;
 }
 .wrapper {
+	position: relative;
 	width: 1000px;
 	margin: 0 auto;
-	position: relative;
 }
 .wrapper:after {
 	content: '';
-	clear: both;
 	display: table;
+	clear: both;
 }
 .menu {
 	position: fixed;
 	float: left;
 	width: 284px;
 	padding: 1px;
-	background: #E8EDF1;
-	background: #FFF;
 	border: 1px solid #D8D7D6;
 	border-radius: 3px;
+	background: #E8EDF1;
+	background: #FFF;
 }
 @media screen and (max-width: 1000px) {
 	.menu {
@@ -100,16 +96,16 @@ small {
 	}
 }
 .menu li {
+	height: 36px;
+	padding: 0 0 0 12px;
 	border-top: 1px solid #F7F5F2;
 	list-style: none;
-	height: 36px;
 	line-height: 36px;
-	padding: 0 0 0 12px;
 	cursor: pointer;
 }
 .menu li:first-child {
-	border-radius: 2px 2px 0 0;
 	border-top: none;
+	border-radius: 2px 2px 0 0;
 }
 .menu li:last-child {
 	border-radius: 0 0 2px 2px;
@@ -132,14 +128,14 @@ small {
 	position: absolute;
 	top: -2000px;
 	left: 0;
-	height: 100px;
 	overflow: hidden;
+	height: 100px;
 }
 .box.visible {
 	position: static;
+	overflow: visible;
 	width: auto;
 	height: auto;
-	overflow: visible;
 }
 .section {
 	margin: 0 0 12px;
@@ -149,9 +145,9 @@ small {
 	background: #FFF;
 }
 .section:after {
+	content: '';
 	display: table;
 	clear: both;
-	content: '';
 }
 .section.lh {
 	padding: 12px 25px;
@@ -164,6 +160,49 @@ small {
 .sec:first-child {
 	float: left;
 	width: 330px;
+}
+
+.number-plus-minus .jq-number {
+	padding: 0 38px;
+}
+.number-plus-minus .jq-number__field {
+	width: 60px;
+}
+.number-plus-minus .jq-number__field input {
+	text-align: center;
+}
+.number-plus-minus .jq-number__spin {
+	left: 0;
+	height: 32px;
+}
+.number-plus-minus .jq-number__spin.plus {
+	right: 0;
+	left: auto;
+}
+.number-plus-minus .jq-number__spin:before {
+	content: '';
+	position: absolute;
+	top: 15px;
+	left: 10px;
+	width: 12px;
+	height: 2px;
+	border: none;
+	background: #666;
+}
+.number-plus-minus .jq-number__spin.minus:after {
+	display: none;
+}
+.number-plus-minus .jq-number__spin.plus:after {
+	top: 10px;
+	left: 15px;
+	width: 2px;
+	height: 12px;
+	border: none;
+	background: #666;
+}
+.number-plus-minus .jq-number__spin:hover:before,
+.number-plus-minus .jq-number__spin.plus:hover:after {
+	background: #000;
 }
 
 .jq-selectbox {
@@ -226,18 +265,21 @@ small {
 	height: 32px;
 	margin: 3px 0 10px;
 	padding: 0 13px;
-	outline: none;
 	border: none;
 	border-radius: 4px;
+	outline: none;
 	background: #EBEBEB;
 	box-shadow: 0 1px rgba(0,0,0,.15);
 	font: 14px/1 Arial, Tahoma, sans-serif;
 	cursor: pointer;
 }
-.button::-moz-focus-inner {padding:0;border:0;}
+.button::-moz-focus-inner {
+	padding: 0;
+	border: 0;
+}
 .button:not([disabled]):hover {
-	box-shadow: 0 2px rgba(0,0,0,.15);
 	background: #4EA7DC;
+	box-shadow: 0 2px rgba(0,0,0,.15);
 	color: #FFF;
 }
 .button:not([disabled]):active {
@@ -266,17 +308,17 @@ small {
 .css button {
 	margin: 0 0 20px;
 }
-.css input[type="text"],
-.css input[type="password"],
+.css input[type='text'],
+.css input[type='password'],
 .css textarea {
 	width: 375px;
 }
-.css input[type="number"] {
+.css input[type='number'] {
 	width: 50px;
 }
 .css code {
-	vertical-align: top;
 	position: relative;
 	top: 7px;
+	vertical-align: top;
 	margin-left: 6px;
 }
