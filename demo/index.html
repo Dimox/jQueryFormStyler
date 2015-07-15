@@ -6,7 +6,7 @@
 	<title>Примеры для плагина jQuery Form Styler</title>
 	<link href="demo.css" rel="stylesheet" />
 	<link href="../jquery.formstyler.css" rel="stylesheet" />
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="../jquery.formstyler.js"></script>
 	<script>
 		(function($) {
@@ -31,6 +31,7 @@
 		<li class="current" data-hash="checkbox">Чекбоксы</li>
 		<li data-hash="radio">Радиокнопки</li>
 		<li data-hash="file">Поле для выбора файла</li>
+		<li data-hash="number">Поле для ввода чисел</li>
 		<li data-hash="select">Одиночные селекты</li>
 		<li data-hash="multiselect">Мультиселекты</li>
 		<li data-hash="css">Прочие элементы форм (только CSS)</li>
@@ -43,8 +44,8 @@
 
 			<div class="section lh">
 				<div class="buttons">
-					<button type="submit" class="button  add1">Добавить чекбоксы</button>
-					<button type="submit" class="button  dis">Переключить активность</button>
+					<button type="submit" class="button  add-checkbox">Добавить чекбоксы</button>
+					<button type="submit" class="button  disable-input">Переключить активность</button>
 					<button type="submit" class="button  check">Переключить галочки</button>
 				</div>
 				<input type="checkbox" /> без тега <code>label</code><br />
@@ -59,8 +60,8 @@
 
 			<div class="section lh">
 				<div class="buttons">
-					<button type="submit" class="button  add2">Добавить радиокнопки</button>
-					<button type="submit" class="button  dis">Переключить активность</button>
+					<button type="submit" class="button  add-radio">Добавить радиокнопки</button>
+					<button type="submit" class="button  disable-input">Переключить активность</button>
 				</div>
 				<input type="radio" name="radio" /> без тега <code>label</code><br />
 				<input type="radio" name="radio" id="radio1" /> <label for="radio1"> в тег <code>label</code> помещен только текст</label><br />
@@ -74,10 +75,33 @@
 
 			<div class="section">
 				<div class="buttons">
-					<button type="submit" class="button  add5">Добавить поле</button>
-					<button type="submit" class="button  dis">Переключить активность</button>
+					<button type="submit" class="button  add-file">Добавить поле</button>
+					<button type="submit" class="button  disable-input">Переключить активность</button>
 				</div>
 				<input type="file" />
+			</div><!-- .section -->
+		</div><!-- .box -->
+
+		<div class="box">
+			<h2>Поле для ввода чисел</h2>
+
+			<div class="section">
+				<div class="buttons">
+					<button type="submit" class="button  add-number">Добавить поле</button>
+					<button type="submit" class="button  disable-input">Переключить активность</button>
+				</div>
+				<p>Поле без атрибутов.</p>
+				<input type="number" />
+			</div><!-- .section -->
+
+			<div class="section">
+				<p>Поле с атрибутами <code>min="0" max="100" step="5"</code>.</p>
+				<input type="number" min="0" max="100" step="5" />
+			</div><!-- .section -->
+
+			<div class="section  number-plus-minus">
+			<p>Другой вид переключателей.</p>
+				<input type="number" />
 			</div><!-- .section -->
 		</div><!-- .box -->
 
@@ -89,10 +113,10 @@
 
 			<div class="section">
 				<div class="buttons">
-					<button type="submit" class="button  add3">Добавить селект</button>
-					<button type="submit" class="button  add4">Добавить пункты в список</button>
-					<button type="submit" class="button  dis2">Переключить активность селекта</button>
-					<button type="submit" class="button  dis3">Переключить активность пунктов</button>
+					<button type="submit" class="button  add-select">Добавить селект</button>
+					<button type="submit" class="button  add-options">Добавить пункты в список</button>
+					<button type="submit" class="button  disable-select">Переключить активность селекта</button>
+					<button type="submit" class="button  disable-options">Переключить активность пунктов</button>
 				</div>
 				<p><strong>Простой селект</strong> с несколькими пунктами, <br />один из них неактивный.</p>
 				<select>
@@ -383,10 +407,10 @@
 
 			<div class="section">
 				<div class="buttons">
-					<button type="submit" class="button add6">Добавить селект</button>
-					<button type="submit" class="button add4">Добавить пункты в список</button>
-					<button type="submit" class="button dis2">Переключить активность селекта</button>
-					<button type="submit" class="button dis3">Переключить активность пунктов</button>
+					<button type="submit" class="button  add-select  multiple">Добавить селект</button>
+					<button type="submit" class="button  add-options">Добавить пункты в список</button>
+					<button type="submit" class="button  disable-select">Переключить активность селекта</button>
+					<button type="submit" class="button  disable-options">Переключить активность пунктов</button>
 				</div>
 				<p><strong>Мультиселект</strong>, один из пунктов неактивный, <br />параметр <code>size</code> не указан.</p>
 				<select multiple>
@@ -463,8 +487,6 @@
 				<input class="styler" type="password" size="60" placeholder="Поле для ввода пароля..." /> <code>&lt;input type="password"></code>
 
 				<textarea class="styler" cols="60" rows="5" placeholder="Многострочное текстовое поле..."></textarea> <code>&lt;textarea>&lt;/textarea></code><br />
-
-				<input class="styler" type="number" value="0" size="6" /> <code>&lt;input type="number"></code><br />
 
 				<input class="styler" type="button" value="Кнопка" /> <code>&lt;input type="button"></code><br />
 

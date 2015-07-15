@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.7.1
+ * jQuery Form Styler v1.7.2
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2015 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2015.07.12
+ * Date: 2015.07.15
  *
  */
 
@@ -69,7 +69,7 @@
 				if (el.attr('class') !== undefined && el.attr('class') !== '') classes = ' ' + el.attr('class');
 				var data = el.data();
 				for (var i in data) {
-					if (data[i] !== '') dataList += ' data-' + i + '="' + data[i] + '"';
+					if (data[i] !== '' && i !== '_styler') dataList += ' data-' + i + '="' + data[i] + '"';
 				}
 				id += dataList;
 				this.id = id;
@@ -255,9 +255,10 @@
 					var file = $('<div' + att.id + ' class="jq-file' + att.classes + '"' + att.title + ' style="display: inline-block; position: relative; overflow: hidden"></div>');
 					var name = $('<div class="jq-file__name">' + placeholder + '</div>').appendTo(file);
 					$('<div class="jq-file__browse">' + browse + '</div>').appendTo(file);
-					el.after(file);
-					file.append(el);
+					el.after(file).appendTo(file);
+
 					if (el.is(':disabled')) file.addClass('disabled');
+
 					el.on('change.styler', function() {
 						var value = el.val();
 						if (el.is('[multiple]')) {
@@ -296,6 +297,83 @@
 				});
 
 			// end file
+
+			} else if (el.is('input[type="number"]')) {
+
+				var numberOutput = function() {
+
+					var number = $('<div class="jq-number"><div class="jq-number__spin minus"></div><div class="jq-number__spin plus"></div></div>');
+					el.after(number).prependTo(number).wrap('<div class="jq-number__field"></div>');
+
+					if (el.is(':disabled')) number.addClass('disabled');
+
+					var min,
+							max,
+							step,
+							timeout = null,
+							interval = null;
+					if (el.attr('min') !== undefined) min = el.attr('min');
+					if (el.attr('max') !== undefined) max = el.attr('max');
+					if (el.attr('step') !== undefined && $.isNumeric(el.attr('step')))
+						step = Number(el.attr('step'));
+					else
+						step = Number(1);
+
+					var changeValue = function(spin) {
+						var value = el.val(),
+								newValue;
+						if (!$.isNumeric(value)) {
+							value = 0;
+							el.val('0');
+						}
+						if (spin.is('.minus')) {
+							newValue = parseInt(value, 10) - step;
+							if (step > 0) newValue = Math.ceil(newValue / step) * step;
+						} else if (spin.is('.plus')) {
+							newValue = parseInt(value, 10) + step;
+							if (step > 0) newValue = Math.floor(newValue / step) * step;
+						}
+						if ($.isNumeric(min) && $.isNumeric(max)) {
+							if (newValue >= min && newValue <= max) el.val(newValue);
+						} else if ($.isNumeric(min) && !$.isNumeric(max)) {
+							if (newValue >= min) el.val(newValue);
+						} else if (!$.isNumeric(min) && $.isNumeric(max)) {
+							if (newValue <= max) el.val(newValue);
+						} else {
+							el.val(newValue);
+						}
+					};
+
+					if (!number.is('.disabled')) {
+						number.on('mousedown.styler', 'div.jq-number__spin', function() {
+							var spin = $(this);
+							changeValue(spin);
+							timeout = setTimeout(function(){
+								interval = setInterval(function(){ changeValue(spin); }, 40);
+							}, 350);
+						}).on('mouseup.styler mouseout.styler', 'div.jq-number__spin', function() {
+							clearTimeout(timeout);
+							clearInterval(interval);
+						});
+						el.on('focus.styler', function() {
+							number.addClass('focused');
+						})
+						.on('blur.styler', function() {
+							number.removeClass('focused');
+						});
+					}
+
+				}; // end numberOutput()
+
+				numberOutput();
+
+				// обновление при динамическом изменении
+				el.on('refresh', function() {
+					el.off('.styler').closest('.jq-number').before(el).remove();
+					numberOutput();
+				});
+
+			// end number
 
 			// select
 			} else if (el.is('select')) {
@@ -922,6 +1000,8 @@
 			if (el.is(':checkbox') || el.is(':radio')) {
 				el.removeData().off('.styler').removeAttr('style').parent().before(el).remove();
 				el.closest('label').add('label[for="' + el.attr('id') + '"]').off('.styler');
+			} else if (el.is('input[type="number"]')) {
+				el.removeData().off('.styler').closest('.jq-number').before(el).remove();
 			} else if (el.is(':file') || el.is('select')) {
 				el.removeData().off('.styler').removeAttr('style').parent().before(el).remove();
 			}
