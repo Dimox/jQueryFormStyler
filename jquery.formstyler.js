@@ -109,7 +109,7 @@
 					if (el.is(':disabled')) checkbox.addClass('disabled');
 
 					// клик на псевдочекбокс
-					checkbox.on('click.styler', function() {
+					checkbox.click(function() {
 						if (!checkbox.is('.disabled')) {
 							if (el.is(':checked')) {
 								el.prop('checked', false);
@@ -118,11 +118,9 @@
 								el.prop('checked', true);
 								checkbox.addClass('checked');
 							}
-							el.change();
-							return false;
-						} else {
-							return false;
+							el.focus().change();
 						}
+						return false;
 					});
 					// клик на label
 					el.closest('label').add('label[for="' + el.attr('id') + '"]').on('click.styler', function(e) {
@@ -153,6 +151,7 @@
 
 				// обновление при динамическом изменении
 				el.on('refresh', function() {
+					el.closest('label').add('label[for="' + el.attr('id') + '"]').off('.styler');
 					el.off('.styler').parent().before(el).remove();
 					checkboxOutput();
 				});
@@ -190,15 +189,13 @@
 					if (el.is(':disabled')) radio.addClass('disabled');
 
 					// клик на псевдорадиокнопке
-					radio.on('click.styler', function() {
+					radio.click(function() {
 						if (!radio.is('.disabled')) {
 							radio.closest(opt.wrapper).find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
 							el.prop('checked', true).parent().addClass('checked');
-							el.change();
-							return false;
-						} else {
-							return false;
+							el.focus().change();
 						}
+						return false;
 					});
 					// клик на label
 					el.closest('label').add('label[for="' + el.attr('id') + '"]').on('click.styler', function(e) {
@@ -224,6 +221,7 @@
 
 				// обновление при динамическом изменении
 				el.on('refresh', function() {
+					el.closest('label').add('label[for="' + el.attr('id') + '"]').off('.styler');
 					el.off('.styler').parent().before(el).remove();
 					radioOutput();
 				});
@@ -998,12 +996,12 @@
 			var el = $(this.element);
 
 			if (el.is(':checkbox') || el.is(':radio')) {
-				el.removeData().off('.styler').removeAttr('style').parent().before(el).remove();
+				el.removeData('_' + pluginName).off('.styler refresh').removeAttr('style').parent().before(el).remove();
 				el.closest('label').add('label[for="' + el.attr('id') + '"]').off('.styler');
 			} else if (el.is('input[type="number"]')) {
-				el.removeData().off('.styler').closest('.jq-number').before(el).remove();
+				el.removeData('_' + pluginName).off('.styler refresh').closest('.jq-number').before(el).remove();
 			} else if (el.is(':file') || el.is('select')) {
-				el.removeData().off('.styler').removeAttr('style').parent().before(el).remove();
+				el.removeData('_' + pluginName).off('.styler refresh').removeAttr('style').parent().before(el).remove();
 			}
 
 		} // destroy: function()
