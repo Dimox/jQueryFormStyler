@@ -109,7 +109,8 @@
 					if (el.is(':disabled')) checkbox.addClass('disabled');
 
 					// клик на псевдочекбокс
-					checkbox.click(function() {
+					checkbox.click(function(e) {
+						e.preventDefault();
 						if (!checkbox.is('.disabled')) {
 							if (el.is(':checked')) {
 								el.prop('checked', false);
@@ -120,12 +121,11 @@
 							}
 							el.focus().change();
 						}
-						return false;
 					});
 					// клик на label
 					el.closest('label').add('label[for="' + el.attr('id') + '"]').on('click.styler', function(e) {
-						if (!$(e.target).is('a')) {
-							checkbox.click();
+						if (!$(e.target).is('a') && !$(e.target).closest(checkbox).length) {
+							checkbox.triggerHandler('click');
 							e.preventDefault();
 						}
 					});
@@ -189,18 +189,18 @@
 					if (el.is(':disabled')) radio.addClass('disabled');
 
 					// клик на псевдорадиокнопке
-					radio.click(function() {
+					radio.click(function(e) {
+						e.preventDefault();
 						if (!radio.is('.disabled')) {
 							radio.closest(opt.wrapper).find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
 							el.prop('checked', true).parent().addClass('checked');
 							el.focus().change();
 						}
-						return false;
 					});
 					// клик на label
 					el.closest('label').add('label[for="' + el.attr('id') + '"]').on('click.styler', function(e) {
-						if (!$(e.target).is('a')) {
-							radio.click();
+						if (!$(e.target).is('a') && !$(e.target).closest(radio).length) {
+							radio.triggerHandler('click');
 							e.preventDefault();
 						}
 					});
@@ -709,7 +709,6 @@
 							}
 
 							preventScrolling(ul);
-							return false;
 
 						}); // end divSelect.click()
 
