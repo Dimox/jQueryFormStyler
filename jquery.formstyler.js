@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.7.2
+ * jQuery Form Styler v1.7.3
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2015 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2015.07.15
+ * Date: 2015.09.05
  *
  */
 
@@ -29,6 +29,7 @@
 				idSuffix: '-styler',
 				filePlaceholder: 'Файл не выбран',
 				fileBrowse: 'Обзор...',
+				fileNumber: 'Выбрано файлов: %s',
 				selectPlaceholder: 'Выберите...',
 				selectSearch: false,
 				selectSearchLimit: 10,
@@ -109,7 +110,8 @@
 					if (el.is(':disabled')) checkbox.addClass('disabled');
 
 					// клик на псевдочекбокс
-					checkbox.on('click.styler', function() {
+					checkbox.click(function(e) {
+						e.preventDefault();
 						if (!checkbox.is('.disabled')) {
 							if (el.is(':checked')) {
 								el.prop('checked', false);
@@ -118,16 +120,13 @@
 								el.prop('checked', true);
 								checkbox.addClass('checked');
 							}
-							el.change();
-							return false;
-						} else {
-							return false;
+							el.focus().change();
 						}
 					});
 					// клик на label
 					el.closest('label').add('label[for="' + el.attr('id') + '"]').on('click.styler', function(e) {
-						if (!$(e.target).is('a')) {
-							checkbox.click();
+						if (!$(e.target).is('a') && !$(e.target).closest(checkbox).length) {
+							checkbox.triggerHandler('click');
 							e.preventDefault();
 						}
 					});
@@ -190,20 +189,18 @@
 					if (el.is(':disabled')) radio.addClass('disabled');
 
 					// клик на псевдорадиокнопке
-					radio.on('click.styler', function() {
+					radio.click(function(e) {
+						e.preventDefault();
 						if (!radio.is('.disabled')) {
 							radio.closest(opt.wrapper).find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
 							el.prop('checked', true).parent().addClass('checked');
-							el.change();
-							return false;
-						} else {
-							return false;
+							el.focus().change();
 						}
 					});
 					// клик на label
 					el.closest('label').add('label[for="' + el.attr('id') + '"]').on('click.styler', function(e) {
-						if (!$(e.target).is('a')) {
-							radio.click();
+						if (!$(e.target).is('a') && !$(e.target).closest(radio).length) {
+							radio.triggerHandler('click');
 							e.preventDefault();
 						}
 					});
@@ -263,9 +260,12 @@
 						var value = el.val();
 						if (el.is('[multiple]')) {
 							value = '';
-							var files = el[0].files;
-							for (var i = 0; i < files.length; i++) {
-								value += ( (i > 0) ? ', ' : '' ) + files[i].name;
+							var files = el[0].files.length;
+							if (files > 0) {
+								var number = el.data('number');
+								if (number === undefined) number = opt.fileNumber;
+								number = number.replace('%s', files);
+								value = number;
 							}
 						}
 						name.text(value.replace(/.+[\\\/]/, ''));
@@ -345,13 +345,13 @@
 					};
 
 					if (!number.is('.disabled')) {
-						number.on('mousedown.styler', 'div.jq-number__spin', function() {
+						number.on('mousedown', 'div.jq-number__spin', function() {
 							var spin = $(this);
 							changeValue(spin);
 							timeout = setTimeout(function(){
 								interval = setInterval(function(){ changeValue(spin); }, 40);
 							}, 350);
-						}).on('mouseup.styler mouseout.styler', 'div.jq-number__spin', function() {
+						}).on('mouseup mouseout', 'div.jq-number__spin', function() {
 							clearTimeout(timeout);
 							clearInterval(interval);
 						});
@@ -711,7 +711,6 @@
 							}
 
 							preventScrolling(ul);
-							return false;
 
 						}); // end divSelect.click()
 
@@ -998,12 +997,12 @@
 			var el = $(this.element);
 
 			if (el.is(':checkbox') || el.is(':radio')) {
-				el.removeData().off('.styler').removeAttr('style').parent().before(el).remove();
+				el.removeData('_' + pluginName).off('.styler refresh').removeAttr('style').parent().before(el).remove();
 				el.closest('label').add('label[for="' + el.attr('id') + '"]').off('.styler');
 			} else if (el.is('input[type="number"]')) {
-				el.removeData().off('.styler').closest('.jq-number').before(el).remove();
+				el.removeData('_' + pluginName).off('.styler refresh').closest('.jq-number').before(el).remove();
 			} else if (el.is(':file') || el.is('select')) {
-				el.removeData().off('.styler').removeAttr('style').parent().before(el).remove();
+				el.removeData('_' + pluginName).off('.styler refresh').removeAttr('style').parent().before(el).remove();
 			}
 
 		} // destroy: function()
