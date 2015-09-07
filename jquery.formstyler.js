@@ -152,6 +152,7 @@
 
 				// обновление при динамическом изменении
 				el.on('refresh', function() {
+					el.closest('label').add('label[for="' + el.attr('id') + '"]').off('.styler');
 					el.off('.styler').parent().before(el).remove();
 					checkboxOutput();
 				});
@@ -221,6 +222,7 @@
 
 				// обновление при динамическом изменении
 				el.on('refresh', function() {
+					el.closest('label').add('label[for="' + el.attr('id') + '"]').off('.styler');
 					el.off('.styler').parent().before(el).remove();
 					radioOutput();
 				});
