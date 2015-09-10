@@ -1012,7 +1012,7 @@
 	$.fn[pluginName] = function(options) {
 		var args = arguments;
 		if (options === undefined || typeof options === 'object') {
-			return this.each(function() {
+			this.each(function() {
 				if (!$.data(this, '_' + pluginName)) {
 					$.data(this, '_' + pluginName, new Plugin(this, options));
 				}
@@ -1023,6 +1023,7 @@
 				var opt = $(this[0]).data('_' + pluginName);
 				if (opt) opt.options.onFormStyled.call();
 			});
+			return this;
 		} else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
 			var returns;
 			this.each(function() {
