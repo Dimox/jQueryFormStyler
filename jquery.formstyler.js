@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.7.3
+ * jQuery Form Styler v1.7.4
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2015 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2015.09.05
+ * Date: 2015.09.12
  *
  */
 
@@ -152,6 +152,7 @@
 
 				// обновление при динамическом изменении
 				el.on('refresh', function() {
+					el.closest('label').add('label[for="' + el.attr('id') + '"]').off('.styler');
 					el.off('.styler').parent().before(el).remove();
 					checkboxOutput();
 				});
@@ -221,6 +222,7 @@
 
 				// обновление при динамическом изменении
 				el.on('refresh', function() {
+					el.closest('label').add('label[for="' + el.attr('id') + '"]').off('.styler');
 					el.off('.styler').parent().before(el).remove();
 					radioOutput();
 				});
@@ -1012,7 +1014,7 @@
 	$.fn[pluginName] = function(options) {
 		var args = arguments;
 		if (options === undefined || typeof options === 'object') {
-			return this.each(function() {
+			this.each(function() {
 				if (!$.data(this, '_' + pluginName)) {
 					$.data(this, '_' + pluginName, new Plugin(this, options));
 				}
@@ -1023,6 +1025,7 @@
 				var opt = $(this[0]).data('_' + pluginName);
 				if (opt) opt.options.onFormStyled.call();
 			});
+			return this;
 		} else if (typeof options === 'string' && options[0] !== '_' && options !== 'init') {
 			var returns;
 			this.each(function() {
