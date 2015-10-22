@@ -507,15 +507,15 @@
 						// определяем самый широкий пункт селекта
 						var liWidthInner = 0,
 								liWidth = 0;
+						li.css({'display': 'inline-block'});
 						li.each(function() {
 							var l = $(this);
-							l.css({'display': 'inline-block'});
 							if (l.innerWidth() > liWidthInner) {
 								liWidthInner = l.innerWidth();
 								liWidth = l.width();
 							}
-							l.css({'display': ''});
 						});
+						li.css({'display': ''});
 
 						// подстраиваем ширину свернутого селекта в зависимости
 						// от ширины плейсхолдера или самого широкого пункта
