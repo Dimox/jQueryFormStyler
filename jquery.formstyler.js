@@ -193,7 +193,17 @@
 					radio.click(function(e) {
 						e.preventDefault();
 						if (!radio.is('.disabled')) {
-							radio.closest(opt.wrapper).find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
+							var findElement = radio.closest(opt.wrapper).find('input[name="' + el.attr('name') + '"]');
+							if (!findElement.length) {
+								findElement = radio.closest('#' + el.attr('name')).find('input[name="' + el.attr('name') + '"]'); 
+							}
+							if (!findElement.length) {
+								findElement = $('body').find('input[name="' + el.attr('name') + '"]');
+							}
+							if (findElement.length) {
+								findElement.prop('checked', false).parent().removeClass('checked');
+							}
+
 							el.prop('checked', true).parent().addClass('checked');
 							el.focus().change();
 						}
