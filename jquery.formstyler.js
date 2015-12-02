@@ -38,6 +38,7 @@
 				selectVisibleOptions: 0,
 				singleSelectzIndex: '100',
 				selectSmartPositioning: true,
+				checkboxIndeterminate: false,
 				onSelectOpened: function() {},
 				onSelectClosed: function() {},
 				onFormStyled: function() {}
@@ -60,11 +61,14 @@
 			var iOS = (navigator.userAgent.match(/(iPad|iPhone|iPod)/i) && !navigator.userAgent.match(/(Windows\sPhone)/i)) ? true : false;
 			var Android = (navigator.userAgent.match(/Android/i) && !navigator.userAgent.match(/(Windows\sPhone)/i)) ? true : false;
 
+			if(el.hasClass(opt.idSuffix)) { return; }
+			else { el.addClass(opt.idSuffix); }
+
 			function Attributes() {
 				var id = '',
-						title = '',
-						classes = '',
-						dataList = '';
+					title = '',
+					classes = '',
+					dataList = '';
 				if (el.attr('id') !== undefined && el.attr('id') !== '') id = ' id="' + el.attr('id') + opt.idSuffix + '"';
 				if (el.attr('title') !== undefined && el.attr('title') !== '') title = ' title="' + el.attr('title') + '"';
 				if (el.attr('class') !== undefined && el.attr('class') !== '') classes = ' ' + el.attr('class');
@@ -106,18 +110,35 @@
 						overflow: 'hidden'
 					});
 
-					if (el.is(':checked')) checkbox.addClass('checked');
+					if (el.is(':indeterminate')) checkbox.addClass('indeterminate');
+						else if (el.is(':checked')) checkbox.addClass('checked');
+						
 					if (el.is(':disabled')) checkbox.addClass('disabled');
 
 					// клик на псевдочекбокс
 					checkbox.click(function(e) {
 						e.preventDefault();
+
 						if (!checkbox.is('.disabled')) {
-							if (el.is(':checked')) {
-								el.prop('checked', false);
-								checkbox.removeClass('checked');
-							} else {
-								el.prop('checked', true);
+							// отмечено
+							if (el.is(':checked') || el.is(':indeterminate')) {
+								if (opt.checkboxIndeterminate === true && !el.prop('indeterminate')) {
+									el.prop( 'checked', false );
+									el.prop( 'indeterminate', true );
+									checkbox.removeClass('checked');
+									checkbox.addClass('indeterminate');
+								} else {
+									el.prop( 'checked', false );
+									el.prop( 'indeterminate', false );
+									checkbox.removeClass('indeterminate');
+									checkbox.removeClass('checked');
+								}
+							}
+							// не отмечено
+							else { 
+								el.prop('checked', true );
+								el.prop( 'indeterminate', false );
+								checkbox.removeClass('indeterminate');
 								checkbox.addClass('checked');
 							}
 							el.focus().change();
@@ -193,7 +214,18 @@
 					radio.click(function(e) {
 						e.preventDefault();
 						if (!radio.is('.disabled')) {
-							radio.closest(opt.wrapper).find('input[name="' + el.attr('name') + '"]').prop('checked', false).parent().removeClass('checked');
+							var findElement = radio.closest(opt.wrapper).find('input[name="' + el.attr('name') + '"]');
+							
+							if (findElement.length <= 0) {
+								findElement = radio.closest('#' + el.attr('name')).find('input[name="' + el.attr('name') + '"]'); 
+							}
+							
+							if (findElement.length <= 0) {
+								findElement = $( 'body' ).find('input[name="' + el.attr('name') + '"]');
+							}
+							
+							findElement.prop('checked', false).parent().removeClass('checked');
+
 							el.prop('checked', true).parent().addClass('checked');
 							el.focus().change();
 						}
@@ -1006,9 +1038,16 @@
 			} else if (el.is(':file') || el.is('select')) {
 				el.removeData('_' + pluginName).off('.styler refresh').removeAttr('style').parent().before(el).remove();
 			}
+			
+			el.removeClass(this.options.idSuffix);
+		}, // destroy: function()
 
-		} // destroy: function()
-
+		reinitialize: function(options) {
+			this.destroy();
+			
+			this.options = $.extend({}, defaults, options);
+			this.init();
+		} // reinitialize: function()
 	}; // Plugin.prototype
 
 	$.fn[pluginName] = function(options) {
