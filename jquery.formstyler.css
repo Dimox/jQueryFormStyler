@@ -20,6 +20,14 @@
 	background: #666;
 	box-shadow: inset 0 -3px 6px #AAA;
 }
+.jq-checkbox.indeterminate .jq-checkbox__div {
+	width: 12px;
+	height: 4px;
+	margin: 6px 0 0 2px;
+	border-radius: 2px;
+	background: #666;
+	box-shadow: inset 0 -3px 6px #AAA;
+}
 .jq-checkbox.focused {
 	border: 1px solid #08C;
 }
