@@ -580,6 +580,8 @@
 						// при клике на псевдоселекте
 						divSelect.click(function() {
 
+							if (el.hasAttr('disabled')) return;
+
 							// колбек при закрытии селекта
 							if ($('div.jq-selectbox').filter('.opened').length) {
 								opt.onSelectClosed.call($('div.jq-selectbox').filter('.opened'));
