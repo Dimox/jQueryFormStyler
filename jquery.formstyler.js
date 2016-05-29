@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.7.4
+ * jQuery Form Styler v1.7.5
  * https://github.com/Dimox/jQueryFormStyler
  *
- * Copyright 2012-2015 Dimox (http://dimox.name/)
+ * Copyright 2012-2016 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2015.09.12
+ * Date: 2016.05.29
  *
  */
 
@@ -356,6 +356,8 @@
 						}).on('mouseup mouseout', 'div.jq-number__spin', function() {
 							clearTimeout(timeout);
 							clearInterval(interval);
+						}).on('mouseup', 'div.jq-number__spin', function() {
+							el.change();
 						});
 						el.on('focus.styler', function() {
 							number.addClass('focused');
@@ -557,7 +559,10 @@
 						if (li.data('li-height') === undefined) li.data('li-height', li.outerHeight());
 						var position = dropdown.css('top');
 						if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
-						if (dropdown.css('top') == 'auto') dropdown.css({top: selectHeight});
+						if (dropdown.css('top') == 'auto') {
+							dropdown.css({top: selectHeight});
+							position = selectHeight;
+						}
 						dropdown.hide();
 
 						// если выбран не дефолтный пункт
