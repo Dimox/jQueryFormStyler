@@ -500,7 +500,7 @@
 
 						// показываем опцию по умолчанию
 						// если 1-я опция пустая и выбрана по умолчанию, то показываем плейсхолдер
-						if (el.val() === '') {
+						if (optionSelected.text() === '') {
 							divText.text(selectPlaceholder).addClass('placeholder');
 						} else {
 							divText.text(optionSelected.text());
