@@ -566,8 +566,8 @@
 						if (li.length < selectSearchLimit) search.parent().hide();
 
 						// показываем опцию по умолчанию
-						// если у 1-й опции нет текста и она выбрана по умолчанию, то показываем плейсхолдер
-						if (option.first().text() === '' && option.first().is(':selected')) {
+						// если у 1-й опции нет текста, она выбрана по умолчанию и параметр selectPlaceholder не false, то показываем плейсхолдер
+						if (option.first().text() === '' && option.first().is(':selected') && selectPlaceholder !== false) {
 							divText.text(selectPlaceholder).addClass('placeholder');
 						} else {
 							divText.text(optionSelected.text());
