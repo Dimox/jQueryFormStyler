@@ -1,2 +1,19 @@
+# IDE
+## Phpstorm project files
+.idea
+## Netbeans project files
+nbproject
+
+# Windows thumbnail cache
+Thumbs.db
+
+# Mac DS_Store Files
+.DS_Store
+
+# Node.js modules
 node_modules
-TODO.txt
+
+# ToDoList
+TODO.*
+ToDo.*
+todo.*
