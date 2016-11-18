@@ -1,6 +1,6 @@
 {
 	"name": "jquery-form-styler",
-	"version": "1.7.6",
+	"version": "1.8.0",
 	"description": "jQuery-плагин для стилизации элементов HTML-форм",
 	"main": "jquery.formstyler.js",
 	"author": "Dimox (http://dimox.name/)",
