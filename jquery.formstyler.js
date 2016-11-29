@@ -1,5 +1,5 @@
 /*
- * jQuery Form Styler v1.7.6
+ * jQuery Form Styler v1.7.7
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2016 Dimox (http://dimox.name/)
@@ -619,7 +619,7 @@
 						});
 
 						var selectHeight = selectbox.outerHeight(true);
-						var searchHeight = search.parent().outerHeight(true);
+						var searchHeight = search.parent().outerHeight(true) || 0;
 						var isMaxHeight = ul.css('max-height');
 						var liSelected = li.filter('.selected');
 						if (liSelected.length < 1) li.first().addClass('selected sel');
