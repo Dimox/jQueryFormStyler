@@ -24,27 +24,42 @@
 	'use strict';
 
 	var pluginName = 'styler',
-			defaults = {
-				idSuffix: '-styler',
-				filePlaceholder: 'Файл не выбран',
-				fileBrowse: 'Обзор...',
-				fileNumber: 'Выбрано файлов: %s',
-				selectPlaceholder: 'Выберите...',
-				selectSearch: false,
-				selectSearchLimit: 10,
-				selectSearchNotFound: 'Совпадений не найдено',
-				selectSearchPlaceholder: 'Поиск...',
-				selectVisibleOptions: 0,
-				singleSelectzIndex: '100',
-				selectSmartPositioning: true,
-				onSelectOpened: function() {},
-				onSelectClosed: function() {},
-				onFormStyled: function() {}
-			};
+				defaults = {
+					idSuffix: '-styler',
+					filePlaceholder: 'Файл не выбран',
+					fileBrowse: 'Обзор...',
+					fileNumber: 'Выбрано файлов: %s',
+					selectPlaceholder: 'Выберите...',
+					selectSearch: false,
+					selectSearchLimit: 10,
+					selectSearchNotFound: 'Совпадений не найдено',
+					selectSearchPlaceholder: 'Поиск...',
+					selectVisibleOptions: 0,
+					singleSelectzIndex: '100',
+					selectSmartPositioning: true,
+					locale: 'ru',
+					locales: {
+						'en': {
+							filePlaceholder: 'File not selected',
+							fileBrowse: 'Browse...',
+							fileNumber: 'Selected files: %s',
+							selectPlaceholder: 'Select...',
+							selectSearchNotFound: 'Mathces not found',
+							selectSearchPlaceholder: 'Search...'
+						}
+					},
+					onSelectOpened: function() {},
+					onSelectClosed: function() {},
+					onFormStyled: function() {}
+	};
 
 	function Plugin(element, options) {
 		this.element = element;
 		this.options = $.extend({}, defaults, options);
+		var locale = this.options['locale'];
+		if(this.options.locales[locale] !== undefined){
+			$.extend(this.options, this.options.locales[locale]);
+		}
 		this.init();
 	}
 
