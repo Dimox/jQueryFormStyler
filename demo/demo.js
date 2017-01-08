@@ -1,16 +1,28 @@
 (function($) {
 $(function() {
 
-	$('ul.menu').on('click', 'li:not(.current)', function() {
+	$('ul.menu').on('click', 'li', function() {
 		$(this).addClass('current').siblings().removeClass('current')
 			.parents('div.wrapper').find('div.box').removeClass('visible').eq($(this).index()).addClass('visible');
 		 window.location.hash = $(this).data('hash');
 		 $('input').blur();
+		 $('body').removeClass('menu-active');
+		 $('div.menu-overlay').remove();
 	});
 	hash = window.location.hash.replace(/#(.+)/, '$1');
 	if ( hash !== '' ) {
 		$('ul.menu li[data-hash='+hash+']').click();
 	}
+
+	$('div.menu-toggle').click(function() {
+		$('body').addClass('menu-active');
+		$('div.menu-toggle').after('<div class="menu-overlay"></div>');
+	});
+
+	$('body').on('click', 'div.menu-overlay', function() {
+		$('body').removeClass('menu-active');
+		$('div.menu-overlay').remove();
+	});
 
 	$.fn.toggleDisabled = function() {
 		return this.each(function() {

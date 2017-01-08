@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.7.6
+ * jQuery Form Styler v1.7.7
  * https://github.com/Dimox/jQueryFormStyler
  *
- * Copyright 2012-2016 Dimox (http://dimox.name/)
+ * Copyright 2012-2017 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2016.06.05
+ * Date: 2017.01.08
  *
  */
 
@@ -37,6 +37,17 @@
 				selectVisibleOptions: 0,
 				singleSelectzIndex: '100',
 				selectSmartPositioning: true,
+				locale: 'ru',
+				locales: {
+					'en': {
+						filePlaceholder: 'No file selected',
+						fileBrowse: 'Browse...',
+						fileNumber: 'Selected files: %s',
+						selectPlaceholder: 'Select...',
+						selectSearchNotFound: 'No matches found',
+						selectSearchPlaceholder: 'Search...'
+					}
+				},
 				onSelectOpened: function() {},
 				onSelectClosed: function() {},
 				onFormStyled: function() {}
@@ -45,6 +56,10 @@
 	function Plugin(element, options) {
 		this.element = element;
 		this.options = $.extend({}, defaults, options);
+		var locale = this.options.locale;
+		if (this.options.locales[locale] !== undefined) {
+			$.extend(this.options, this.options.locales[locale]);
+		}
 		this.init();
 	}
 
@@ -566,8 +581,8 @@
 						if (li.length < selectSearchLimit) search.parent().hide();
 
 						// показываем опцию по умолчанию
-						// если у 1-й опции нет текста и она выбрана по умолчанию, то показываем плейсхолдер
-						if (option.first().text() === '' && option.first().is(':selected')) {
+						// если у 1-й опции нет текста, она выбрана по умолчанию и параметр selectPlaceholder не false, то показываем плейсхолдер
+						if (option.first().text() === '' && option.first().is(':selected') && selectPlaceholder !== false) {
 							divText.text(selectPlaceholder).addClass('placeholder');
 						} else {
 							divText.text(optionSelected.text());
@@ -619,7 +634,7 @@
 						});
 
 						var selectHeight = selectbox.outerHeight(true);
-						var searchHeight = search.parent().outerHeight(true);
+						var searchHeight = search.parent().outerHeight(true) || 0;
 						var isMaxHeight = ul.css('max-height');
 						var liSelected = li.filter('.selected');
 						if (liSelected.length < 1) li.first().addClass('selected sel');
