@@ -6,13 +6,13 @@
 	<title>Примеры для плагина jQuery Form Styler</title>
 	<link href="demo.css" rel="stylesheet" />
 	<link href="../jquery.formstyler.css" rel="stylesheet" />
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<script src="../jquery.formstyler.js"></script>
 	<script>
 		(function($) {
 		$(function() {
 			$('input, select').styler({
-				selectSearch: true
+				selectSearch: true,
 			});
 		});
 		})(jQuery);
@@ -24,7 +24,8 @@
 
 <h1>Примеры для плагина <a href="http://dimox.name/jquery-form-styler/">jQuery Form Styler</a></h1>
 
-<form method="post">
+<div class="menu-toggle"></div>
+
 <div class="wrapper">
 
 	<ul class="menu">
@@ -109,7 +110,7 @@
 
 			<h2>Одиночные селекты</h2>
 
-			<p style="color: #43C617">По умолчанию ширина селекта на этой странице установлена 250 пикселей.</p>
+			<p style="color: #09C98C">По умолчанию ширина селекта на этой странице установлена 250 пикселей.</p>
 
 			<div class="section">
 				<div class="buttons">
@@ -320,7 +321,7 @@
 				<div class="sec">
 					<p>Селект <strong>с замещающим текстом</strong> (placeholder). Текст "-- Выберите --" задан не через тег <code>option</code>, а через атрибут <code>data-placeholder</code>.</p>
 					<select data-placeholder="-- Выберите --">
-						<option label="-"></option>
+						<option></option>
 						<option>Пункт 1</option>
 						<option>Пункт 2</option>
 						<option>Пункт 3</option>
@@ -504,7 +505,6 @@
 	</div><!-- .content -->
 
 </div><!-- .wrapper -->
-</form>
 
 </body>
 </html>
