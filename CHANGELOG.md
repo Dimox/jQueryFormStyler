@@ -1,5 +1,10 @@
 # История изменений
 
+## 1.7.8 <sup>17.02.2017</sup>
+- Исправлено: при отключенном умном позиционировании в селекте (`selectSmartPositioning = '-1'`) не работала опция `selectVisibleOptions`.
+- Исправлено: высота выпадающего списка селекта считалась неверно, когда был задан `selectPlaceholder`, включена опция `selectVisibleOptions` и не указан `min-height` для `.jq-selectbox li`.
+- Исправлено: ([#122](https://github.com/Dimox/jQueryFormStyler/pull/122)).
+
 ## 1.7.7 <sup>08.01.2017</sup>
 - Добавлено: поддержка мультиязычности.
 - Добавлено: ([#108](https://github.com/Dimox/jQueryFormStyler/pull/108)).
