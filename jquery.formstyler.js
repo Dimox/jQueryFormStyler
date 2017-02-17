@@ -405,13 +405,13 @@
 						}
 
 						if ($.isNumeric(min) && $.isNumeric(max)) {
-							if (newValue >= min && newValue <= max) el.val(newValue);
+							if (newValue >= min && newValue <= max) el.val(newValue).change();
 						} else if ($.isNumeric(min) && !$.isNumeric(max)) {
-							if (newValue >= min) el.val(newValue);
+							if (newValue >= min) el.val(newValue).change();
 						} else if (!$.isNumeric(min) && $.isNumeric(max)) {
-							if (newValue <= max) el.val(newValue);
+							if (newValue <= max) el.val(newValue).change();
 						} else {
-							el.val(newValue);
+							el.val(newValue).change();
 						}
 					};
 
