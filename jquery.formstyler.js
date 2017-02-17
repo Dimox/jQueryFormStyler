@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v1.7.7
+ * jQuery Form Styler v1.7.8
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2017 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2017.01.08
+ * Date: 2017.02.17
  *
  */
 
@@ -15,7 +15,7 @@
 		define(['jquery'], factory);
 	} else if (typeof exports === 'object') {
 		// CommonJS
-		module.exports = factory(require('jquery'));
+		module.exports = factory($ || require('jquery'));
 	} else {
 		factory(jQuery);
 	}
@@ -638,7 +638,11 @@
 						var isMaxHeight = ul.css('max-height');
 						var liSelected = li.filter('.selected');
 						if (liSelected.length < 1) li.first().addClass('selected sel');
-						if (li.data('li-height') === undefined) li.data('li-height', li.outerHeight());
+						if (li.data('li-height') === undefined) {
+							var liOuterHeight = li.outerHeight();
+							if (selectPlaceholder !== false) liOuterHeight = li.eq(1).outerHeight();
+							li.data('li-height', liOuterHeight);
+						}
 						var position = dropdown.css('top');
 						if (dropdown.css('left') == 'auto') dropdown.css({left: 0});
 						if (dropdown.css('top') == 'auto') {
@@ -735,6 +739,13 @@
 								if (bottomOffset > (minHeight + searchHeight + 20)) {
 									dropDown();
 									selectbox.removeClass('dropup').addClass('dropdown');
+								}
+							} else {
+								// если умное позиционирование отключено
+								dropdown.height('auto').css({bottom: 'auto', top: position});
+								ul.css('max-height', newHeight);
+								if (isMaxHeight != 'none') {
+									ul.css('max-height', isMaxHeight);
 								}
 							}
 
