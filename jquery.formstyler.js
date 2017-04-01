@@ -583,7 +583,7 @@
 						var dropdown =
 							$('<div class="jq-selectbox__dropdown" style="position: absolute">' +
 									searchHTML +
-									'<ul style="position: relative; list-style: none; overflow: auto; overflow-x: hidden">' + list + '</ul>' +
+									'<ul style="position: relative; list-style: none; overflow: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;">' + list + '</ul>' +
 								'</div>');
 						selectbox.append(dropdown);
 						var ul = $('ul', dropdown);
