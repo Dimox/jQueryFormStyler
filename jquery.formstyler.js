@@ -454,18 +454,29 @@
 				var selectboxOutput = function() {
 
 					// запрещаем прокрутку страницы при прокрутке селекта
-					function preventScrolling(selector) {
-						selector.off('mousewheel DOMMouseScroll').on('mousewheel DOMMouseScroll', function(e) {
-							var scrollTo = null;
-							if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
-							else if (e.type == 'DOMMouseScroll') { scrollTo = 40 * e.originalEvent.detail; }
-							if (scrollTo) {
-								e.stopPropagation();
-								e.preventDefault();
-								$(this).scrollTop(scrollTo + $(this).scrollTop());
-							}
-						});
-					}
+                    function preventScrolling(selector) {
+
+                        var scrollDiff = selector.prop('scrollHeight') - selector.outerHeight(),
+                            wheelDelta = null,
+                            scrollTop = null;
+
+                        selector.off('mousewheel DOMMouseScroll').on('mousewheel DOMMouseScroll', function(e) {
+
+                            /**
+                             * нормализация направления прокрутки
+                             * (firefox < 0 || chrome etc... > 0)
+                             * (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0)
+                             */
+                            wheelDelta = (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) ? 1 : -1; // направление прокрутки (-1 вниз, 1 вверх)
+                            scrollTop = selector.scrollTop(); // позиция скролла
+
+                            if ((scrollTop >= scrollDiff && wheelDelta < 0) || (scrollTop <= 0 && wheelDelta > 0)) {
+                                e.stopPropagation();
+                                e.preventDefault();
+                            }
+
+                        });
+                    }
 
 					var option = $('option', el);
 					var list = '';
@@ -571,7 +582,7 @@
 						var dropdown =
 							$('<div class="jq-selectbox__dropdown" style="position: absolute">' +
 									searchHTML +
-									'<ul style="position: relative; list-style: none; overflow: auto; overflow-x: hidden">' + list + '</ul>' +
+									'<ul style="position: relative; list-style: none; overflow: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch;">' + list + '</ul>' +
 								'</div>');
 						selectbox.append(dropdown);
 						var ul = $('ul', dropdown);
