@@ -456,7 +456,7 @@
 					// запрещаем прокрутку страницы при прокрутке селекта
                     function preventScrolling(selector) {
 
-                        var scrollDiff = selector[0].scrollHeight - selector.outerHeight(),
+                        var scrollDiff = selector.prop('scrollHeight') - selector.outerHeight(),
                             wheelDelta = null,
                             scrollTop = null;
 
@@ -468,7 +468,7 @@
                              * (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0)
                              */
                             wheelDelta = (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) ? 1 : -1; // направление прокрутки (-1 вниз, 1 вверх)
-                            scrollTop = selector[0].scrollTop; // позиция скролла
+                            scrollTop = selector.scrollTop(); // позиция скролла
 
                             if ((scrollTop >= scrollDiff && wheelDelta < 0) || (scrollTop <= 0 && wheelDelta > 0)) {
                                 e.stopPropagation();
