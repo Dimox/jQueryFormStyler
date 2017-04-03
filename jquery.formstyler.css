@@ -272,6 +272,7 @@
 	width: 100%;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	user-select: none;
 }
 .jq-selectbox .placeholder {
 	color: #888;
@@ -336,6 +337,7 @@
 	padding: 5px 8px 6px;
 	background: #F0F0F0;
 	font-size: 13px;
+	user-select: none;
 }
 .jq-selectbox ul {
 	margin: 0;
