@@ -353,6 +353,7 @@
 	white-space: nowrap;
 	color: #231F20;
 }
+.jq-selectbox li.sel,
 .jq-selectbox li.selected {
 	background-color: #A3ABB1;
 	color: #FFF;
