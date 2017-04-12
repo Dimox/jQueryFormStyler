@@ -124,6 +124,7 @@
 					// клик на псевдочекбокс
 					checkbox.click(function(e) {
 						e.preventDefault();
+						el.triggerHandler('click');
 						if (!checkbox.is('.disabled')) {
 							if (el.is(':checked')) {
 								el.prop('checked', false);
@@ -223,6 +224,7 @@
 					// клик на псевдорадиокнопке
 					radio.click(function(e) {
 						e.preventDefault();
+						el.triggerHandler('click');
 						if (!radio.is('.disabled')) {
 							var inputName = $('input[name="' + el.attr('name') + '"]');
 							inputName.commonParent().find(inputName).prop('checked', false).parent().removeClass('checked');
