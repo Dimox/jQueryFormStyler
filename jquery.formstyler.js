@@ -29,7 +29,7 @@
 				filePlaceholder: 'Файл не выбран',
 				fileBrowse: 'Обзор...',
 				fileNumber: 'Выбрано файлов: %s',
-				selectTriggerHtml: false,
+				selectTriggerHtml: '<div class="jq-selectbox__trigger-arrow"></div>',
 				selectPlaceholder: 'Выберите...',
 				selectSearch: false,
 				selectSearchLimit: 10,
@@ -537,13 +537,12 @@
 						if (singleSelectzIndex === undefined || singleSelectzIndex === '') singleSelectzIndex = opt.singleSelectzIndex;
 						if (selectSmartPositioning === undefined || selectSmartPositioning === '') selectSmartPositioning = opt.selectSmartPositioning;
 
-						var selectTriggerHtml = opt.selectTriggerHtml ? opt.selectTriggerHtml.toString() : '<div class="jq-selectbox__trigger-arrow"></div>';
 						var selectbox =
 							$('<div class="jq-selectbox jqselect">' +
 									'<div class="jq-selectbox__select" style="position: relative">' +
 										'<div class="jq-selectbox__select-text"></div>' +
 										'<div class="jq-selectbox__trigger">' +
-											selectTriggerHtml +
+											opt.selectTriggerHtml.toString() +
 										'</div>' +
 									'</div>' +
 								'</div>')
