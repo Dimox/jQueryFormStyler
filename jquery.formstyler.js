@@ -29,6 +29,7 @@
 				filePlaceholder: 'Файл не выбран',
 				fileBrowse: 'Обзор...',
 				fileNumber: 'Выбрано файлов: %s',
+				selectTriggerHtml: '<div class="jq-selectbox__trigger-arrow"></div>',
 				selectPlaceholder: 'Выберите...',
 				selectSearch: false,
 				selectSearchLimit: 10,
@@ -541,7 +542,8 @@
 									'<div class="jq-selectbox__select" style="position: relative">' +
 										'<div class="jq-selectbox__select-text"></div>' +
 										'<div class="jq-selectbox__trigger">' +
-											'<div class="jq-selectbox__trigger-arrow"></div></div>' +
+											opt.selectTriggerHtml.toString() +
+										'</div>' +
 									'</div>' +
 								'</div>')
 							.css({
