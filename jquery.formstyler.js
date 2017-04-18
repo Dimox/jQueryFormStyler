@@ -37,6 +37,9 @@
 				selectVisibleOptions: 0,
 				singleSelectzIndex: '100',
 				selectSmartPositioning: true,
+				passwordShow: 'Показать',
+				passwordHide: 'Скрыть',
+				passwordSwitchHtml: false,
 				locale: 'ru',
 				locales: {
 					'en': {
@@ -45,7 +48,9 @@
 						fileNumber: 'Selected files: %s',
 						selectPlaceholder: 'Select...',
 						selectSearchNotFound: 'No matches found',
-						selectSearchPlaceholder: 'Search...'
+						selectSearchPlaceholder: 'Search...',
+						passwordShow: 'Show',
+						passwordHide: 'Hide',
 					}
 				},
 				onSelectOpened: function() {},
@@ -447,6 +452,51 @@
 				});
 
 			// end number
+
+			// password
+			} else if (el.is('input[type="password"]')) {
+
+				var password =
+					$('<div class="jq-password">' +
+						'<div class="jq-password__switch">' +
+							(opt.passwordSwitchHtml || opt.passwordShow) +
+						'</div>' +
+					'</div>');
+
+				password.on('click', '.jq-password__switch', function() {
+
+					var switcher = $(this),
+						wrapper = switcher.closest('.jq-password'),
+						input = el;
+
+					if (wrapper.hasClass('jq-password_seen')) {
+
+						if (!opt.passwordSwitchHtml) {
+							switcher.text(opt.passwordShow);
+						}
+
+						wrapper
+							.removeClass('jq-password_seen');
+
+						input.attr('type', 'password');
+
+					} else {
+
+						if (!opt.passwordSwitchHtml) {
+							switcher.text(opt.passwordHide);
+						}
+
+						wrapper
+							.addClass('jq-password_seen');
+
+						input.attr('type', 'text');
+					}
+
+				});
+
+				el.after(password).prependTo(password);
+
+			// end password
 
 			// select
 			} else if (el.is('select')) {
