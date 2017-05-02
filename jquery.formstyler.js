@@ -496,6 +496,7 @@
 
 							var data = op.data();
 							for (var k in data) {
+								if (Object.prototype.toString(data[k]) == "[object Object]") {data[k] = JSON.stringify(data[k]);}
 								if (data[k] !== '') dataList += ' data-' + k + '="' + String(data[k]).replace(/"/g,"'") + '"';
 							}
 
