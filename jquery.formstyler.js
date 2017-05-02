@@ -496,7 +496,8 @@
 
 							var data = op.data();
 							for (var k in data) {
-								if (data[k] !== '') dataList += ' data-' + k + '="' + data[k] + '"';
+								if (Object.prototype.toString(data[k]) == "[object Object]") {data[k] = JSON.stringify(data[k]);}
+								if (data[k] !== '') dataList += ' data-' + k + '="' + String(data[k]).replace(/"/g,"'") + '"';
 							}
 
 							if ( (liClass + optionClass) !== '' )   liClasses = ' class="' + liClass + optionClass + '"';
