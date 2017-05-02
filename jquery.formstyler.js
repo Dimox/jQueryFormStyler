@@ -496,7 +496,7 @@
 
 							var data = op.data();
 							for (var k in data) {
-								if (data[k] !== '') dataList += ' data-' + k + '="' + data[k] + '"';
+								if (data[k] !== '') dataList += ' data-' + k + '="' + data[k].replace(/"/g,"'") + '"';
 							}
 
 							if ( (liClass + optionClass) !== '' )   liClasses = ' class="' + liClass + optionClass + '"';
