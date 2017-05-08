@@ -10,7 +10,7 @@ jQuery-плагин для стилизации элементов HTML-форм
 
 ## Ссылки
 
-- [Страница с примерами](http://dimox.github.io/jQueryFormStyler/demo/)
+- [Страница с примерами](https://dimox.github.io/jQueryFormStyler/demo/)
 - [Домашняя страница плагина](http://dimox.name/jquery-form-styler/)
 - [Плагин в CDN jsDelivr](http://www.jsdelivr.com/#!jquery.formstyler)
 
