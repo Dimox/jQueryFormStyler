@@ -1,5 +1,12 @@
 # История изменений
 
+## 2.0.0 <sup>08.05.2017</sup>
+- Добавлено: вызов события `click` для `<input type="checkbox">` и `<input type="radio">` ([#130](https://github.com/Dimox/jQueryFormStyler/pull/130)).
+- Изменено: все обязательные стили вынесены из скрипта в отдельный файл - _jquery.formstyler.css_, а оформление - в _jquery.formstyler.theme.css_.
+- Изменено: удалена опция `singleSelectzIndex` (`z-index` для селекта теперь задается через css-файл).
+- Изменено: нативная прокрутка списка пунктов селекта ([#127](https://github.com/Dimox/jQueryFormStyler/pull/127)).
+- Исправлено: при динамическом изменении `<input type="file">` у псевдоэлемента сбрасывалось значение при том, что оно сохранялось у оригинального элемента.
+
 ## 1.7.8 <sup>17.02.2017</sup>
 - Исправлено: при отключенном умном позиционировании в селекте (`selectSmartPositioning = '-1'`) не работала опция `selectVisibleOptions`.
 - Исправлено: высота выпадающего списка селекта считалась неверно, когда был задан `selectPlaceholder`, включена опция `selectVisibleOptions` и не указан `min-height` для `.jq-selectbox li`.
