@@ -1,2 +1,10 @@
 node_modules
+<<<<<<< HEAD
 TODOlist.txt
+=======
+.sublime-gulp.cache
+TODOlist.txt
+>>>>>>> refs/remotes/origin/master
+package.json
+README.md
+MIT-LICENSE.md

@@ -1,11 +1,19 @@
 /*
+<<<<<<< HEAD:jquery.formstyler.js
  * jQuery Form Styler v1.7.8
+=======
+ * jQuery Form Styler v2.0.0
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2017 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
+<<<<<<< HEAD:jquery.formstyler.js
  * Date: 2017.02.17
+=======
+ * Date: 2017.05.08
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
  *
  */
 
@@ -35,7 +43,10 @@
 				selectSearchNotFound: 'Совпадений не найдено',
 				selectSearchPlaceholder: 'Поиск...',
 				selectVisibleOptions: 0,
+<<<<<<< HEAD:jquery.formstyler.js
 				singleSelectzIndex: '100',
+=======
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 				selectSmartPositioning: true,
 				locale: 'ru',
 				locales: {
@@ -98,6 +109,7 @@
 						.data(att.data)
 					;
 
+<<<<<<< HEAD:jquery.formstyler.js
 					// прячем оригинальный чекбокс
 					el.css({
 						position: 'absolute',
@@ -118,12 +130,19 @@
 						overflow: 'hidden'
 					});
 
+=======
+					el.after(checkbox).prependTo(checkbox);
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 					if (el.is(':checked')) checkbox.addClass('checked');
 					if (el.is(':disabled')) checkbox.addClass('disabled');
 
 					// клик на псевдочекбокс
 					checkbox.click(function(e) {
 						e.preventDefault();
+<<<<<<< HEAD:jquery.formstyler.js
+=======
+						el.triggerHandler('click');
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						if (!checkbox.is('.disabled')) {
 							if (el.is(':checked')) {
 								el.prop('checked', false);
@@ -186,6 +205,7 @@
 						.data(att.data)
 					;
 
+<<<<<<< HEAD:jquery.formstyler.js
 					// прячем оригинальную радиокнопку
 					el.css({
 						position: 'absolute',
@@ -205,11 +225,15 @@
 						position: 'relative'
 					});
 
+=======
+					el.after(radio).prependTo(radio);
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 					if (el.is(':checked')) radio.addClass('checked');
 					if (el.is(':disabled')) radio.addClass('disabled');
 
 					// определяем общего родителя у радиокнопок с одинаковым name
 					// http://stackoverflow.com/a/27733847
+<<<<<<< HEAD:jquery.formstyler.js
 					$.fn.commonParents = function (){
 						var cachedThis = this;
 						return cachedThis.first().parents().filter(function () {
@@ -217,12 +241,25 @@
 						});
 					};
 					$.fn.commonParent = function (){
+=======
+					$.fn.commonParents = function() {
+						var cachedThis = this;
+						return cachedThis.first().parents().filter(function() {
+							return $(this).find(cachedThis).length === cachedThis.length;
+						});
+					};
+					$.fn.commonParent = function() {
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						return $(this).commonParents().first();
 					};
 
 					// клик на псевдорадиокнопке
 					radio.click(function(e) {
 						e.preventDefault();
+<<<<<<< HEAD:jquery.formstyler.js
+=======
+						el.triggerHandler('click');
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						if (!radio.is('.disabled')) {
 							var inputName = $('input[name="' + el.attr('name') + '"]');
 							inputName.commonParent().find(inputName).prop('checked', false).parent().removeClass('checked');
@@ -264,6 +301,7 @@
 			// file
 			} else if (el.is(':file')) {
 
+<<<<<<< HEAD:jquery.formstyler.js
 				// прячем оригинальное поле
 				el.css({
 					position: 'absolute',
@@ -275,6 +313,8 @@
 					fontSize: '100px'
 				});
 
+=======
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 				var fileOutput = function() {
 
 					var att = new Attributes();
@@ -288,11 +328,14 @@
 								'<div class="jq-file__name">' + placeholder + '</div>' +
 								'<div class="jq-file__browse">' + browse + '</div>' +
 							'</div>')
+<<<<<<< HEAD:jquery.formstyler.js
 						.css({
 							display: 'inline-block',
 							position: 'relative',
 							overflow: 'hidden'
 						})
+=======
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						.attr({
 							id: att.id,
 							title: att.title
@@ -304,9 +347,20 @@
 					el.after(file).appendTo(file);
 					if (el.is(':disabled')) file.addClass('disabled');
 
+<<<<<<< HEAD:jquery.formstyler.js
 					el.on('change.styler', function() {
 						var value = el.val();
 						var name = $('div.jq-file__name', file);
+=======
+					var value = el.val();
+					var name = $('div.jq-file__name', file);
+
+					// чтобы при динамическом изменении имя файла не сбрасывалось
+					if (value) name.text(value.replace(/.+[\\\/]/, ''));
+
+					el.on('change.styler', function() {
+						var value = el.val();
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						if (el.is('[multiple]')) {
 							value = '';
 							var files = el[0].files.length;
@@ -455,6 +509,7 @@
 
 					// запрещаем прокрутку страницы при прокрутке селекта
 					function preventScrolling(selector) {
+<<<<<<< HEAD:jquery.formstyler.js
 						selector.off('mousewheel DOMMouseScroll').on('mousewheel DOMMouseScroll', function(e) {
 							var scrollTo = null;
 							if (e.type == 'mousewheel') { scrollTo = (e.originalEvent.wheelDelta * -1); }
@@ -464,6 +519,28 @@
 								e.preventDefault();
 								$(this).scrollTop(scrollTo + $(this).scrollTop());
 							}
+=======
+
+						var scrollDiff = selector.prop('scrollHeight') - selector.outerHeight(),
+								wheelDelta = null,
+								scrollTop = null;
+
+						selector.off('mousewheel DOMMouseScroll').on('mousewheel DOMMouseScroll', function(e) {
+
+							/**
+							 * нормализация направления прокрутки
+							 * (firefox < 0 || chrome etc... > 0)
+							 * (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0)
+							 */
+							wheelDelta = (e.originalEvent.detail < 0 || e.originalEvent.wheelDelta > 0) ? 1 : -1; // направление прокрутки (-1 вниз, 1 вверх)
+							scrollTop = selector.scrollTop(); // позиция скролла
+
+							if ((scrollTop >= scrollDiff && wheelDelta < 0) || (scrollTop <= 0 && wheelDelta > 0)) {
+								e.stopPropagation();
+								e.preventDefault();
+							}
+
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						});
 					}
 
@@ -525,7 +602,10 @@
 						var selectSearchLimit = el.data('search-limit');
 						var selectSearchNotFound = el.data('search-not-found');
 						var selectSearchPlaceholder = el.data('search-placeholder');
+<<<<<<< HEAD:jquery.formstyler.js
 						var singleSelectzIndex = el.data('z-index');
+=======
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						var selectSmartPositioning = el.data('smart-positioning');
 
 						if (selectPlaceholder === undefined) selectPlaceholder = opt.selectPlaceholder;
@@ -533,22 +613,32 @@
 						if (selectSearchLimit === undefined || selectSearchLimit === '') selectSearchLimit = opt.selectSearchLimit;
 						if (selectSearchNotFound === undefined || selectSearchNotFound === '') selectSearchNotFound = opt.selectSearchNotFound;
 						if (selectSearchPlaceholder === undefined) selectSearchPlaceholder = opt.selectSearchPlaceholder;
+<<<<<<< HEAD:jquery.formstyler.js
 						if (singleSelectzIndex === undefined || singleSelectzIndex === '') singleSelectzIndex = opt.singleSelectzIndex;
+=======
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						if (selectSmartPositioning === undefined || selectSmartPositioning === '') selectSmartPositioning = opt.selectSmartPositioning;
 
 						var selectbox =
 							$('<div class="jq-selectbox jqselect">' +
+<<<<<<< HEAD:jquery.formstyler.js
 									'<div class="jq-selectbox__select" style="position: relative">' +
+=======
+									'<div class="jq-selectbox__select">' +
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 										'<div class="jq-selectbox__select-text"></div>' +
 										'<div class="jq-selectbox__trigger">' +
 											'<div class="jq-selectbox__trigger-arrow"></div></div>' +
 									'</div>' +
 								'</div>')
+<<<<<<< HEAD:jquery.formstyler.js
 							.css({
 								display: 'inline-block',
 								position: 'relative',
 								zIndex: singleSelectzIndex
 							})
+=======
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 							.attr({
 								id: att.id,
 								title: att.title
@@ -557,8 +647,15 @@
 							.data(att.data)
 						;
 
+<<<<<<< HEAD:jquery.formstyler.js
 						el.css({margin: 0, padding: 0}).after(selectbox).prependTo(selectbox);
 
+=======
+						el.after(selectbox).prependTo(selectbox);
+
+						var selectzIndex = selectbox.css('z-index');
+						selectzIndex = (selectzIndex > 0 ) ? selectzIndex : 1;
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						var divSelect = $('div.jq-selectbox__select', selectbox);
 						var divText = $('div.jq-selectbox__select-text', selectbox);
 						var optionSelected = option.filter(':selected');
@@ -569,9 +666,14 @@
 							'<div class="jq-selectbox__search"><input type="search" autocomplete="off" placeholder="' + selectSearchPlaceholder + '"></div>' +
 							'<div class="jq-selectbox__not-found">' + selectSearchNotFound + '</div>';
 						var dropdown =
+<<<<<<< HEAD:jquery.formstyler.js
 							$('<div class="jq-selectbox__dropdown" style="position: absolute">' +
 									searchHTML +
 									'<ul style="position: relative; list-style: none; overflow: auto; overflow-x: hidden">' + list + '</ul>' +
+=======
+							$('<div class="jq-selectbox__dropdown">' +
+									searchHTML + '<ul>' + list + '</ul>' +
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 								'</div>');
 						selectbox.append(dropdown);
 						var ul = $('ul', dropdown);
@@ -623,6 +725,7 @@
 							li.first().hide();
 						}
 
+<<<<<<< HEAD:jquery.formstyler.js
 						// прячем оригинальный селект
 						el.css({
 							position: 'absolute',
@@ -633,6 +736,8 @@
 							opacity: 0
 						});
 
+=======
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						var selectHeight = selectbox.outerHeight(true);
 						var searchHeight = search.parent().outerHeight(true) || 0;
 						var isMaxHeight = ul.css('max-height');
@@ -756,8 +861,13 @@
 							}
 							// конец умного позиционирования
 
+<<<<<<< HEAD:jquery.formstyler.js
 							$('div.jqselect').css({zIndex: (singleSelectzIndex - 1)}).removeClass('opened');
 							selectbox.css({zIndex: singleSelectzIndex});
+=======
+							$('div.jqselect').css({zIndex: (selectzIndex - 1)}).removeClass('opened');
+							selectbox.css({zIndex: selectzIndex});
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 							if (dropdown.is(':hidden')) {
 								$('div.jq-selectbox__dropdown:visible').hide();
 								dropdown.show();
@@ -919,10 +1029,13 @@
 						var att = new Attributes();
 						var selectbox =
 							$('<div class="jq-select-multiple jqselect"></div>')
+<<<<<<< HEAD:jquery.formstyler.js
 							.css({
 								display: 'inline-block',
 								position: 'relative'
 							})
+=======
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 							.attr({
 								id: att.id,
 								title: att.title
@@ -931,6 +1044,7 @@
 							.data(att.data)
 						;
 
+<<<<<<< HEAD:jquery.formstyler.js
 						el.css({margin: 0, padding: 0}).after(selectbox);
 
 						makeList();
@@ -941,6 +1055,14 @@
 							'-webkit-overflow-scrolling': 'touch'
 						});
 						var li = $('li', selectbox).attr('unselectable', 'on');
+=======
+						el.after(selectbox);
+
+						makeList();
+						selectbox.append('<ul>' + list + '</ul>');
+						var ul = $('ul', selectbox);
+						var li = $('li', selectbox);
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 						var size = el.attr('size');
 						var ulHeight = ul.outerHeight();
 						var liHeight = li.outerHeight();
@@ -959,6 +1081,7 @@
 						}
 
 						// прячем оригинальный селект
+<<<<<<< HEAD:jquery.formstyler.js
 						el.prependTo(selectbox).css({
 							position: 'absolute',
 							left: 0,
@@ -967,6 +1090,9 @@
 							height: '100%',
 							opacity: 0
 						});
+=======
+						el.prependTo(selectbox);
+>>>>>>> refs/remotes/origin/master:dist/jquery.formstyler.js
 
 						// если селект неактивный
 						if (el.is(':disabled')) {

@@ -1,0 +1,90 @@
+.jq-checkbox
+.jq-radio
+	user-select none
+	display inline-block
+	position relative
+	overflow hidden
+	input
+		position absolute
+		z-index -1
+		opacity 0
+		margin 0
+		padding 0
+
+.jq-file
+	display inline-block
+	position relative
+	overflow hidden
+	input
+		position absolute
+		top 0
+		right 0
+		margin 0
+		padding 0
+		opacity 0
+		font-size 100px
+		height auto
+		line-height 1em
+	&__name
+		overflow hidden
+		white-space nowrap
+		text-overflow ellipsis
+
+.jq-selectbox
+.jq-select-multiple
+	display inline-block
+	position relative
+	select
+		position absolute
+		top 0
+		left 0
+		right 0
+		bottom 0
+		margin 0
+		padding 0
+		opacity 0
+	li
+		user-select none
+		white-space nowrap
+
+.jq-selectbox
+	z-index 10
+	&__select
+		position relative
+	&__select-text
+		overflow hidden
+		white-space nowrap
+		text-overflow ellipsis
+		user-select none
+	&__dropdown
+		position absolute
+	&__search
+		input
+			-webkit-appearance textfield
+			&::-webkit-search-cancel-button
+			&::-webkit-search-decoration
+				-webkit-appearance none
+	&__dropdown
+		ul
+			position relative
+			list-style none
+			overflow auto
+			overflow-x hidden
+			-webkit-overflow-scrolling touch
+
+.jq-select-multiple
+	ul
+		position relative
+		overflow-x hidden
+		-webkit-overflow-scrolling touch
+
+.jq-number
+	display inline-block
+	&__field
+		input
+			text-align left; /* для Opera Presto */
+			-moz-appearance textfield
+			&::-webkit-inner-spin-button
+			&::-webkit-outer-spin-button
+				margin 0; /* в каких-то браузерах присутствует отступ */
+				-webkit-appearance none

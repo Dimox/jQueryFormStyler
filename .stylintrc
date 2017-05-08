@@ -1,0 +1,12 @@
+{
+  "brackets": "never",
+  "colons": "never",
+  "duplicates": true,
+  "efficient": "always",
+  "indentPref": false,
+  "leadingZero": "never",
+  "mixed": true,
+  "semicolons": "never",
+  "valid": true,
+  "zeroUnits": "never"
+}
