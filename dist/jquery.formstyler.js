@@ -49,6 +49,7 @@
 				},
 				onSelectOpened: function() {},
 				onSelectClosed: function() {},
+				onElemRefreshed: function() {},
 				onFormStyled: function() {}
 			};
 
@@ -1034,6 +1035,9 @@
 					}, 1);
 				});
 			} // end reset
+
+			if (typeof opt.onElemRefreshed == 'function')
+				opt.onElemRefreshed.call(el);
 
 		}, // init: function()
 
