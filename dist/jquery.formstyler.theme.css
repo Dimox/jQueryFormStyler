@@ -21,12 +21,13 @@
 	border-radius: 3px;
 }
 .jq-checkbox.checked .jq-checkbox__div {
-	width: 12px;
-	height: 12px;
-	margin: 2px 0 0 2px;
-	border-radius: 2px;
-	background: #666;
-	box-shadow: inset 0 -3px 6px #AAA;
+	width: 8px;
+	height: 4px;
+	margin: 3px 0 0 3px;
+	border-bottom: 2px solid #666;
+	border-left: 2px solid #666;
+	-webkit-transform: rotate(-50deg);
+	transform: rotate(-50deg);
 }
 .jq-radio {
 	border-radius: 50%;
