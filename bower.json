@@ -1,6 +1,6 @@
 {
 	"name": "jquery.form-styler",
-	"version": "2.0.1",
+	"version": "2.0.2",
 	"main": [
 		"dist/jquery.formstyler.js",
 		"dist/jquery.formstyler.css"
