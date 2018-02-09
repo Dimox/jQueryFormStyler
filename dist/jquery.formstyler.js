@@ -586,7 +586,7 @@
 						var searchHeight = search.parent().outerHeight(true) || 0;
 						var isMaxHeight = ul.css('max-height');
 						var liSelected = li.filter('.selected');
-						if (liSelected.length < 1) li.first().addClass('selected sel');
+						if (liSelected.length < 1 && optionSelected.length !== 0) li.first().addClass('selected sel');
 						if (li.data('li-height') === undefined) {
 							var liOuterHeight = li.outerHeight();
 							if (selectPlaceholder !== false) liOuterHeight = li.eq(1).outerHeight();
