@@ -23,7 +23,7 @@
   },
   "homepage": "http://dimox.name/jquery-form-styler/",
   "dependencies": {
-    "jquery": "^1.7.0"
+    "jquery": "^1.7.0 || ^2.0.0 || ^3.0.0"
   },
   "devDependencies": {
     "browser-sync": "^2.18.8",
