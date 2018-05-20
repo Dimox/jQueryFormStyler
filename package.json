@@ -22,9 +22,6 @@
     "url": "https://github.com/Dimox/jQueryFormStyler/issues"
   },
   "homepage": "http://dimox.name/jquery-form-styler/",
-  "dependencies": {
-    "jquery": "^1.7.0"
-  },
   "devDependencies": {
     "browser-sync": "^2.18.8",
     "gulp": "^3.9.1",
