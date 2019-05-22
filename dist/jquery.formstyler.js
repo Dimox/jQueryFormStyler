@@ -1,11 +1,11 @@
 /*
- * jQuery Form Styler v2.0.0
+ * jQuery Form Styler v2.0.2
  * https://github.com/Dimox/jQueryFormStyler
  *
  * Copyright 2012-2017 Dimox (http://dimox.name/)
  * Released under the MIT license.
  *
- * Date: 2017.05.08
+ * Date: 2017.10.22
  *
  */
 
@@ -300,6 +300,7 @@
 
 			// end file
 
+			// number
 			} else if (el.is('input[type="number"]')) {
 
 				var numberOutput = function() {
@@ -379,7 +380,7 @@
 							clearTimeout(timeout);
 							clearInterval(interval);
 						}).on('mouseup', 'div.jq-number__spin', function() {
-							el.change();
+							el.change().trigger('input');
 						});
 						el.on('focus.styler', function() {
 							number.addClass('focused');
@@ -437,6 +438,7 @@
 					function makeList() {
 						for (var i = 0; i < option.length; i++) {
 							var op = option.eq(i);
+							if (op.prop('hidden')) continue;
 							var li = '',
 									liClass = '',
 									liClasses = '',

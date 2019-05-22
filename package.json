@@ -1,8 +1,8 @@
 {
   "name": "jquery-form-styler",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "jQuery-плагин для стилизации элементов HTML-форм",
-  "main": "jquery.formstyler.min.js",
+  "main": "dist/jquery.formstyler.min.js",
   "author": "Dimox (http://dimox.name/)",
   "contributors": [
     "Sergey Slipchenko <faergeek@gmail.com>"

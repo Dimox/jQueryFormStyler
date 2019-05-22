@@ -23,7 +23,7 @@ var path = {
 	},
 };
 
-gulp.task('minifyJs', function() {
+gulp.task('minify-js', function() {
 	gulp.src(path.src.js)
 		.pipe(uglify())
 		.pipe(header(head, {pkg}))
