@@ -438,6 +438,7 @@
 					function makeList() {
 						for (var i = 0; i < option.length; i++) {
 							var op = option.eq(i);
+							if (op.prop('hidden')) continue;
 							var li = '',
 									liClass = '',
 									liClasses = '',
